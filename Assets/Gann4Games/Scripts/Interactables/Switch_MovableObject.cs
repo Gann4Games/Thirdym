@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 using Gann4Games.Thirdym.Enums;
 using Gann4Games.Thirdym.Localization;
+using System.Text.RegularExpressions;
 
 namespace Gann4Games.Thirdym.Interactables
 {
@@ -17,7 +17,19 @@ namespace Gann4Games.Thirdym.Interactables
     [RequireComponent(typeof(AudioSource))]
     public class Switch_MovableObject : MonoBehaviour
     {
-        public SwitchMode mode;
+        public enum Mode
+        {
+            Switch_Set,
+            Switch_Toggle,
+            Trigger_Enter,
+            Trigger_Exit,
+            Trigger_EnterExit,
+            Trigger_Enter_Toggle,
+            Trigger_Exit_Toggle,
+            Spawn_Prefab,
+        }
+
+        public Mode mode;
         bool enter = false;
         bool exit = false;
 
@@ -64,7 +76,7 @@ namespace Gann4Games.Thirdym.Interactables
             sourceAudio.maxDistance = maxDistance;
 
             passwordEditor = GetComponentInChildren<PasswordEditor>();
-            try { passwordEditor.currentSwitch = this; } catch (NullReferenceException) { }
+            try { passwordEditor.currentSwitch = this; } catch (System.NullReferenceException) { }
             passwordEditor.gameObject.GetComponent<Canvas>().worldCamera = null;
 
             if (RequirePassword) passwordEditor.UIText.text = LockedText;
@@ -89,7 +101,7 @@ namespace Gann4Games.Thirdym.Interactables
                 EnteringPassword = false;
                 passwordEditor.UIText.text = ValidText;
                 passwordEditor.Code = "";
-                if (mode == SwitchMode.Switch_Set || mode == SwitchMode.Switch_Toggle)
+                if (mode == Mode.Switch_Set || mode == Mode.Switch_Toggle)
                 {
                     positionSet = !positionSet;
                     for (int i = 0; i < platforms.Length; i++)
@@ -120,7 +132,7 @@ namespace Gann4Games.Thirdym.Interactables
         }
         private void OnDrawGizmosSelected()
         {
-            if (mode == SwitchMode.Spawn_Prefab)
+            if (mode == Mode.Spawn_Prefab)
             {
                 Gizmos.color = Color.red;
                 if (SpawnSettings.prefab != null)
@@ -149,7 +161,7 @@ namespace Gann4Games.Thirdym.Interactables
                     }
                     else if (!RequirePassword)
                     {
-                        if (mode == SwitchMode.Switch_Set || mode == SwitchMode.Switch_Toggle)
+                        if (mode == Mode.Switch_Set || mode == Mode.Switch_Toggle)
                         {
                             positionSet = !positionSet;
                             for (int i = 0; i < platforms.Length; i++)
@@ -160,7 +172,7 @@ namespace Gann4Games.Thirdym.Interactables
                                     SetPosition(positionToSet2[i]);
                             }
                         }
-                        else if (mode == SwitchMode.Spawn_Prefab)
+                        else if (mode == Mode.Spawn_Prefab)
                         {
                             GameObject newParticle = Instantiate(SpawnSettings.spawnParticle);
                             newParticle.transform.position = SpawnSettings.position;
@@ -184,22 +196,27 @@ namespace Gann4Games.Thirdym.Interactables
             {
                 switch (mode)
                 {
-                    case SwitchMode.Trigger_Enter:
+                    case Mode.Trigger_Enter:
                         StartCoroutine(TempTrigger(triggerPosition1));
                         break;
-                    case SwitchMode.Trigger_EnterExit:
+                    case Mode.Trigger_EnterExit:
                         StartCoroutine(TempTrigger(triggerPosition2));
                         break;
-                    case SwitchMode.Trigger_Enter_Toggle:
+                    case Mode.Trigger_Enter_Toggle:
                         enter = !enter;
                         if (enter) StartCoroutine(TempTrigger(triggerPosition1));
                         else StartCoroutine(TempTrigger(triggerPosition2));
                         break;
                 }
             }
-            if (other.gameObject.HasTag("Player") && other.gameObject.layer == LayerMask.NameToLayer("ControllerCollider") && (mode == SwitchMode.Switch_Set || mode == SwitchMode.Switch_Toggle))
+            if (other.gameObject.HasTag("Player") && other.gameObject.layer == LayerMask.NameToLayer("ControllerCollider") && (mode == Mode.Switch_Set || mode == Mode.Switch_Toggle))
             {
-                char useKey = 'E';
+                // Unit Testign would come handy here, dumbass.
+                // Refactor required.
+                string useKey = PlayerInputHandler.instance.gameplayControls.Player.Use.ToString();
+                Match match = Regex.Match(useKey, @"\w.$");
+                useKey = match.Value.TrimEnd(']').ToUpper();
+
                 switch (LanguagePrefs.Language)
                 {
                     case AvailableLanguages.English:
@@ -217,11 +234,11 @@ namespace Gann4Games.Thirdym.Interactables
                 cam = null;
             if (other.gameObject.HasTag(enableByTag) || other.CompareTag(enableByTag))
             {
-                if (mode == SwitchMode.Trigger_Exit)
+                if (mode == Mode.Trigger_Exit)
                     StartCoroutine(TempTrigger(triggerPosition2));
-                else if (mode == SwitchMode.Trigger_EnterExit)
+                else if (mode == Mode.Trigger_EnterExit)
                     StartCoroutine(TempTrigger(triggerPosition1));
-                else if (mode == SwitchMode.Trigger_Exit_Toggle)
+                else if (mode == Mode.Trigger_Exit_Toggle)
                 {
                     exit = !exit;
                     if (exit)
@@ -244,7 +261,7 @@ namespace Gann4Games.Thirdym.Interactables
             {
                 if (positionToSet < platforms[i].positions.Length)
                 {
-                    if (mode == SwitchMode.Switch_Set)
+                    if (mode == Mode.Switch_Set)
                     {
                         platforms[i].positionToFollow = positionToSet1[i];
                         sourceAudio.Stop();
@@ -253,7 +270,7 @@ namespace Gann4Games.Thirdym.Interactables
                         else
                             sourceAudio.PlayOneShot(useSFX);
                     }
-                    else if (mode == SwitchMode.Switch_Toggle && platforms[i].transform.position == platforms[i].positions[platforms[i].positionToFollow])
+                    else if (mode == Mode.Switch_Toggle && platforms[i].transform.position == platforms[i].positions[platforms[i].positionToFollow])
                     {
                         platforms[i].positionToFollow = positionToSet;
                         sourceAudio.Stop();

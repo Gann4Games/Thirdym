@@ -4,7 +4,13 @@ using Gann4Games.Thirdym.Utility;
 using Gann4Games.Thirdym.Enums;
 
 public class CharacterSkillHandler : MonoBehaviour {
-	
+    public enum SkillType
+    {
+        None,
+        Slowmotion,
+        Sprint
+    }
+
     [Header("Main configuration")]
     [SerializeField] float energy = 100;
     [Tooltip("The amount of time it takes to start reloading in seconds.")]
@@ -28,7 +34,7 @@ public class CharacterSkillHandler : MonoBehaviour {
     CharacterCustomization _customizator;
     readonly TimerTool _timer = new TimerTool();
 
-    CharacterSkills _choosenSkill;
+    SkillType _choosenSkill;
 
     bool _skillEnable;
     bool IsOutOfEnergy => energy <= 0;
@@ -59,16 +65,16 @@ public class CharacterSkillHandler : MonoBehaviour {
 
         switch (_choosenSkill)
         {
-            case CharacterSkills.None:
+            case SkillType.None:
                 energy = 0;
                 Destroy(this);
                 break;
 
-            case CharacterSkills.Slowmotion:
+            case SkillType.Slowmotion:
                 SlowMotion();
                 break;
 
-            case CharacterSkills.Sprint:
+            case SkillType.Sprint:
                 Sprint();
                 break;
         }

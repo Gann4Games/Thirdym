@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Gann4Games.Thirdym.ScriptableObjects;
-using Gann4Games.Thirdym.Interfaces;
+using Gann4Games.Thirdym.Core;
 
 public class Bullet : MonoBehaviour {
     [HideInInspector] public Transform user; //Automatically set by actionShoot.cs

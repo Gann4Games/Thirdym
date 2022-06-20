@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Gann4Games.Thirdym.Events;
+using Gann4Games.Thirdym.Core;
 
 [RequireComponent(typeof(CollisionEvents))]
 [RequireComponent(typeof(AudioSource))]

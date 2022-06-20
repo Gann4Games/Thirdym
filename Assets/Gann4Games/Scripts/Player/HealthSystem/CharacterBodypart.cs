@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System;
-using Gann4Games.Thirdym.Interfaces;
+using Gann4Games.Thirdym.Core;
 using Gann4Games.Thirdym.Events;
 
 [RequireComponent(typeof(CollisionEvents))]

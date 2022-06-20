@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using Gann4Games.Thirdym.Interfaces;
 
 namespace Gann4Games.Thirdym.Utility
 {

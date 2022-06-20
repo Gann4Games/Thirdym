@@ -17,7 +17,7 @@ namespace Gann4Games.Thirdym.ScriptableObjects
 
         [Header("Ingame parameters")]
         public GameObject battleSuit;
-        public CharacterSkills skill;
+        public CharacterSkillHandler.SkillType skill;
         [Header("Health")]
         public float maximumHealth = 1500;
         public float injuryLevel = 100;

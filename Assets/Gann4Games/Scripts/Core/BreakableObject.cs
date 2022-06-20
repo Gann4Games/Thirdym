@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using Gann4Games.Thirdym.Interfaces;
 
-namespace Gann4Games.Thirdym.Events
+namespace Gann4Games.Thirdym.Core
 {
+    /// <summary>
+    /// Base class for breakable objects.
+    /// Allows to manage object's health, on death event, damage dealing and model/effect swapping when broken.
+    /// </summary>
     public class BreakableObject : MonoBehaviour, IDamageable
     {
         [Tooltip("The object that will be enabled on death.")]
@@ -22,9 +25,13 @@ namespace Gann4Games.Thirdym.Events
         bool _unbreakable => startHealth <= 0;
         float _currentHealth;
 
+        /// <summary>
+        /// The current health of the object.
+        /// </summary>
         public float Health => _currentHealth;
 
         /// <summary>
+        /// Sets the health and maximum health of the object.
         /// Use zero or less to define an unbreakable object.
         /// </summary>
         /// <param name="value">The health to set</param>

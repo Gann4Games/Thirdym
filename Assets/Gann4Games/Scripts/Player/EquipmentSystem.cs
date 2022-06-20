@@ -4,7 +4,14 @@ using Gann4Games.Thirdym.Enums;
 using Gann4Games.Thirdym.ScriptableObjects;
 
 public class EquipmentSystem : MonoBehaviour {
-    
+
+    public enum EquipMode
+    {
+        None,
+        Stored,
+        Equipped
+    }
+
     CharacterCustomization _character;
 
     public GameObject LeftHandWeapon { get; private set; }

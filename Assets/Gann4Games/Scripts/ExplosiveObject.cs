@@ -1,7 +1,6 @@
 using UnityEngine;
 using Gann4Games.Thirdym.Core;
 using Gann4Games.Thirdym.Events;
-using Gann4Games.Thirdym.Interfaces;
 
 [RequireComponent(typeof(ExplosionHandler))]
 [RequireComponent(typeof(CollisionEvents))]

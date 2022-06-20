@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using Gann4Games.Thirdym.Interfaces;
-using Gann4Games.Thirdym.Events;
+using Gann4Games.Thirdym.Core;
+
 public class CharacterMeleeObject : MonoBehaviour {
 
     CharacterCustomization _character;

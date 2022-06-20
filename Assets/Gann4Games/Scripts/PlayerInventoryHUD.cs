@@ -70,24 +70,24 @@ public class PlayerInventoryHUD : MonoBehaviour {
         _textBlades.color = Color.Lerp(_textBlades.color, _meleeTextColor, lerp);
     }
     
-    public static void DisplayWeaponAs(WeaponType weaponType, EquipMode mode)
+    public static void DisplayWeaponAs(WeaponType weaponType, EquipmentSystem.EquipMode mode)
     {
         switch (weaponType)
         {
             case WeaponType.Pistol:
                 switch(mode)
                 {
-                    case EquipMode.None:
+                    case EquipmentSystem.EquipMode.None:
                         instance._pistolBackgroundColor = instance.colorBackgroundEmpty;
                         instance._pistolTextColor = instance.colorTextEmpty;
                         break;
 
-                    case EquipMode.Stored:
+                    case EquipmentSystem.EquipMode.Stored:
                         instance._pistolBackgroundColor = instance.colorBackgroundHave;
                         instance._pistolTextColor = instance.colorTextHave;
                         break;
 
-                    case EquipMode.Equipped:
+                    case EquipmentSystem.EquipMode.Equipped:
                         instance._pistolBackgroundColor = instance.colorBackgroundEquipped;
                         instance._pistolTextColor = instance.colorTextEquipped;
                         break;
@@ -97,24 +97,24 @@ public class PlayerInventoryHUD : MonoBehaviour {
             case WeaponType.Rifle:
                 switch (mode)
                 {
-                    case EquipMode.None:
+                    case EquipmentSystem.EquipMode.None:
                         break;
 
-                    case EquipMode.Stored:
+                    case EquipmentSystem.EquipMode.Stored:
                         break;
 
-                    case EquipMode.Equipped:
+                    case EquipmentSystem.EquipMode.Equipped:
                         break;
                 }
-                if (mode == EquipMode.None) { 
+                if (mode == EquipmentSystem.EquipMode.None) { 
                     instance._rifleBackgroundColor = instance.colorBackgroundEmpty; 
                     instance._rifleTextColor = instance.colorTextEmpty; 
                 }
-                else if (mode == EquipMode.Stored) { 
+                else if (mode == EquipmentSystem.EquipMode.Stored) { 
                     instance._rifleBackgroundColor = instance.colorBackgroundHave; 
                     instance._rifleTextColor = instance.colorTextHave; 
                 }
-                else if (mode == EquipMode.Equipped) { 
+                else if (mode == EquipmentSystem.EquipMode.Equipped) { 
                     instance._rifleBackgroundColor = instance.colorBackgroundEquipped; 
                     instance._rifleTextColor = instance.colorTextEquipped; 
                 }
@@ -123,17 +123,17 @@ public class PlayerInventoryHUD : MonoBehaviour {
             case WeaponType.Shotgun:
                 switch (mode)
                 {
-                    case EquipMode.None:
+                    case EquipmentSystem.EquipMode.None:
                         instance._shotgunBackgroundColor = instance.colorBackgroundEmpty;
                         instance._shotgunTextColor = instance.colorTextEmpty;
                         break;
 
-                    case EquipMode.Stored:
+                    case EquipmentSystem.EquipMode.Stored:
                         instance._shotgunBackgroundColor = instance.colorBackgroundHave;
                         instance._shotgunTextColor = instance.colorTextHave;
                         break;
 
-                    case EquipMode.Equipped:
+                    case EquipmentSystem.EquipMode.Equipped:
                         instance._shotgunBackgroundColor = instance.colorBackgroundEquipped;
                         instance._shotgunTextColor = instance.colorTextEquipped;
                         break;
@@ -143,17 +143,17 @@ public class PlayerInventoryHUD : MonoBehaviour {
             case WeaponType.Heavy:
                 switch (mode)
                 {
-                    case EquipMode.None:
+                    case EquipmentSystem.EquipMode.None:
                         instance._heavyBackgroundColor = instance.colorBackgroundEmpty;
                         instance._heavyTextColor = instance.colorTextEmpty;
                         break;
 
-                    case EquipMode.Stored:
+                    case EquipmentSystem.EquipMode.Stored:
                         instance._heavyBackgroundColor = instance.colorBackgroundHave;
                         instance._heavyTextColor = instance.colorTextHave;
                         break;
 
-                    case EquipMode.Equipped:
+                    case EquipmentSystem.EquipMode.Equipped:
                         instance._heavyBackgroundColor = instance.colorBackgroundEquipped;
                         instance._heavyTextColor = instance.colorTextEquipped;
                         break;
@@ -163,17 +163,17 @@ public class PlayerInventoryHUD : MonoBehaviour {
             case WeaponType.Melee:
                 switch (mode)
                 {
-                    case EquipMode.None:
+                    case EquipmentSystem.EquipMode.None:
                         instance._meleeBackgroundColor = instance.colorBackgroundEmpty;
                         instance._meleeTextColor = instance.colorTextEmpty;
                         break;
 
-                    case EquipMode.Stored:
+                    case EquipmentSystem.EquipMode.Stored:
                         instance._meleeBackgroundColor = instance.colorBackgroundHave;
                         instance._meleeTextColor = instance.colorTextHave;
                         break;
 
-                    case EquipMode.Equipped:
+                    case EquipmentSystem.EquipMode.Equipped:
                         instance._meleeBackgroundColor = instance.colorBackgroundEquipped;
                         instance._meleeTextColor = instance.colorTextEquipped;
                         break;
