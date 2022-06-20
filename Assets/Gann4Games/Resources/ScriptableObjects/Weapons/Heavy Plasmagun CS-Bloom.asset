@@ -18,7 +18,7 @@ MonoBehaviour:
   weaponType: 4
   weaponBullet: {fileID: 11400000, guid: d499a19272bf7b243bc45dc71f95ba8b, type: 2}
   fireSoundEffects:
-  - {fileID: 8300000, guid: d893c7839c264054fbe6af9a13f7db3a, type: 3}
+  - {fileID: 8300000, guid: f22a13d90a706684c90322bedf7f0008, type: 3}
   reloadSoundEffects: []
   objectToDrop: {fileID: 6571201012871883631, guid: 3ea940627a13f4f47966477d53e09e07,
     type: 3}
@@ -48,5 +48,6 @@ MonoBehaviour:
   useReload: 0
   reloadStartDelay: 0
   reloadDuration: 0
-  muzzleFlash: {fileID: 0}
+  muzzleFlash: {fileID: 1523652767490950, guid: 1af83f415f1c11343941df442731e780,
+    type: 3}
   muzzleFlashDisableTime: 0.05
