@@ -53,6 +53,7 @@ public class CharacterCustomization : MonoBehaviour
     CharacterWalljump _walljumpController;
     PlayerInputHandler _playerInputHandler;
     CharacterMeleeHandler _meleeHandler;
+    CharacterInteractor _interactor;
 
     public Animator Animator => ragdollAnimator;
     public AudioSource SoundSource => _audioPlayer;
@@ -66,6 +67,7 @@ public class CharacterCustomization : MonoBehaviour
     public CharacterWalljump WalljumpController => _walljumpController;
     public PlayerInputHandler InputHandler => _playerInputHandler;
     public CharacterMeleeHandler MeleeHandler => _meleeHandler;
+    public CharacterInteractor Interactor => _interactor;
 
     private void Awake()
     {
@@ -87,6 +89,7 @@ public class CharacterCustomization : MonoBehaviour
         _walljumpController = GetComponent<CharacterWalljump>();
         _playerInputHandler = GetComponent<PlayerInputHandler>();
         _meleeHandler = GetComponent<CharacterMeleeHandler>();
+        _interactor = GetComponent<CharacterInteractor>();
         #endregion
 
         if (!_npc) isNPC = false;

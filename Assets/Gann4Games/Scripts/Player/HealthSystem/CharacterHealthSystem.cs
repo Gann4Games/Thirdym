@@ -125,15 +125,7 @@ public class CharacterHealthSystem : MonoBehaviour {
             Unconcious = true;
             if (IsDead)
             {
-                if (!_character.isNPC)
-                {
-                    _character.GetComponent<BoxCollider>().enabled = false;
-                }
-                else
-                {
-                    _character.GetComponent<BoxCollider>().enabled = false;
-                    BackgroundMusic.EnableMusic(false);
-                }
+                BackgroundMusic.EnableMusic(false);
                 if (Dead == false)
                 {
                     Dead = true;

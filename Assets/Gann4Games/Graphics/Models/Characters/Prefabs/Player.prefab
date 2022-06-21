@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 65659676383906328}
   - component: {fileID: 114859936974049108}
   - component: {fileID: 5244833341148559513}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Left_Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -290,7 +290,7 @@ GameObject:
   - component: {fileID: 114632330704762998}
   - component: {fileID: 114620188033277380}
   - component: {fileID: 5863969384948370263}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Head
   m_TagString: Pickupable
   m_Icon: {fileID: 0}
@@ -750,7 +750,7 @@ GameObject:
   - component: {fileID: 54506348516233282}
   - component: {fileID: 59384713247618274}
   - component: {fileID: 114193811704771844}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: AimGuide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1020,7 +1020,7 @@ GameObject:
   - component: {fileID: 114529646406812892}
   - component: {fileID: 114310764821617908}
   - component: {fileID: 2880156636201008407}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Left_Shoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1289,7 +1289,7 @@ GameObject:
   - component: {fileID: 114997131226947234}
   - component: {fileID: 114964558075105032}
   - component: {fileID: 8029972959854348502}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Right_Elbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1439,7 +1439,7 @@ GameObject:
   - component: {fileID: 54490014313751634}
   - component: {fileID: 59802805418017094}
   - component: {fileID: 114790184032452996}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Xtra_RShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1709,7 +1709,7 @@ GameObject:
   - component: {fileID: 59445685614219324}
   - component: {fileID: 114426796070384414}
   - component: {fileID: 135694514535989358}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Right_Bicep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1826,7 +1826,7 @@ GameObject:
   - component: {fileID: 59038740259729646}
   - component: {fileID: 114923121441925618}
   - component: {fileID: 135078032592795746}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Left_Bicep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2106,7 +2106,7 @@ GameObject:
   - component: {fileID: 54995990618426420}
   - component: {fileID: 59253190352503594}
   - component: {fileID: 114296227128085552}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2213,7 +2213,7 @@ GameObject:
   - component: {fileID: 114133596235662102}
   - component: {fileID: 114451422669142004}
   - component: {fileID: 515156258339846595}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Left_Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2492,7 +2492,7 @@ GameObject:
   - component: {fileID: 54559938368171540}
   - component: {fileID: 59189403760234368}
   - component: {fileID: 82087638013030850}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ragdoll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3263,7 +3263,7 @@ GameObject:
   - component: {fileID: 114448692126198588}
   - component: {fileID: 114117781417962276}
   - component: {fileID: 7086215654782178511}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Right_Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3449,7 +3449,7 @@ GameObject:
   - component: {fileID: 114548657932099814}
   - component: {fileID: 114550416678143980}
   - component: {fileID: 6357481836427798818}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Left_Knee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3599,7 +3599,7 @@ GameObject:
   - component: {fileID: 54025108452156400}
   - component: {fileID: 59547896402257552}
   - component: {fileID: 114968003199351212}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Xtra_LLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3941,7 +3941,7 @@ GameObject:
   - component: {fileID: 54452557204981856}
   - component: {fileID: 59631490519603140}
   - component: {fileID: 114420342870252866}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Xtra_LShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4261,7 +4261,7 @@ GameObject:
   - component: {fileID: 114361374053623562}
   - component: {fileID: 114611167053698562}
   - component: {fileID: 299764443015868339}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Right_Shoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4413,7 +4413,7 @@ GameObject:
   - component: {fileID: 136476345197148504}
   - component: {fileID: 114857709549176250}
   - component: {fileID: 3742090533747881925}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4546,7 +4546,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4183285923195772}
   - component: {fileID: 5715243255282560216}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Right_Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4625,7 +4625,7 @@ GameObject:
   - component: {fileID: 65426646894648334}
   - component: {fileID: 114856717254964060}
   - component: {fileID: 9113235377994987686}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Right_Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4847,7 +4847,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4013779525127334}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WeaponDropPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4965,7 +4965,7 @@ GameObject:
   - component: {fileID: 114784893414864720}
   - component: {fileID: 114189682660987162}
   - component: {fileID: 4426939985113598971}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Right_Knee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5480,7 +5480,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4015769905388516}
   - component: {fileID: 114002198877752846}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: LookAt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5606,7 +5606,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4725875035182326}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Left_Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5639,7 +5639,7 @@ GameObject:
   - component: {fileID: 54047041875870628}
   - component: {fileID: 59411776136040378}
   - component: {fileID: 114931565552487234}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Xtra_RLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5776,7 +5776,7 @@ GameObject:
   - component: {fileID: 114690075204158734}
   - component: {fileID: 54271080101166358}
   - component: {fileID: 114052229220677862}
-  m_Layer: 2
+  m_Layer: 7
   m_Name: groundChecker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5900,7 +5900,7 @@ GameObject:
   - component: {fileID: 114481273642144604}
   - component: {fileID: 114265295567557248}
   - component: {fileID: 7878252077312609669}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Left_Elbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

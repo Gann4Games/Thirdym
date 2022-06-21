@@ -11,11 +11,5 @@ namespace Gann4Games.Thirdym.Interactables
         public virtual string Hint => string.Format("Press '{0}' to interact.", UseKey);
         public abstract void Interact(CharacterCustomization character = null);
         public virtual void ShowTooltip() => NotificationHandler.Notify(Hint);
-
-        private void OnTriggerEnter(Collider other)
-        {
-            CharacterCustomization character = other.GetComponent<CheckGround>().character;
-            if(character && character.isPlayer) ShowTooltip();
-        }
     }
 }
