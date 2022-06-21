@@ -5,18 +5,17 @@ namespace Gann4Games.Thirdym.Interactables
     /// <summary>
     /// Base class for objects that interact with the player with the `USE` key.
     /// </summary>
-    public class InteractableObject : MonoBehaviour, IInteractable
+    public abstract class InteractableObject : MonoBehaviour, IInteractable
     {
-        public virtual void Interact()
-        {
-            throw new System.NotImplementedException();
-        }
-        public virtual void ShowTooltip()
-        {
-            string useKey = PlayerInputHandler.InputAsString(PlayerInputHandler.instance.gameplayControls.Player.Use);
+        public string UseKey => PlayerInputHandler.InputAsString(PlayerInputHandler.instance.gameplayControls.Player.Use);
+        public virtual string Hint => string.Format("Press '{0}' to interact.", UseKey);
+        public abstract void Interact(CharacterCustomization character = null);
+        public virtual void ShowTooltip() => NotificationHandler.Notify(Hint);
 
-            // Localization needed.
-            NotificationHandler.Notify($"Press '{useKey}' to interact.");
+        private void OnTriggerEnter(Collider other)
+        {
+            CharacterCustomization character = other.GetComponent<CheckGround>().character;
+            if(character && character.isPlayer) ShowTooltip();
         }
     }
 }

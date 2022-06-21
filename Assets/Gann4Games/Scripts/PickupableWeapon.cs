@@ -3,10 +3,11 @@ using UnityEditor;
 using Gann4Games.Thirdym.Localization; // Maybe another code smell ... ?
 using Gann4Games.Thirdym.ScriptableObjects;
 using Gann4Games.Thirdym.Events;
+using Gann4Games.Thirdym.Interactables;
 
 [RequireComponent(typeof(CollisionEvents))]
 [RequireComponent(typeof(Rigidbody))]
-public class PickupableWeapon : MonoBehaviour 
+public class PickupableWeapon : InteractableObject
 {
     public SO_WeaponPreset weaponData;
 
@@ -50,16 +51,6 @@ public class PickupableWeapon : MonoBehaviour
     void OnCollideMedium(object sender, CollisionEvents.CollisionArgs args)
     {
         _auSource.PlayOneShot(collisionMediumSFX);
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        _character = other.GetComponent<CharacterCustomization>();
-
-        if (_character)
-        {
-            EquipWeapon(weaponData);
-        }
-        
     }
 
     public void EquipWeapon(SO_WeaponPreset weapon)
@@ -117,4 +108,11 @@ public class PickupableWeapon : MonoBehaviour
             }
         }
     }
+
+    public override void Interact(CharacterCustomization character)
+    {
+        _character = character;
+        if (_character) EquipWeapon(weaponData);
+    }
+    public override string Hint => $"Press {UseKey.ToUpper()} to equip {weaponData.name}";
 }

@@ -1,91 +1,89 @@
 ﻿using UnityEngine;
-using UnityEngine.Audio;
-using UnityEditor;
+using DG.Tweening;
+using System;
 
 namespace Gann4Games.Thirdym.Interactables
 {
     [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(Rigidbody))]
-    public class MovableObject : MonoBehaviour
+    public class MovableObject : SwitchListener
     {
-        public Transform objectToMove;
-        public Vector3[] positions;
-        [Tooltip("The index of 'positions' to follow.")]
-        public int positionToFollow;
-        [Tooltip("Speed in units per frame.")]
-        public float speed = 0.05f;
-
-        [Header("Audio")]
-        public AudioMixerGroup output;
-        [Range(0, 1)] public float spatialBlend = 1;
-        public float maxDistance = 100;
-        public AudioClip startSFX;
-        public AudioClip stopSFX;
-
-        AudioSource _soundSource;
-        bool _moving;
-        private void Start()
+        [Serializable]
+        public class KeyFrame
         {
-            _soundSource = GetComponent<AudioSource>();
-            _soundSource.outputAudioMixerGroup = output;
-            _soundSource.spatialBlend = spatialBlend;
-            _soundSource.maxDistance = maxDistance;
-            for (int i = 0; i < positions.Length; i++)
-                positions[i] = positions[i] + objectToMove.position;
-        }
-        private void FixedUpdate()
-        {
-            if (objectToMove.position != positions[positionToFollow])
-            {
-                if (_moving == false)
-                {
-                    _moving = true;
-                    _soundSource.PlayOneShot(startSFX);
-                }
-                if (_moving)
-                    objectToMove.GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(objectToMove.position, positions[positionToFollow], speed * Time.timeScale));
-            }
-            else if (objectToMove.position == positions[positionToFollow])
-            {
-                if (_moving == true)
-                {
-                    _moving = false;
-                    _soundSource.Stop();
-                    _soundSource.PlayOneShot(stopSFX);
-                }
+            public Vector3 Position;
+            public Vector3 Rotation;
+            public Vector3 Scale = Vector3.one;
+            public Ease Easing = Ease.Linear;
+            public float Time = 1;
+
+            public KeyFrame(Vector3 position, Vector3 rotation, Vector3 scale, Ease easing, float time) {
+                Position = position;
+                Rotation = rotation;
+                Scale = scale;
+                Easing = easing;
+                Time = time;
             }
         }
-        public void MoveAt(int position) => positionToFollow = position;
 
-#if UNITY_EDITOR
+        [SerializeField] KeyFrame[] keyframes;
+        [SerializeField] AudioClip moveStartSFX, moveEndSFX;
+
+        AudioSource _audioSource;
+        Rigidbody _rigidbody;
+        int _currentFrame;
+        Vector3 _startPos;
+
+        public bool IsMoving { get; private set; }
+        public KeyFrame CurrentFrame {
+            get
+            {
+                KeyFrame cframe = keyframes [_currentFrame % keyframes.Length];
+                return new KeyFrame(_startPos + cframe.Position, cframe.Rotation, cframe.Scale, cframe.Easing, cframe.Time);
+            }
+        }
+
+        private void Awake()
+        {
+            _startPos = transform.position;
+            if (TryGetComponent(out Rigidbody rb)) _rigidbody = rb;
+            _audioSource = GetComponent<AudioSource>();
+        }
+        public override void InteractableSwitch_Signal(object sender, EventArgs e) => Move();
+        public void Move()
+        {
+            if (IsMoving) return;
+            _currentFrame++;
+            OnMoveStart();
+            _rigidbody.DOMove(CurrentFrame.Position, CurrentFrame.Time).SetEase(CurrentFrame.Easing).OnComplete(() => OnMoveEnd());
+            _rigidbody.DORotate(CurrentFrame.Rotation, CurrentFrame.Time).SetEase(CurrentFrame.Easing);
+            transform.DOScale(CurrentFrame.Scale, CurrentFrame.Time).SetEase(CurrentFrame.Easing);
+        }
+
+        void OnMoveStart()
+        {
+            SetMoveState(true);
+            _audioSource.Stop();
+            _audioSource.PlayOneShot(moveStartSFX);
+        }
+
+        void OnMoveEnd()
+        {
+            SetMoveState(false);
+            _audioSource.Stop();
+            _audioSource.PlayOneShot(moveEndSFX);
+        }
+
+        void SetMoveState(bool value) => IsMoving = value;
+
         private void OnDrawGizmosSelected()
         {
-            MeshFilter mesh_filter = GetComponent<MeshFilter>();
-            if (!objectToMove) Handles.Label(transform.position, "Parameter 'objectToMove' is empty!");
-            if (positions.Length == 0) Handles.Label(transform.position, "Position array is empty! Set at least one point.");
-
-            if (positions.Length > 0 && objectToMove)
+            foreach(KeyFrame frame in keyframes)
             {
-                for (int i = 0; i < positions.Length; i++)
-                {
-                    Gizmos.color = Color.green * new Color(1, 1, 1, 0.1f);
-
-                    if (mesh_filter) Gizmos.DrawMesh(mesh_filter.mesh, -1, positions[i] + objectToMove.position, transform.rotation, transform.localScale);
-
-                    Gizmos.color = Color.blue * new Color(1, 1, 1, 0.5f);
-                    Gizmos.DrawCube(positions[i] + objectToMove.position, Vector3.one / 2);
-                    Handles.color = Color.white;
-                    Handles.Label(positions[i] + objectToMove.position, $"[{gameObject.name}] Position {i}");
-
-                    Gizmos.color = Color.red;
-
-                    if (i + 1 >= positions.Length)
-                        continue;
-
-                    Gizmos.DrawLine(positions[i] + objectToMove.position, positions[i + 1] + objectToMove.position);
-                }
+                Gizmos.color = new Color(0, 1, 0, 0.25f);
+                Gizmos.DrawSphere(_startPos + frame.Position, 0.1f);
             }
         }
-#endif
+
     }
 }

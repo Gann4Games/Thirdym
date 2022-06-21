@@ -57,17 +57,24 @@ public class Bullet : MonoBehaviour {
         Rigidbody otherRigidbody = other.gameObject.GetComponent<Rigidbody>();
         if (otherRigidbody)
         {
-            if (other.transform.gameObject.HasTag("Breakable"))
-                other.transform.GetComponent<Rigidbody>().isKinematic = false;
-            other.transform.GetComponent<Rigidbody>().AddForce(transform.forward * (50 * weapon.weaponDamage));
+            BreakableObject breakableObject = other.transform.GetComponent<BreakableObject>();
+
+            if(breakableObject)
+            {
+                breakableObject.RigidBody.isKinematic = false;
+                breakableObject.RigidBody.AddForce(transform.forward * (50 * weapon.weaponDamage));
+            }
         }
         else
             CreateParticle(weapon.weaponBullet.onHitPrefab, transform.position, transform.rotation);
-
-        if (other.transform.gameObject.HasTag("Energy"))
+        
+        
+        // Should spawn whatever particle the breakable object has configured instead of particles being hardcoded per bullet.
+        /* 
+        if (true) // Si el objeto es de tipo "Energy"   
         {
             CreateParticle(energyImpact, transform.position, transform.rotation, other.transform);
-        }
+        }*/
     }
     void Ricochet()
     {
