@@ -20,7 +20,6 @@ namespace Gann4Games.Thirdym.Core
         [Space]
         public UnityEvent onDeath;
 
-        Rigidbody _rigidbody;
         Collider _collider;
         bool _unbreakable => startHealth <= 0;
         float _currentHealth;
@@ -29,6 +28,7 @@ namespace Gann4Games.Thirdym.Core
         /// The current health of the object.
         /// </summary>
         public float Health => _currentHealth;
+        public Rigidbody RigidBody { get; private set; }
 
         /// <summary>
         /// Sets the health and maximum health of the object.
@@ -43,7 +43,7 @@ namespace Gann4Games.Thirdym.Core
 
         public virtual void Initialize()
         {
-            if (TryGetComponent(out Rigidbody rb)) _rigidbody = rb;
+            if (TryGetComponent(out Rigidbody rb)) RigidBody = rb;
             if (TryGetComponent(out Collider col)) _collider = col;
         }
 
@@ -56,10 +56,12 @@ namespace Gann4Games.Thirdym.Core
 
         public virtual void OnDeath() {
             onDeath.Invoke();
-            Destroy(_rigidbody);
+            Destroy(RigidBody);
             Destroy(_collider);
             brokenEffect.SetActive(true);
             defaultObject.SetActive(false);
         }
+
+        public void DestroySelf() => Destroy(gameObject);
     }
 }

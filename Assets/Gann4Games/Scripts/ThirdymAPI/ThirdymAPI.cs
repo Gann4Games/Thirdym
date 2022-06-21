@@ -40,7 +40,6 @@ namespace Gann4Games.Thirdym
         /// <summary>
         /// Creates http request to save last game version into a json string for further use ingame.
         /// </summary>
-        /// <returns></returns>
         public IEnumerator InitializeRequest()
         {
             var request = UnityWebRequest.Get(_dataURL);

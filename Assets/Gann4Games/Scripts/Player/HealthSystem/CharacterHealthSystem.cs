@@ -164,7 +164,6 @@ public class CharacterHealthSystem : MonoBehaviour {
     }
     public void PlayPainSound()
     {
-        //CameraShaker.Instance.ShakeOnce(0.5f, 3, 0.1f, 0.5f);
         if (Dead)
             return;
         _timer.ResetTime();

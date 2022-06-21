@@ -10,8 +10,8 @@ public class CheckGround : MonoBehaviour {
     public bool IsDraggingBody => _draggingBody;
     public bool IsGrounded => _grounded;
     public bool IsSwimming => _swimming;
+    public CharacterCustomization character { get; private set; }
     List<GameObject> objectList = new List<GameObject>();
-    CharacterCustomization _character;
     EquipmentSystem _equipmentController;
     ConfigurableJoint _dragJoint;
 
@@ -21,12 +21,12 @@ public class CheckGround : MonoBehaviour {
 
     private void Start()
     {
-        _character = transform.parent.GetComponentInChildren<CharacterCustomization>();
-        _equipmentController = _character.EquipmentController;
+        character = transform.parent.GetComponentInChildren<CharacterCustomization>();
+        _equipmentController = character.EquipmentController;
     }
     private void Update()
     {
-        if (!_character.isNPC && !_character.HealthController.IsDead)
+        if (!character.isNPC && !character.HealthController.IsDead)
         {
             if (_draggingBody && pickupableBody != null && _dragJoint == null)
             {
@@ -38,7 +38,7 @@ public class CheckGround : MonoBehaviour {
                 _dragJoint.connectedAnchor = Vector3.zero;
                 //_dragJoint.connectedBody = _equipmentController.leftHandIK.GetComponent<Rigidbody>();
             }
-            if (_character.InputHandler.gameplayControls.Player.Use.triggered)
+            if (character.InputHandler.gameplayControls.Player.Use.triggered)
             {
                 if (!_draggingBody)
                 {
@@ -46,7 +46,7 @@ public class CheckGround : MonoBehaviour {
                     {
                         GameObject obj = objectList[i].gameObject;
                         if (obj == null || objectList[i] == null) objectList.RemoveAt(i);
-                        if (obj.HasTag("Pickupable") || obj.CompareTag("Pickupable"))
+                        if (obj.CompareTag("Pickupable"))
                         {
                             _equipmentController.DropEquippedWeapon();
                             pickupableBody = objectList[i].GetComponent<Rigidbody>();
@@ -66,7 +66,7 @@ public class CheckGround : MonoBehaviour {
                 }
             }
         }
-        if(_character.HealthController.IsDead)
+        if(character.HealthController.IsDead)
         {
             _grounded = false;
         }
@@ -86,12 +86,12 @@ public class CheckGround : MonoBehaviour {
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(!_character.isNPC) objectList.Add(other.gameObject);
+        if(!character.isNPC) objectList.Add(other.gameObject);
 
         CharacterBodypart part_collision = other.GetComponent<CharacterBodypart>();
-        if(part_collision && !_character.isNPC && other.CompareTag("Pickupable"))
+        if(part_collision && !character.isNPC && other.CompareTag("Pickupable"))
         {
-            if (part_collision.character.RagdollController != _character)
+            if (part_collision.character.RagdollController != character)
             {
                 string hint_text = "";
                 switch (LanguagePrefs.Language)
@@ -123,7 +123,7 @@ public class CheckGround : MonoBehaviour {
     }
     void OnTriggerExit(Collider collision)
     {
-        if (!_character.isNPC) objectList.Remove(collision.gameObject);
+        if (!character.isNPC) objectList.Remove(collision.gameObject);
 
         switch (collision.gameObject.tag)
         {

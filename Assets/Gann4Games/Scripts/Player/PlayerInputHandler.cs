@@ -4,6 +4,8 @@ using System.Text.RegularExpressions;
 
 public class PlayerInputHandler : MonoBehaviour
 {
+    public event System.EventHandler OnUse;
+
     public static PlayerInputHandler instance;
     public GameplayInput gameplayControls;
 
@@ -40,6 +42,13 @@ public class PlayerInputHandler : MonoBehaviour
         instance = this;
         gameplayControls = new GameplayInput();
     }
-    private void OnEnable()=>gameplayControls.Enable();
-    private void OnDisable() => gameplayControls.Disable();
+    private void OnEnable()
+    {
+        gameplayControls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        gameplayControls.Disable();
+    }
 }

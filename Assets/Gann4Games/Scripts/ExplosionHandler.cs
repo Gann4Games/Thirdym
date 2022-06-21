@@ -20,7 +20,7 @@ namespace Gann4Games.Thirdym.Core
         public void Explode()
         {
             Vector3 explosionCenter = transform.position + explosiveData.explosionOriginOffset;
-            Collider[] colliders = PhysicsTools.GetCollidersAt(explosionCenter, explosiveData.explosionRadius);
+            Collider[] colliders = Physics.OverlapSphere(explosionCenter, explosiveData.explosionRadius);
             foreach (Collider hit in colliders)
             {
                 Rigidbody otherRigidbody = hit.GetComponent<Rigidbody>();

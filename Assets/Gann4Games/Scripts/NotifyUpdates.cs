@@ -10,11 +10,9 @@ namespace Thirdym
 
         readonly ThirdymAPI _gameAPI = new ThirdymAPI();
 
-        private void Start() 
-        {
-            StartCoroutine(_gameAPI.InitializeRequest());
-            _gameAPI.OnRequestFinished += CheckForUpdates;
-        }
+        private void Start() => StartCoroutine(_gameAPI.InitializeRequest());
+        private void OnEnable() => _gameAPI.OnRequestFinished += CheckForUpdates;
+        private void OnDisable() => _gameAPI.OnRequestFinished -= CheckForUpdates;
 
         void CheckForUpdates(object sender, System.EventArgs args)
         {

@@ -589,6 +589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0012f8b4ab8cba546bb6c08e74e27ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hint: Press '{0}' to equip {1}
   weaponData: {fileID: 11400000, guid: ef02a90066c126048b8fdb31bf3cea58, type: 2}
   onPickupSFX: {fileID: 8300000, guid: de5a239e90695d342942842e6c81ad43, type: 3}
   collisionSoftSFX: {fileID: 8300000, guid: 1f60f7b53d27751438bb80f9032c1064, type: 3}

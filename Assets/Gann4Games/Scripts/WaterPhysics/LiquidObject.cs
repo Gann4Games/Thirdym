@@ -54,7 +54,7 @@ public class LiquidObject : MonoBehaviour
     void OnTriggerEnter(Collider collision)
     {
         Rigidbody rb = collision.GetComponent<Rigidbody>();
-        CharacterCustomization rag = collision.GetComponent<CharacterCustomization>();
+        CharacterCustomization rag = collision.GetComponent<CharacterBodypart>().character;
         if (rag && !_ragdollsInside.Contains(rag))
         {
             _ragdollsInside.Add(rag);
@@ -64,7 +64,7 @@ public class LiquidObject : MonoBehaviour
     }
     void OnTriggerExit(Collider collision)
     {
-        CharacterCustomization rag = collision.GetComponent<CharacterCustomization>();
+        CharacterCustomization rag = collision.GetComponent<CharacterBodypart>().character;
         if (rag && _ragdollsInside.Contains(rag))
         {
             _ragdollsInside.Remove(rag);

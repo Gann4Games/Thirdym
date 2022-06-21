@@ -10,9 +10,5 @@ namespace Gann4Games.Thirdym.Utility
             newSpring.spring = value;
             return newSpring;
         }
-        public static Collider[] GetCollidersAt(Vector3 position, float radius)
-        {
-            return Physics.OverlapSphere(position, radius);
-        }
     }
 }

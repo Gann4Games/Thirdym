@@ -27,22 +27,22 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PostProcessing
   - Water
   - UI
-  - 
-  - 
-  - ControllerCollider
-  - CharacterParts
-  - CharacterWeapons
-  - EnemyCollider
-  - EnemyParts
-  - EnemyWeapons
-  - CharacterBullet
-  - EnemyBullet
   - Map
-  - SpecialCollisions
-  - PostProcessing
+  - Ragdoll
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
