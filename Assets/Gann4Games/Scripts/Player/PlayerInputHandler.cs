@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using System.Text.RegularExpressions;
 
 public class PlayerInputHandler : MonoBehaviour
 {
@@ -6,6 +8,16 @@ public class PlayerInputHandler : MonoBehaviour
     public GameplayInput gameplayControls;
 
     [SerializeField] Vector2 cameraSensitivity = Vector2.one*4;
+
+    /// <summary>
+    /// Returns a simplified version of an input action's string.
+    /// Example:
+    /// Input: "Player/Use[/Keyboard/LeftArrow]"
+    /// Returns: "LeftArrow"
+    /// </summary>
+    /// <param name="action">The input action to simplify.</param>
+    /// <returns>The key used to perfom the action as string.</returns>
+    public static string InputAsString(InputAction action) => Regex.Match(action.ToString(), @"(?<=\/)(\w+)(?=\])").Value;
 
     public Vector2 cameraAxis => gameplayControls.Player.Camera.ReadValue<Vector2>() * cameraSensitivity;
     public Vector2 movementAxis => gameplayControls.Player.Movement.ReadValue<Vector2>();

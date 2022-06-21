@@ -11,5 +11,12 @@ namespace Gann4Games.Thirdym.Interactables
         {
             throw new System.NotImplementedException();
         }
+        public virtual void ShowTooltip()
+        {
+            string useKey = PlayerInputHandler.InputAsString(PlayerInputHandler.instance.gameplayControls.Player.Use);
+
+            // Localization needed.
+            NotificationHandler.Notify($"Press '{useKey}' to interact.");
+        }
     }
 }

@@ -212,18 +212,15 @@ namespace Gann4Games.Thirdym.Interactables
             if (other.gameObject.HasTag("Player") && other.gameObject.layer == LayerMask.NameToLayer("ControllerCollider") && (mode == Mode.Switch_Set || mode == Mode.Switch_Toggle))
             {
                 // Unit Testign would come handy here, dumbass.
-                // Refactor required.
-                string useKey = PlayerInputHandler.instance.gameplayControls.Player.Use.ToString();
-                Match match = Regex.Match(useKey, @"\w.$");
-                useKey = match.Value.TrimEnd(']').ToUpper();
+                string useKey = PlayerInputHandler.InputAsString(PlayerInputHandler.instance.gameplayControls.Player.Use);
 
                 switch (LanguagePrefs.Language)
                 {
                     case AvailableLanguages.English:
-                        NotificationHandler.Notify($"[{UnlockedText}] Press {useKey} to use.", 3, 1, false);
+                        NotificationHandler.Notify($"[{UnlockedText}] Press '{useKey} to use.", 3, 1, false);
                         break;
                     case AvailableLanguages.Español:
-                        NotificationHandler.Notify($"[{UnlockedText}] Presiona {useKey} para usar.", 3, 1, false);
+                        NotificationHandler.Notify($"[{UnlockedText}] Presiona '{useKey}' para usar.", 3, 1, false);
                         break;
                 }
             }
