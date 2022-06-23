@@ -11,6 +11,8 @@ public class Zoxter_API : MonoBehaviour {
     {
         instance = this;
         _soundSource = GetComponent<AudioSource>();
+
+
     }
     public void CloseApp()
     {
