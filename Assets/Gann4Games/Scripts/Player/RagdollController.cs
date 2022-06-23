@@ -218,20 +218,18 @@ public class RagdollController : MonoBehaviour {
     }
     void PerfomWalljump()
     {
-        if (Mathf.Abs(ZVelocity) > 1 && enviroment.IsGrounded)
-        {
-            if(!_character.WalljumpController.canWallJump) return;
+        if (!(Mathf.Abs(ZVelocity) > 1 && enviroment.IsGrounded) 
+            || !_character.WalljumpController.canWallJump) return;
 
-            wallJumpTime = walljumpDelay;
+        wallJumpTime = walljumpDelay;
 
-            Vector3 jumpDirection = _character.WalljumpController.bounceDirection.normalized*4;
-            jumpDirection.y = 5;
-            jumpDirection *= 1 + Time.deltaTime;
+        Vector3 jumpDirection = _character.WalljumpController.bounceDirection.normalized*4;
+        jumpDirection.y = 5;
+        jumpDirection *= 1 + Time.deltaTime;
 
-            guide.forward = new Vector3(jumpDirection.x, 0, jumpDirection.z);
+        guide.forward = new Vector3(jumpDirection.x, 0, jumpDirection.z);
 
-            SetCharacterVelocity(jumpDirection);
-        }
+        SetCharacterVelocity(jumpDirection);
     }
 
     /// <summary>

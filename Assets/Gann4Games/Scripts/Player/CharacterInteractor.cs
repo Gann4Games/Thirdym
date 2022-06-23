@@ -27,17 +27,11 @@ public class CharacterInteractor : MonoBehaviour
         if (Character.InputHandler.use) RaiseInteract();
     }
 
-    InteractableObject ClosestInteractable()
-    {
-        // Get all colliders that have the component InteractableObject
-        Collider[] colliders = Physics.OverlapSphere(transform.position, overlapRadius).Where(col => col.GetComponent<InteractableObject>()).ToArray();
-
-        // From the colliders, return the InteractableObject components
-        InteractableObject[] interactables = colliders.Select(col => col.GetComponent<InteractableObject>()).ToArray();
-
-        // From the InteractableObjects, return the closest one
-        return interactables.OrderBy(interactable => Vector3.Distance(transform.position, interactable.transform.position)).FirstOrDefault();
-    }
+    InteractableObject ClosestInteractable() => Physics.OverlapSphere(transform.position, overlapRadius)
+            .Where(o => o.GetComponent<InteractableObject>())
+            .OrderBy(i => Vector3.Distance(transform.position, i.transform.position))
+            .FirstOrDefault()
+            ?.GetComponent<InteractableObject>();
 
     private void OnTriggerEnter(Collider other) => RaiseTooltip();
 

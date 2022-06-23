@@ -1,72 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
+using Gann4Games;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class SmartTurret : MonoBehaviour {
-
-    public enum TurretStatus
+public class SmartTurret : ObjectScanner {
+    private enum TurretStatus
     {
         Searching,
         Identifying,
         Attacking,
     }
+    
+    
+    [Space]
+    [Header("Turret settings")]
+    [SerializeField] private TurretStatus status;
+    
+    [SerializeField] private Transform joint;
 
-    ShootSystem shootSystem;
-    CharacterShootHandler shootScript;
-    public TurretStatus Status;
-    public ConfigurableJoint horizontalJoint, verticalJoint;
-    RagdollController[] ragdolls;
+    [SerializeField] private Collider character;
 
-    Vector3 GetClosestRagdollPos()
-    {
-        float smallestDistance = Mathf.Infinity;
-        Vector3 smallest = Vector3.zero;
-        for (int i = 0; i < ragdolls.Length; i++)
-        {
-            if (ragdolls[i] == null)
-                continue;
-            float dist = Vector3.Distance(shootScript.transform.position, ragdolls[i].transform.position);
-            if (dist < smallestDistance)
-            {
-                smallestDistance = dist;
-                smallest = ragdolls[i].transform.position;
-            }
-        }
-        return smallest;
-    }
-    Vector3 DirectionToClosest()
-    {
-        return GetClosestRagdollPos() - shootScript.transform.position;
-    }
-    Quaternion JLookAtClosest()
-    {
-        Quaternion lookDir = Quaternion.LookRotation(DirectionToClosest());
-        return new Quaternion(lookDir.x, -lookDir.y, lookDir.z, -lookDir.w);
-    }
-    Quaternion JLookAtRaycast(RaycastHit hit, bool invert = false)
-    {
-        Quaternion lookDir = Quaternion.LookRotation(hit.point - shootScript.transform.position);
-        if (invert)
-            lookDir = Quaternion.LookRotation(shootScript.transform.position - hit.point);
-        return new Quaternion(lookDir.x, lookDir.y, lookDir.z, -lookDir.w);
-    }
-    private void Start()
-    {
-        ragdolls = FindObjectsOfType<RagdollController>();
-        shootSystem = GetComponent<ShootSystem>();
-        shootScript = GetComponentInChildren<CharacterShootHandler>();
-    }
     private void Update()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(shootScript.transform.position, DirectionToClosest(), out hit))
-        {
-            horizontalJoint.targetRotation = JLookAtRaycast(hit);
-            verticalJoint.targetRotation = JLookAtRaycast(hit);
-            if (hit.transform.GetComponent<CharacterBodypart>())
-                shootSystem.ShootAsNPC();
-            Debug.DrawLine(shootScript.transform.position, hit.point);
-        }
+        if (!character) return;
+        Quaternion rotation = Quaternion.LookRotation(character.transform.position - transform.position, transform.up);
+        joint.rotation = Quaternion.Lerp(joint.rotation, rotation, Time.deltaTime);
+    }
+
+    public override void Scan()
+    {
+        character = GetCollidersInRange()
+            .Where(o => o.GetComponent<CharacterCustomization>())
+            .OrderBy(o => Vector3.Distance(transform.position, o.transform.position))
+            .FirstOrDefault();
     }
 }

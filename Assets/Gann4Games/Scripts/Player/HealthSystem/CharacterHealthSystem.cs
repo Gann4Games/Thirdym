@@ -139,7 +139,6 @@ public class CharacterHealthSystem : MonoBehaviour {
                 if (Dead)
                     OnResurrect.Invoke();
                 Dead = false;
-                _character.GetComponent<BoxCollider>().enabled = true;
             }
         }
     }

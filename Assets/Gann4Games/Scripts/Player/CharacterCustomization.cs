@@ -121,7 +121,6 @@ public class CharacterCustomization : MonoBehaviour
 
         // Spawn suit
         GameObject characterSuit = Instantiate(preset.battleSuit, baseBody.body.position, baseBody.body.rotation);
-        characterSuit.transform.localScale = transform.localScale;
 
         // Get suit visuals component (for applying transforms)
         BattleSuitVisuals suitVisuals = characterSuit.GetComponent<BattleSuitVisuals>();

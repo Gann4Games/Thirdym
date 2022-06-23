@@ -646,16 +646,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1096306691855918}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.70710677}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 232.6, y: 0.722, z: 113.65}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_Children:
   - {fileID: 4057971872158104}
   - {fileID: 4939852140475336}
   - {fileID: 4621199092727750}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &1097781185790004
 GameObject:
   m_ObjectHideFlags: 0
@@ -2477,7 +2477,6 @@ GameObject:
   - component: {fileID: 6600865407406578505}
   - component: {fileID: 114799129114398726}
   - component: {fileID: 6016825591565287816}
-  - component: {fileID: 114414291519391064}
   - component: {fileID: 114312700047647522}
   - component: {fileID: 114585330830061758}
   - component: {fileID: 114193048304934044}
@@ -2492,6 +2491,7 @@ GameObject:
   - component: {fileID: 54559938368171540}
   - component: {fileID: 59189403760234368}
   - component: {fileID: 82087638013030850}
+  - component: {fileID: 6013397305604882265}
   m_Layer: 7
   m_Name: Ragdoll
   m_TagString: Untagged
@@ -2508,7 +2508,7 @@ Transform:
   m_GameObject: {fileID: 1482580894358688}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.0000014305114}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4341036855586622}
   - {fileID: 4013779525127334}
@@ -2562,19 +2562,6 @@ MonoBehaviour:
   whatIsMap:
     serializedVersion: 2
     m_Bits: 65536
---- !u!114 &114414291519391064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1482580894358688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 365b47fdf8abde744955f7e6718f88a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  checkTime: 30
 --- !u!114 &114312700047647522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2971,6 +2958,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!135 &6013397305604882265
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482580894358688}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1488015856334886
 GameObject:
   m_ObjectHideFlags: 0

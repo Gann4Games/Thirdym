@@ -65,7 +65,7 @@ public class PlayerCameraController : MonoBehaviour
             Vector3 rayDirection = instance.activeCamera.transform.forward;
             RaycastHit hit;
             LayerMask mask = ~(1 << LayerMask.NameToLayer("Ragdoll"));
-            if (Physics.Raycast(startPosition, rayDirection, out hit, Mathf.Infinity, mask))
+            if (Physics.Raycast(startPosition, rayDirection, out hit, Mathf.Infinity, mask, QueryTriggerInteraction.Ignore))
                 return hit.point;
             else
                 return Vector3.zero;
