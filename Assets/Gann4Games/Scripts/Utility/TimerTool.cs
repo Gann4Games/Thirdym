@@ -4,16 +4,16 @@ namespace Gann4Games.Thirdym.Utility
 {
     public class TimerTool
     {
-        float _timeOut;
-        public float currentTime;
-        public void CountTime() 
+        public float CurrentTime { get; private set; }
+        public float MaxTime { get; private set; }
+
+        public TimerTool(float maxTime)
         {
-            if(!IsTimeOut())
-                currentTime += Time.deltaTime;
+            MaxTime = maxTime;
         }
-        public float GeTimeOut => _timeOut;
-        public void ResetTime() => currentTime = 0; 
-        public void SetTimeOut(float newTimeOut) => _timeOut = newTimeOut;
-        public bool IsTimeOut() => currentTime > _timeOut;
+        public void Count() => CurrentTime += Time.deltaTime;
+        public void Reset() => CurrentTime = 0; 
+        public void SetMaxTime(float newMaxTime) => MaxTime = newMaxTime;
+        public bool HasFinished() => CurrentTime > MaxTime;
     }
 }

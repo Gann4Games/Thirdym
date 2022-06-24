@@ -19,19 +19,20 @@ public class NotificationHandler : MonoBehaviour
 
     float _fadeAmount = 1;
 
-    TimerTool _timer = new TimerTool();
+    TimerTool _timer;
 
     private void Awake() => instance = this;
     private void Update() => NotificationUpdate();
     void NotificationUpdate()
     {
-        if (_timer.IsTimeOut()) // If the time is out, set the canvas alpha to zero.
+        if(_timer == null) return;
+        if (_timer.HasFinished()) // If the time is out, set the canvas alpha to zero.
         {
             if (canvasGroup.alpha != 0) canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, 0, Time.deltaTime * _fadeAmount);
         }
         else // Otherwise, count the time and display the hint.
         {
-            _timer.CountTime();
+            _timer.Count();
             if (canvasGroup.alpha != 1) canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, 1, Time.deltaTime * _fadeAmount);
         }
     }
@@ -40,8 +41,8 @@ public class NotificationHandler : MonoBehaviour
     public void NotifyText(string text) => label.text = text;
     public void NotifyShow(float duration = 5)
     {
-        _timer.SetTimeOut(duration);
-        _timer.ResetTime();
+        _timer = new TimerTool(duration);
+        _timer.Reset();
         onNotify.Invoke();
     }
     

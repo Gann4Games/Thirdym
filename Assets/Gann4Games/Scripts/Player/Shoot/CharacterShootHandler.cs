@@ -8,7 +8,7 @@ public class CharacterShootHandler : MonoBehaviour {
     
     Animator _weaponAnimator;
     Rigidbody _handRigidbody;
-    TimerTool _timer = new TimerTool();
+    TimerTool _timer;
 
     CharacterCustomization _character;
 
@@ -33,6 +33,7 @@ public class CharacterShootHandler : MonoBehaviour {
     private void Awake()
     {
         _character = GetComponentInParent<CharacterCustomization>();
+        _timer = new TimerTool(0);
     }
     private void Start()
     {
@@ -43,20 +44,20 @@ public class CharacterShootHandler : MonoBehaviour {
     {
         if (_weapon == null) return;
 
-        if (_timer.GeTimeOut != _repeatTime) 
-            _timer.SetTimeOut(_repeatTime);
+        if (_timer.MaxTime != _repeatTime)
+            _timer.SetMaxTime(_repeatTime);
 
-        if(!_timer.IsTimeOut()) 
+        if(!_timer.HasFinished()) 
         {
-            _timer.CountTime();
-            if(!_character.isNPC) MainHUDHandler.instance.crosshairImage.fillAmount = _timer.currentTime / _weapon.bulletFireTime;
+            _timer.Count();
+            if(!_character.isNPC) MainHUDHandler.instance.crosshairImage.fillAmount = _timer.CurrentTime / _weapon.bulletFireTime;
         }
     }
     public void StartShooting()
     {
-        if (_timer.IsTimeOut() && _weapon != null)
+        if (_timer.HasFinished() && _weapon != null)
         {
-            _timer.ResetTime();
+            _timer.Reset();
             _weaponAnimator?.SetBool("Shoot", false);
             Shoot();
         }

@@ -66,7 +66,7 @@ namespace Gann4Games.Thirdym.NPC
 
         private void OnDamageDealed(object sender, CharacterHealthSystem.OnDamageDealedArgs e)
         {
-            if(!character.HealthController.IsFullyAlive) return;
+            if(!character.HealthController.IsAlive) return;
             SetTargetPoint(e.where);
             RagdollBodyLookAt(targetPoint);
             HeadLookAt(targetPoint);
@@ -183,7 +183,7 @@ namespace Gann4Games.Thirdym.NPC
                     }
                     if (ragdoll.CompareTag(currentTag))
                     {
-                        if (ragdoll.HealthController.IsFullyAlive)
+                        if (ragdoll.HealthController.IsAlive)
                             ragdollList.Add(ragdoll);
                         else
                             continue;
@@ -201,7 +201,7 @@ namespace Gann4Games.Thirdym.NPC
             {
                 foreach (CharacterCustomization corpse in charactersOnScene)
                 {
-                    if (corpse.CompareTag(allyTag) && !corpse.HealthController.IsFullyAlive)
+                    if (corpse.CompareTag(allyTag) && !corpse.HealthController.IsAlive)
                         ragdollList.Add(corpse);
                 }
             }

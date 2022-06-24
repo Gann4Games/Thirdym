@@ -79,14 +79,14 @@ public class RagdollController : MonoBehaviour {
             hingeSpring.damper = bodyDamp;
             hingeSpring.targetPosition = bodyRotation;
             rootHinge.spring = hingeSpring;
-            rootHinge.useSpring = _character.HealthController.IsFullyAlive;
+            rootHinge.useSpring = _character.HealthController.IsAlive;
         }
 
         RagdollMode(!isRagdollState, isRagdollState);
 
         if (!_character.isNPC && !IngameMenuHandler.instance.paused)//If not using AI and is not paused
         {
-            if (!_character.HealthController.IsDead)
+            if (_character.HealthController.IsAlive)
             {
                 if (PlayerInputHandler.instance.ragdolling) //Be a ragdoll
                 {
@@ -94,7 +94,7 @@ public class RagdollController : MonoBehaviour {
                     RagdollInput();
                     MouseInput();
                 }
-                else if (_character.HealthController.IsFullyAlive && _character.HealthController.Unconcious == false)
+                else if (_character.HealthController.IsAlive)
                 {
                     isRagdollState = false;
                     if (PlayerInputHandler.instance.ragdolling)
@@ -173,11 +173,7 @@ public class RagdollController : MonoBehaviour {
                         if (AngleX < 45 && AngleX > -45 && isRagdollState == false)
                             Balance();
                         else
-                        {/*
-                            if (Input.GetKey(KeyCode.X)) // Pointless code
-                                RagdollMode(false, true);
-                            else
-                                RagdollMode(false, true);*/
+                        {
                             RagdollMode(false, true);
                         }
                     }

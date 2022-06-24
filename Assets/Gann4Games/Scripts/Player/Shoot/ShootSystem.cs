@@ -8,10 +8,10 @@ public class ShootSystem : MonoBehaviour {
     private void Awake()
     {
         _shootScript = GetComponentInChildren<CharacterShootHandler>();
-        _character = GetComponent<CharacterCustomization>();
     }
     private void Start()
     {
+        _character = GetComponent<CharacterCustomization>();
         _user = transform;
     }
     private void Update()

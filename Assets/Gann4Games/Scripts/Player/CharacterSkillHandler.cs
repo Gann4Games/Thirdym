@@ -32,7 +32,7 @@ public class CharacterSkillHandler : MonoBehaviour {
 
 
     CharacterCustomization _customizator;
-    readonly TimerTool _timer = new TimerTool();
+    TimerTool _timer;
 
     SkillType _choosenSkill;
 
@@ -52,7 +52,7 @@ public class CharacterSkillHandler : MonoBehaviour {
     private void Awake()
     {
         _customizator = GetComponent<CharacterCustomization>();
-        _timer.SetTimeOut(recoverDelay);
+        _timer = new TimerTool(recoverDelay);
         _startFixedDeltaTime = Time.fixedDeltaTime;
 
         _animator = _customizator.Animator;
@@ -87,8 +87,8 @@ public class CharacterSkillHandler : MonoBehaviour {
         // Skill reloading
         if(!_skillEnable && !IsFullOfEnergy)
         {
-            if (_timer.IsTimeOut()) RestoreEnergy();
-            else _timer.CountTime();
+            if (_timer.HasFinished()) RestoreEnergy();
+            else _timer.Count();
         }
     }
     void OutOfEnergy() => _skillEnable = false;
@@ -96,7 +96,7 @@ public class CharacterSkillHandler : MonoBehaviour {
     {
         _skillEnable = !_skillEnable;
         if (!_skillEnable)
-            _timer.ResetTime();
+            _timer.Reset();
     }
     void ConsumeEnergy() => energy -= consumePerSecond * Time.deltaTime;
     void RestoreEnergy() => energy += Time.deltaTime * regeneratePerSecond;

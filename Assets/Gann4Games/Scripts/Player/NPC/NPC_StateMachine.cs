@@ -25,7 +25,7 @@ namespace Gann4Games.Thirdym.NPC
 
         void Awake()
         {
-            _timer = new TimerTool();
+            _timer = new TimerTool(0);
         }
         public void RunStateMachine()
         {
@@ -55,14 +55,14 @@ namespace Gann4Games.Thirdym.NPC
             switch (NPCStatus)
             {
                 case NPCState.Idle:
-                    if (_timer.GeTimeOut != 3) _timer.SetTimeOut(3);
+                    if (_timer.MaxTime != 3) _timer.SetMaxTime(3);
 
-                    if (_timer.IsTimeOut())
+                    if (_timer.HasFinished())
                     {
-                        _timer.ResetTime();
+                        _timer.Reset();
                         NPC.HeadLookAt(NPC.GetRandomPlaceAround(NPC.transform.position, Vector2.one * 10));
                     } 
-                    else _timer.CountTime();
+                    else _timer.Count();
 
                     NPC.SelfBalance();
                     NPC.character.Animator.SetFloat("X", 0);
@@ -79,12 +79,12 @@ namespace Gann4Games.Thirdym.NPC
 
                 case NPCState.Alert:
                     // Idle >> [Alert]. | ALWAYS from Idle.
-                    if(_timer.GeTimeOut != 2) _timer.SetTimeOut(2);
+                    if(_timer.MaxTime != 2) _timer.SetMaxTime(2);
 
 
-                    if (_timer.IsTimeOut())
+                    if (_timer.HasFinished())
                     {
-                        _timer.ResetTime();
+                        _timer.Reset();
                         if (NPC.character.EquipmentController.currentWeapon == null)
                         {
                             // [Alert] >> LookingForWeapons
@@ -100,7 +100,7 @@ namespace Gann4Games.Thirdym.NPC
                     }
                     else
                     {
-                        _timer.CountTime();
+                        _timer.Count();
                         if (NPC.IsOnSight(_closestEnemy.transform.position))
                         {
                             NPC.HeadLookAt(_closestEnemy.baseBody.head.position);

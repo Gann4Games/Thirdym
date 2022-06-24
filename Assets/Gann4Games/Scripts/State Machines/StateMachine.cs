@@ -1,15 +1,17 @@
 using UnityEngine;
 
-namespace Gann4Games.Thirdym.StateMachine
+namespace Gann4Games.Thirdym.StateMachines
 {
     public abstract class StateMachine : MonoBehaviour
     {
-        protected State State;
+        protected IState CurrentState;
 
-        public void SetState(State state)
+        public virtual void SetState(IState newState)
         {
-            State = state;
-            State.EnterState(this);
+            if(CurrentState != null) CurrentState.ExitState(this);
+            
+            CurrentState = newState;
+            CurrentState.EnterState(this);
         }
     }
 }

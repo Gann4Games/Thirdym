@@ -43,7 +43,7 @@ public class CharacterBodypart : MonoBehaviour, IDamageable
 
             case DamageType.Collision:
                 if(!character.isNPC)
-                    MainHUDHandler.instance.ShowEffect(Color.white, damage / _healthController.MaximumHealth, 10);
+                    MainHUDHandler.instance.ShowEffect(Color.white, damage / _healthController.MaxHealth, 10);
                 break;
         }
     }
@@ -80,8 +80,6 @@ public class CharacterBodypart : MonoBehaviour, IDamageable
     void CollideHard(object sender, CollisionEvents.CollisionArgs args)
     {
         float damage = args.collisionMagnitude * damageMultiplier;
-
-        _healthController.HeavyHit = true;
         character.SoundSource.PlayOneShot(_sfxCollideHard);
 
         DealDamage(damage, DamageType.Collision, Vector3.zero);

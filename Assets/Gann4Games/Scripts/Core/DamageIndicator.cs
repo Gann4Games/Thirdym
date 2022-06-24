@@ -13,18 +13,18 @@ namespace Gann4Games.Thirdym.Core
         [SerializeField] TextMeshPro textObject;
 
         Color _startColor;
-        readonly TimerTool _timer = new TimerTool();
+        TimerTool _timer;
 
         private void Awake()
         {
             _startColor = textObject.color;
-            _timer.SetTimeOut(visualizationTime);
+            _timer = new TimerTool(visualizationTime);
         }
         private void Update()
         {
-            float alpha = visualizationTime - (_timer.currentTime);
+            float alpha = visualizationTime - (_timer.CurrentTime);
             textObject.color = new Color(_startColor.r, _startColor.g, _startColor.b, alpha);
-            _timer.CountTime();
+            _timer.Count();
 
             transform.Translate(travelPerSecond * Time.deltaTime);
 

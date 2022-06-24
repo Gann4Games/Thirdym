@@ -13,19 +13,19 @@ public class LiquidObject : MonoBehaviour
     [SerializeField] AudioClip sfxDamage;
 
     List<CharacterCustomization> _ragdollsInside = new List<CharacterCustomization>();
-    readonly TimerTool _timer = new TimerTool();
+    TimerTool _timer;
     private void Start()
     {
-        _timer.SetTimeOut(damageDelay);
+        _timer = new TimerTool(damageDelay);
     }
     private void Update()
     {
         if (damageAmount == 0 || _ragdollsInside.Count == 0) return;
-        _timer.CountTime();
-        if (_timer.IsTimeOut())
+        _timer.Count();
+        if (_timer.HasFinished())
         {
             SendDamage();
-            _timer.ResetTime();
+            _timer.Reset();
         }
     }
     void SendDamage()

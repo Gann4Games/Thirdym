@@ -11,7 +11,7 @@ public class Defibrilator : MonoBehaviour
     [SerializeField] AudioClip switchSFX;
     List<CharacterBodypart> _otherBodyparts = new List<CharacterBodypart>();
 
-    TimerTool _timer = new TimerTool();
+    TimerTool _timer;
     CharacterCustomization _user;
     AudioSource _soundSource;
 
@@ -20,7 +20,7 @@ public class Defibrilator : MonoBehaviour
     {
         //Invoke("Electrocute", repeatTime);
         _user = GetComponentInParent<CharacterCustomization>();
-        _timer.SetTimeOut(repeatTime);
+        _timer = new TimerTool(repeatTime);
         _soundSource = GetComponent<AudioSource>();
     }
     private void OnEnable()
@@ -29,7 +29,7 @@ public class Defibrilator : MonoBehaviour
     }
     private void Update()
     {
-        _timer.CountTime();
+        _timer.Count();
         if (!_user.isNPC)
         {
             if (PlayerInputHandler.instance.firing) Electrocute();
@@ -68,13 +68,13 @@ public class Defibrilator : MonoBehaviour
             repeatTime = 0.1f;
         else
             repeatTime = 1.2f;
-        _timer.SetTimeOut(repeatTime);
+        _timer.SetMaxTime(repeatTime);
     }
     public void Electrocute()
     {
-        if (_timer.IsTimeOut() && gameObject.activeInHierarchy)
+        if (_timer.HasFinished() && gameObject.activeInHierarchy)
         {
-            _timer.ResetTime();
+            _timer.Reset();
             if (_isDangerous)
             {
                 for (int i = 0; i < _otherBodyparts.Count; i++)
@@ -89,7 +89,7 @@ public class Defibrilator : MonoBehaviour
                 for (int i = 0; i < _otherBodyparts.Count; i++)
                 {
                     CharacterCustomization otherCharacter = _otherBodyparts[i].character;
-                    float currentHealth = otherCharacter.HealthController.CurrentHealth;
+                    float currentHealth = otherCharacter.HealthController.Health;
                     float injuryLevel = otherCharacter.HealthController.InjuryLevel;
                     if(currentHealth < injuryLevel)
                     {

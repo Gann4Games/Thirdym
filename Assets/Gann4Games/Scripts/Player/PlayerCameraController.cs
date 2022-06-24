@@ -96,7 +96,7 @@ public class PlayerCameraController : MonoBehaviour
         switch (camMode)
         {
             case CameraMode.Player:
-                if (!health.Dead)
+                if (health.IsAlive)
                 {
                     ThirdPersonCam();
                     activeCamera.transform.position = Vector3.Lerp(activeCamera.transform.position, tpConfig.position + activeCamera.transform.TransformDirection(tpConfig.offset), tpConfig.pos_lerp);

@@ -58,7 +58,7 @@ public class CharacterArms : MonoBehaviour {
             Destroy(GetComponent<CharacterHealthSystem>());
             Destroy(GetComponent<PlayerCameraController>());
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-            healthOp.DealDamage(healthOp.CurrentHealth, Vector3.zero);
+            healthOp.DealDamage(healthOp.Health, Vector3.zero);
             HingeJoint[] hj = GetComponentsInChildren<HingeJoint>();
             for(int i = 0; i < hj.Length; i++)
                 hj[i].useSpring = false;
