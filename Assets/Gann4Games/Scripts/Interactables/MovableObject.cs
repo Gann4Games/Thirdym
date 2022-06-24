@@ -3,6 +3,7 @@ using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Gann4Games.Thirdym.Interactables
 {
@@ -13,19 +14,19 @@ namespace Gann4Games.Thirdym.Interactables
         [Serializable]
         public class KeyFrame
         {
-            public Vector3 Position;
-            public Vector3 Rotation;
-            public Vector3 Scale = Vector3.one;
-            public Ease Easing = Ease.Linear;
-            public float Time = 1;
-            public UnityEvent OnStart;
+            public Vector3 position;
+            public Vector3 rotation;
+            public Vector3 scale;
+            public Ease easing;
+            public float time;
+            public UnityEvent onStart;
 
             public KeyFrame(Vector3 position, Vector3 rotation, Vector3 scale, Ease easing, float time) {
-                Position = position;
-                Rotation = rotation;
-                Scale = scale;
-                Easing = easing;
-                Time = time;
+                this.position = position;
+                this.rotation = rotation;
+                this.scale = scale;
+                this.easing = easing;
+                this.time = time;
             }
         }
 
@@ -50,15 +51,15 @@ namespace Gann4Games.Thirdym.Interactables
         {
             if (IsMoving) return;
             OnMoveStart();
-            _rigidbody.DOMove(CurrentFrame.Position, CurrentFrame.Time).SetEase(CurrentFrame.Easing).OnComplete(() => OnMoveEnd());
-            _rigidbody.DORotate(CurrentFrame.Rotation, CurrentFrame.Time).SetEase(CurrentFrame.Easing);
-            transform.DOScale(CurrentFrame.Scale, CurrentFrame.Time).SetEase(CurrentFrame.Easing);
+            _rigidbody.DOMove(CurrentFrame.position, CurrentFrame.time).SetEase(CurrentFrame.easing).OnComplete(() => OnMoveEnd());
+            _rigidbody.DORotate(CurrentFrame.rotation, CurrentFrame.time).SetEase(CurrentFrame.easing);
+            transform.DOScale(CurrentFrame.scale, CurrentFrame.time).SetEase(CurrentFrame.easing);
         }
 
         void OnMoveStart()
         {
             SetMoveState(true);
-            CurrentFrame.OnStart.Invoke();
+            CurrentFrame.onStart.Invoke();
             _audioSource.Stop();
             _audioSource.PlayOneShot(moveStartSFX);
             _currentFrame++;
@@ -79,24 +80,14 @@ namespace Gann4Games.Thirdym.Interactables
             KeyFrame newKeyframe = new KeyFrame(transform.position, transform.eulerAngles, transform.localScale, Ease.Linear, 5);
             keyframes.Add(newKeyframe);
         }
-        
+
         [ContextMenu("Reset transform")]
         public void ResetPosition()
         {
             KeyFrame firstFrame = keyframes[0];
-            transform.position = firstFrame.Position;
-            transform.eulerAngles = firstFrame.Rotation;
-            transform.localScale = firstFrame.Scale;
+            transform.position = firstFrame.position;
+            transform.eulerAngles = firstFrame.rotation;
+            transform.localScale = firstFrame.scale;
         }
-
-        private void OnDrawGizmosSelected()
-        {
-            foreach(KeyFrame frame in keyframes)
-            {
-                Gizmos.color = new Color(0, 1, 0, 0.25f);
-                Gizmos.DrawSphere(frame.Position, 0.1f);
-            }
-        }
-
     }
 }
