@@ -10,13 +10,13 @@ namespace Gann4Games.Thirdym.StateMachines
         private CharacterHealthSystem _context;
         private TimerTool _timer = new TimerTool(5);
         
-        public override void EnterState(StateMachine context)
+        public override void OnEnterState(StateMachine context)
         {
             _context = (CharacterHealthSystem)context;
             _context.Character.PlayInjurySFX();
         }
 
-        public override void UpdateState(StateMachine context)
+        public override void OnUpdateState(StateMachine context)
         {
             if(_context.IsDead) _context.SetState(_context.deadState);
             else if (_context.IsAlive) _context.SetState(_context.aliveState);
@@ -34,6 +34,6 @@ namespace Gann4Games.Thirdym.StateMachines
             }
         }
 
-        public override void ExitState(StateMachine context) { }
+        public override void OnExitState(StateMachine context) { }
     }
 }

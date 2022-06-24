@@ -47,7 +47,7 @@ public class CharacterHealthSystem : StateMachine
 
     private void Update()
     {
-        CurrentState.UpdateState(this);
+        CurrentState.OnUpdateState(this);
 
 
         Character.RagdollController.isRagdollState = !IsAlive;

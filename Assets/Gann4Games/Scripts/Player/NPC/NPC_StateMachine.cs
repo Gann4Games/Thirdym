@@ -1,10 +1,11 @@
 using System;
+using Gann4Games.Thirdym.StateMachines;
 using UnityEngine;
 using Gann4Games.Thirdym.Utility;
 
 namespace Gann4Games.Thirdym.NPC
 {
-    public class NPC_StateMachine : MonoBehaviour
+    public class NPC_StateMachine : StateMachine
     {
         public enum NPCState
         {

@@ -7,7 +7,7 @@ namespace Gann4Games.Thirdym.StateMachines
         // Injured -> [Dead]
         
         private CharacterHealthSystem _context;
-        public override void EnterState(StateMachine context)
+        public override void OnEnterState(StateMachine context)
         {
             _context = (CharacterHealthSystem)context;
             _context.Character.EquipmentController.DropAllWeapons();
@@ -17,8 +17,8 @@ namespace Gann4Games.Thirdym.StateMachines
             IngameMenuHandler.PauseAndShowMessage("You have died!");
         }
 
-        public override void UpdateState(StateMachine context) { }
+        public override void OnUpdateState(StateMachine context) { }
 
-        public override void ExitState(StateMachine context) { }
+        public override void OnExitState(StateMachine context) { }
     }
 }

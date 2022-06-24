@@ -5,8 +5,8 @@ namespace Gann4Games.Thirdym.StateMachines
 {
     public abstract class IState
     {
-        public abstract void EnterState(StateMachine context);
-        public abstract void UpdateState(StateMachine context);
-        public abstract void ExitState(StateMachine context);
+        public abstract void OnEnterState(StateMachine context);
+        public abstract void OnUpdateState(StateMachine context);
+        public abstract void OnExitState(StateMachine context);
     }
 }

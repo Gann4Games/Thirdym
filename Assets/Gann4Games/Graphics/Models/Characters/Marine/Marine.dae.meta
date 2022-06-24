@@ -1,147 +1,413 @@
 fileFormatVersion: 2
 guid: e57d2743d3215324282a39d433e669e5
-timeCreated: 1498589226
-licenseType: Free
 ModelImporter:
-  serializedVersion: 19
-  fileIDToRecycleName:
-    100000: Body
-    100002: ElbowL
-    100004: ElbowR
-    100006: FootL
-    100008: FootR
-    100010: HandL
-    100012: HandR
-    100014: Head
-    100016: Helmet_1
-    100018: Helmet_1 1
-    100020: HighArmL
-    100022: HighArmR
-    100024: HighLegL
-    100026: HighLegR
-    100028: KneeL
-    100030: KneeR
-    100032: LElbow
-    100034: LHip
-    100036: LKnee
-    100038: LowArmL
-    100040: LowArmR
-    100042: LowLegL
-    100044: LowLegR
-    100046: LShoulder
-    100048: //RootNode
-    100050: RElbow
-    100052: RHip
-    100054: RKnee
-    100056: RShoulder
-    100058: Scanner
-    100060: ShoulderL
-    100062: ShoulderR
-    100064: Visor_1
-    400000: Body
-    400002: ElbowL
-    400004: ElbowR
-    400006: FootL
-    400008: FootR
-    400010: HandL
-    400012: HandR
-    400014: Head
-    400016: Helmet_1
-    400018: Helmet_1 1
-    400020: HighArmL
-    400022: HighArmR
-    400024: HighLegL
-    400026: HighLegR
-    400028: KneeL
-    400030: KneeR
-    400032: LElbow
-    400034: LHip
-    400036: LKnee
-    400038: LowArmL
-    400040: LowArmR
-    400042: LowLegL
-    400044: LowLegR
-    400046: LShoulder
-    400048: //RootNode
-    400050: RElbow
-    400052: RHip
-    400054: RKnee
-    400056: RShoulder
-    400058: Scanner
-    400060: ShoulderL
-    400062: ShoulderR
-    400064: Visor_1
-    2300000: Body
-    2300002: ElbowL
-    2300004: ElbowR
-    2300006: FootL
-    2300008: FootR
-    2300010: HandL
-    2300012: HandR
-    2300014: Helmet_1 1
-    2300016: HighArmL
-    2300018: HighArmR
-    2300020: HighLegL
-    2300022: HighLegR
-    2300024: KneeL
-    2300026: KneeR
-    2300028: LowArmL
-    2300030: LowArmR
-    2300032: LowLegL
-    2300034: LowLegR
-    2300036: Scanner
-    2300038: ShoulderL
-    2300040: ShoulderR
-    2300042: Visor_1
-    3300000: Body
-    3300002: ElbowL
-    3300004: ElbowR
-    3300006: FootL
-    3300008: FootR
-    3300010: HandL
-    3300012: HandR
-    3300014: Helmet_1 1
-    3300016: HighArmL
-    3300018: HighArmR
-    3300020: HighLegL
-    3300022: HighLegR
-    3300024: KneeL
-    3300026: KneeR
-    3300028: LowArmL
-    3300030: LowArmR
-    3300032: LowLegL
-    3300034: LowLegR
-    3300036: Scanner
-    3300038: ShoulderL
-    3300040: ShoulderR
-    3300042: Visor_1
-    4300000: Scanner
-    4300002: Visor_1
-    4300004: Helmet_1
-    4300006: FootR
-    4300008: LowLegR
-    4300010: KneeR
-    4300012: HighLegR
-    4300014: FootL
-    4300016: LowLegL
-    4300018: KneeL
-    4300020: HighLegL
-    4300022: Body
-    4300024: ShoulderL
-    4300026: HighArmL
-    4300028: HandL
-    4300030: LowArmL
-    4300032: ElbowL
-    4300034: ShoulderR
-    4300036: HighArmR
-    4300038: HandR
-    4300040: LowArmR
-    4300042: ElbowR
-    9500000: //RootNode
+  serializedVersion: 21100
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Body
+  - first:
+      1: 100002
+    second: ElbowL
+  - first:
+      1: 100004
+    second: ElbowR
+  - first:
+      1: 100006
+    second: FootL
+  - first:
+      1: 100008
+    second: FootR
+  - first:
+      1: 100010
+    second: HandL
+  - first:
+      1: 100012
+    second: HandR
+  - first:
+      1: 100014
+    second: Head
+  - first:
+      1: 100016
+    second: Helmet_1
+  - first:
+      1: 100018
+    second: Helmet_1 1
+  - first:
+      1: 100020
+    second: HighArmL
+  - first:
+      1: 100022
+    second: HighArmR
+  - first:
+      1: 100024
+    second: HighLegL
+  - first:
+      1: 100026
+    second: HighLegR
+  - first:
+      1: 100028
+    second: KneeL
+  - first:
+      1: 100030
+    second: KneeR
+  - first:
+      1: 100032
+    second: LElbow
+  - first:
+      1: 100034
+    second: LHip
+  - first:
+      1: 100036
+    second: LKnee
+  - first:
+      1: 100038
+    second: LowArmL
+  - first:
+      1: 100040
+    second: LowArmR
+  - first:
+      1: 100042
+    second: LowLegL
+  - first:
+      1: 100044
+    second: LowLegR
+  - first:
+      1: 100046
+    second: LShoulder
+  - first:
+      1: 100048
+    second: //RootNode
+  - first:
+      1: 100050
+    second: RElbow
+  - first:
+      1: 100052
+    second: RHip
+  - first:
+      1: 100054
+    second: RKnee
+  - first:
+      1: 100056
+    second: RShoulder
+  - first:
+      1: 100058
+    second: Scanner
+  - first:
+      1: 100060
+    second: ShoulderL
+  - first:
+      1: 100062
+    second: ShoulderR
+  - first:
+      1: 100064
+    second: Visor_1
+  - first:
+      4: 400000
+    second: Body
+  - first:
+      4: 400002
+    second: ElbowL
+  - first:
+      4: 400004
+    second: ElbowR
+  - first:
+      4: 400006
+    second: FootL
+  - first:
+      4: 400008
+    second: FootR
+  - first:
+      4: 400010
+    second: HandL
+  - first:
+      4: 400012
+    second: HandR
+  - first:
+      4: 400014
+    second: Head
+  - first:
+      4: 400016
+    second: Helmet_1
+  - first:
+      4: 400018
+    second: Helmet_1 1
+  - first:
+      4: 400020
+    second: HighArmL
+  - first:
+      4: 400022
+    second: HighArmR
+  - first:
+      4: 400024
+    second: HighLegL
+  - first:
+      4: 400026
+    second: HighLegR
+  - first:
+      4: 400028
+    second: KneeL
+  - first:
+      4: 400030
+    second: KneeR
+  - first:
+      4: 400032
+    second: LElbow
+  - first:
+      4: 400034
+    second: LHip
+  - first:
+      4: 400036
+    second: LKnee
+  - first:
+      4: 400038
+    second: LowArmL
+  - first:
+      4: 400040
+    second: LowArmR
+  - first:
+      4: 400042
+    second: LowLegL
+  - first:
+      4: 400044
+    second: LowLegR
+  - first:
+      4: 400046
+    second: LShoulder
+  - first:
+      4: 400048
+    second: //RootNode
+  - first:
+      4: 400050
+    second: RElbow
+  - first:
+      4: 400052
+    second: RHip
+  - first:
+      4: 400054
+    second: RKnee
+  - first:
+      4: 400056
+    second: RShoulder
+  - first:
+      4: 400058
+    second: Scanner
+  - first:
+      4: 400060
+    second: ShoulderL
+  - first:
+      4: 400062
+    second: ShoulderR
+  - first:
+      4: 400064
+    second: Visor_1
+  - first:
+      23: 2300000
+    second: Body
+  - first:
+      23: 2300002
+    second: ElbowL
+  - first:
+      23: 2300004
+    second: ElbowR
+  - first:
+      23: 2300006
+    second: FootL
+  - first:
+      23: 2300008
+    second: FootR
+  - first:
+      23: 2300010
+    second: HandL
+  - first:
+      23: 2300012
+    second: HandR
+  - first:
+      23: 2300014
+    second: Helmet_1 1
+  - first:
+      23: 2300016
+    second: HighArmL
+  - first:
+      23: 2300018
+    second: HighArmR
+  - first:
+      23: 2300020
+    second: HighLegL
+  - first:
+      23: 2300022
+    second: HighLegR
+  - first:
+      23: 2300024
+    second: KneeL
+  - first:
+      23: 2300026
+    second: KneeR
+  - first:
+      23: 2300028
+    second: LowArmL
+  - first:
+      23: 2300030
+    second: LowArmR
+  - first:
+      23: 2300032
+    second: LowLegL
+  - first:
+      23: 2300034
+    second: LowLegR
+  - first:
+      23: 2300036
+    second: Scanner
+  - first:
+      23: 2300038
+    second: ShoulderL
+  - first:
+      23: 2300040
+    second: ShoulderR
+  - first:
+      23: 2300042
+    second: Visor_1
+  - first:
+      33: 3300000
+    second: Body
+  - first:
+      33: 3300002
+    second: ElbowL
+  - first:
+      33: 3300004
+    second: ElbowR
+  - first:
+      33: 3300006
+    second: FootL
+  - first:
+      33: 3300008
+    second: FootR
+  - first:
+      33: 3300010
+    second: HandL
+  - first:
+      33: 3300012
+    second: HandR
+  - first:
+      33: 3300014
+    second: Helmet_1 1
+  - first:
+      33: 3300016
+    second: HighArmL
+  - first:
+      33: 3300018
+    second: HighArmR
+  - first:
+      33: 3300020
+    second: HighLegL
+  - first:
+      33: 3300022
+    second: HighLegR
+  - first:
+      33: 3300024
+    second: KneeL
+  - first:
+      33: 3300026
+    second: KneeR
+  - first:
+      33: 3300028
+    second: LowArmL
+  - first:
+      33: 3300030
+    second: LowArmR
+  - first:
+      33: 3300032
+    second: LowLegL
+  - first:
+      33: 3300034
+    second: LowLegR
+  - first:
+      33: 3300036
+    second: Scanner
+  - first:
+      33: 3300038
+    second: ShoulderL
+  - first:
+      33: 3300040
+    second: ShoulderR
+  - first:
+      33: 3300042
+    second: Visor_1
+  - first:
+      43: 4300000
+    second: Scanner
+  - first:
+      43: 4300002
+    second: Visor_1
+  - first:
+      43: 4300004
+    second: Helmet_1
+  - first:
+      43: 4300006
+    second: FootR
+  - first:
+      43: 4300008
+    second: LowLegR
+  - first:
+      43: 4300010
+    second: KneeR
+  - first:
+      43: 4300012
+    second: HighLegR
+  - first:
+      43: 4300014
+    second: FootL
+  - first:
+      43: 4300016
+    second: LowLegL
+  - first:
+      43: 4300018
+    second: KneeL
+  - first:
+      43: 4300020
+    second: HighLegL
+  - first:
+      43: 4300022
+    second: Body
+  - first:
+      43: 4300024
+    second: ShoulderL
+  - first:
+      43: 4300026
+    second: HighArmL
+  - first:
+      43: 4300028
+    second: HandL
+  - first:
+      43: 4300030
+    second: LowArmL
+  - first:
+      43: 4300032
+    second: ElbowL
+  - first:
+      43: 4300034
+    second: ShoulderR
+  - first:
+      43: 4300036
+    second: HighArmR
+  - first:
+      43: 4300038
+    second: HandR
+  - first:
+      43: 4300040
+    second: LowArmR
+  - first:
+      43: 4300042
+    second: ElbowR
+  - first:
+      95: 9500000
+    second: //RootNode
+  externalObjects: {}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -154,12 +420,15 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -167,26 +436,45 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -196,14 +484,17 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

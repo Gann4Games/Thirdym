@@ -8,10 +8,10 @@ namespace Gann4Games.Thirdym.StateMachines
 
         public virtual void SetState(IState newState)
         {
-            if(CurrentState != null) CurrentState.ExitState(this);
+            if(CurrentState != null) CurrentState.OnExitState(this);
             
             CurrentState = newState;
-            CurrentState.EnterState(this);
+            CurrentState.OnEnterState(this);
         }
     }
 }
