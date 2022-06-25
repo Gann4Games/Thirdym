@@ -88,19 +88,10 @@ public class RagdollController : MonoBehaviour {
         {
             if (_character.HealthController.IsAlive)
             {
-                if (PlayerInputHandler.instance.ragdolling) //Be a ragdoll
-                {
-                    isRagdollState = true;
-                    RagdollInput();
-                    MouseInput();
-                }
-                else if (_character.HealthController.IsAlive)
-                {
-                    isRagdollState = false;
-                    if (PlayerInputHandler.instance.ragdolling)
-                        RagdollMode(true, false);
-                    MouseInput();
-                }
+                isRagdollState = PlayerInputHandler.instance.ragdolling;
+                RagdollMode(!isRagdollState, isRagdollState);
+                MouseInput();
+                
                 if (PlayerInputHandler.instance.jumping) // Wall jumping
                 {
                     if (wallJumpTime <= 0) PerfomWalljump();
@@ -147,7 +138,13 @@ public class RagdollController : MonoBehaviour {
 
                         if (_character.Animator.GetFloat("X") != 0)
                             _character.Animator.SetFloat("X", 0);
-                        guide.forward = Vector3.Lerp(guide.forward, guide.position + new Vector3(_character.CameraController.activeCamera.transform.TransformDirection(axisMovement).x, 0, _character.CameraController.activeCamera.transform.TransformDirection(axisMovement).z), Time.deltaTime * 10);
+                        
+                        guide.forward = Vector3.Lerp(guide.forward, 
+                            guide.position + new Vector3(
+                                _character.CameraController.activeCamera.transform.TransformDirection(axisMovement).x, 
+                                0, 
+                                _character.CameraController.activeCamera.transform.TransformDirection(axisMovement).z),
+                            Time.deltaTime * 10);
 
                         SimpleBalance();
                     }
@@ -308,7 +305,9 @@ public class RagdollController : MonoBehaviour {
             isRagdollState = false;
         }
 
-        guide.eulerAngles = Vector3.Lerp(guide.eulerAngles, new Vector3(0, _character.CameraController.activeCamera.transform.eulerAngles.y, 0), Time.deltaTime*2);
+        guide.rotation = Quaternion.Slerp(guide.rotation,
+            Quaternion.Euler(0, PlayerCameraController.GetCameraAngle().y, 0),
+            2 * Time.deltaTime);
 
         if (PlayerInputHandler.instance.movementAxis.y>0)
         {
@@ -391,6 +390,7 @@ public class RagdollController : MonoBehaviour {
     }
     public void MouseInput()
     {
+        print("Mouse Input");
         bodyGuide.rotation = guide.rotation;
         if (PlayerInputHandler.instance.aiming) Zoom(!_character.EquipmentController.disarmed);
         else Zoom(false);

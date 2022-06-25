@@ -71,6 +71,9 @@ public class PlayerCameraController : MonoBehaviour
                 return Vector3.zero;
         }
     }
+    
+    public static Vector3 GetCameraAngle() => instance.activeCamera.transform.eulerAngles;
+
 
     private void OnDrawGizmosSelected()
     {
