@@ -5,24 +5,24 @@ public class CharacterSelector : MonoBehaviour
     public TMPro.TextMeshProUGUI textCharacter;
     public TMPro.TextMeshProUGUI textFaction;
     public UnityEngine.UI.Slider sliderHealth;
-    TMPro.TextMeshProUGUI textHealth;
+    TMPro.TextMeshProUGUI _textHealth;
     public UnityEngine.UI.Slider sliderRegen;
-    TMPro.TextMeshProUGUI textRegen;
+    TMPro.TextMeshProUGUI _textRegen;
 
-    SO_RagdollPreset[] suit_list;
-    int choosen_suit;
+    SO_RagdollPreset[] _suitList;
+    int _choosenSuit;
 
-    GameObject current_suit;
+    GameObject _currentSuit;
 
     private void Start()
     {
-        suit_list = PlayerPreferences.instance.suit_list;
-        choosen_suit = PlayerPreferences.instance.json_structure.choosen_suit;
+        _suitList = PlayerPreferences.instance.suit_list;
+        _choosenSuit = PlayerPreferences.instance.json_structure.choosen_suit;
 
-        textHealth = sliderHealth.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-        textRegen = sliderRegen.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+        _textHealth = sliderHealth.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+        _textRegen = sliderRegen.GetComponentInChildren<TMPro.TextMeshProUGUI>();
 
-        if (current_suit == null && transform.childCount > 0) current_suit = transform.GetChild(0).gameObject;
+        if (_currentSuit == null && transform.childCount > 0) _currentSuit = transform.GetChild(0).gameObject;
 
         LoadSuit();
         UpdateInformationLabel();
@@ -34,41 +34,41 @@ public class CharacterSelector : MonoBehaviour
         // string saved_character_name = suit_list[PlayerPreferences.instance.json_structure.choosen_suit].character_name;
         // int saved_character_id = PlayerPreferences.instance.json_structure.choosen_suit;
 
-        textCharacter.text = suit_list[choosen_suit].character_name+string.Format("\n(by {0})", suit_list[choosen_suit].author);
-        textFaction.text = "Faction " + suit_list[choosen_suit].faction.Split('/')[1];
+        textCharacter.text = _suitList[_choosenSuit].character_name+string.Format("\n(by {0})", _suitList[_choosenSuit].author);
+        textFaction.text = "Faction " + _suitList[_choosenSuit].faction.Split('/')[1];
 
-        sliderHealth.value = suit_list[choosen_suit].maximumHealth;
-        textHealth.text = "Health (" + suit_list[choosen_suit].maximumHealth + ")";
+        sliderHealth.value = _suitList[_choosenSuit].maximumHealth;
+        _textHealth.text = "Health (" + _suitList[_choosenSuit].maximumHealth + ")";
 
-        sliderRegen.value = suit_list[choosen_suit].regeneration_rate;
-        textRegen.text = "Regeneration rate (" + suit_list[choosen_suit].regeneration_rate + ")";
+        sliderRegen.value = _suitList[_choosenSuit].regeneration_rate;
+        _textRegen.text = "Regeneration rate (" + _suitList[_choosenSuit].regeneration_rate + ")";
     }
     public void SaveSuitSelection()
     {
-        PlayerPreferences.instance.json_structure.choosen_suit = choosen_suit;
+        PlayerPreferences.instance.json_structure.choosen_suit = _choosenSuit;
         PlayerPreferences.instance.RefreshJsonFile();
-        string selected_character_name = suit_list[choosen_suit].character_name;
-        NotificationHandler.Notify(string.Format("{0} was selected.", selected_character_name));
+        string selectedCharacterName = _suitList[_choosenSuit].character_name;
+        NotificationHandler.Notify(string.Format("{0} was selected.", selectedCharacterName));
     }
     public void NextSuit()
     {
-        choosen_suit += 1;
-        if (choosen_suit >= PlayerPreferences.instance.suit_count) choosen_suit = 0;
+        _choosenSuit += 1;
+        if (_choosenSuit >= PlayerPreferences.instance.suit_count) _choosenSuit = 0;
         LoadSuit();
     }
     public void PrevSuit()
     {
-        choosen_suit -= 1;
-        if (choosen_suit < 0) { choosen_suit = PlayerPreferences.instance.suit_count - 1; }
+        _choosenSuit -= 1;
+        if (_choosenSuit < 0) { _choosenSuit = PlayerPreferences.instance.suit_count - 1; }
         LoadSuit();
     }
     void LoadSuit()
     {
         RemovePreviousSuit();
-        current_suit = Instantiate(suit_list[choosen_suit].battleSuit, transform.position, transform.rotation, transform);
+        _currentSuit = Instantiate(_suitList[_choosenSuit].battleSuit, transform.position, transform.rotation, transform);
     }
     void RemovePreviousSuit()
     {
-        if (current_suit) Destroy(current_suit);
+        if (_currentSuit) Destroy(_currentSuit);
     }
 }
