@@ -49,7 +49,7 @@ public class CharacterCustomization : MonoBehaviour
     EquipmentSystem _equipmentController;
     CharacterArms _armController;
     PlayerCameraController _cameraController;
-    NPC_Ragdoll _npc;
+    NpcRagdollController _npc;
     CharacterWalljump _walljumpController;
     PlayerInputHandler _playerInputHandler;
     CharacterMeleeHandler _meleeHandler;
@@ -63,7 +63,7 @@ public class CharacterCustomization : MonoBehaviour
     public EquipmentSystem EquipmentController => _equipmentController; 
     public CharacterArms ArmController => _armController;
     public PlayerCameraController CameraController => _cameraController;
-    public NPC_Ragdoll NPC => _npc;
+    public NpcRagdollController NPC => _npc;
     public CharacterWalljump WalljumpController => _walljumpController;
     public PlayerInputHandler InputHandler => _playerInputHandler;
     public CharacterMeleeHandler MeleeHandler => _meleeHandler;
@@ -85,7 +85,7 @@ public class CharacterCustomization : MonoBehaviour
         _equipmentController = GetComponent<EquipmentSystem>();
         _armController = GetComponent<CharacterArms>();
         _cameraController = GetComponent<PlayerCameraController>();
-        _npc = GetComponent<NPC_Ragdoll>();
+        _npc = GetComponent<NpcRagdollController>();
         _walljumpController = GetComponent<CharacterWalljump>();
         _playerInputHandler = GetComponent<PlayerInputHandler>();
         _meleeHandler = GetComponent<CharacterMeleeHandler>();

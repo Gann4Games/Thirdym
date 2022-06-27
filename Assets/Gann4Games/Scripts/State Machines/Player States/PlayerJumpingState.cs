@@ -24,7 +24,7 @@ namespace Gann4Games.Thirdym.StateMachines
             _context.MakeRootFollowGuide();
             _context.SetVerticalAnimationValue(_context.RelativeZVelocity);
 
-            bool ragdolling = PlayerInputHandler.instance.ragdolling;
+            bool ragdolling = _context.Character.InputHandler.ragdolling;
             _context.SetCrouchAnimationState(ragdolling);
             _context.SetRootJointRotation(ragdolling
                 ?_context.MovementAxis.y*-90

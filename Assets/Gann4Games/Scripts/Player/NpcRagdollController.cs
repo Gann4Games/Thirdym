@@ -4,20 +4,16 @@ using UnityEditor;
 using UnityEngine.AI;
 using Gann4Games.Thirdym.Utility;
 using Gann4Games.Thirdym.Enums;
+using Gann4Games.Thirdym.StateMachines;
 
 namespace Gann4Games.Thirdym.NPC
 {
-    public class NPC_Ragdoll : MonoBehaviour
+    public class NpcRagdollController : StateMachine
     {
-        public static NPC_Ragdoll instance;
-
         public Vector3 targetPoint;
-
-        public NPC_StateMachine stateMachine;
-        public CharacterCustomization character;
         public Vector3 pointToLookAt;
 
-
+        private CharacterCustomization character;
 
         [Tooltip("A transform that is used by the head to follow its rotation")]
         public Transform facerTransform;
@@ -25,45 +21,28 @@ namespace Gann4Games.Thirdym.NPC
         [SerializeField] NavMeshAgent navmeshAgent;
         [SerializeField] CharacterCustomization target;
 
-        List<CharacterCustomization> charactersOnScene = new List<CharacterCustomization>();
-        List<CharacterCustomization> GetCharactersOnScene()
-        { 
-            CharacterCustomization[] characterArray = FindObjectsOfType<CharacterCustomization>();
-            List<CharacterCustomization> characterList = new List<CharacterCustomization>();
-            for (int i = 0; i < characterArray.Length; i++)
-            {
-                if (characterArray[i] != character)
-                {
-                    characterList.Add(characterArray[i]);
-                }
-            }
-            return characterList;
-        }
-
-        public void Awake()
+        // States
+        private NpcIdleState IdleState = new NpcIdleState();
+        private NpcAlertState AlertState = new NpcAlertState();
+        private NpcAttackState AttackState = new NpcAttackState();
+        private NpcRunawayState RunawayState = new NpcRunawayState();
+        private void Awake()
         {
-            instance = this;
-
             character = GetComponent<CharacterCustomization>();
-            stateMachine = GetComponent<NPC_StateMachine>();
-            stateMachine.NPC = this;
-            character.HealthController.OnDamageDealed += OnDamageDealed;
+            SetState(IdleState);
         }
-        private void Start()
+
+        private void Update()
         {
-            charactersOnScene = GetCharactersOnScene();
+            // TODO: Npc input provider or something
+            // * In order to move a ragdoll as an Npc, it requires input.
+            // * A player provides input to the ragdoll in order to take control over it.
+            // * Probably im going to need an "InputProvider" class.
+            // * PlayerInputHandler does this, but the same features are needed for Npcs.
+            
+            CurrentState.OnUpdateState(this);
         }
-
-        public static void UpdateCharactersOnSceneList() => instance.charactersOnScene = instance.GetCharactersOnScene();
-
-#if UNITY_EDITOR
-        private void OnDrawGizmos()
-        {
-            Handles.Label(targetPoint, "(Vector3) Target");
-            Gizmos.DrawLine(transform.position, targetPoint);
-        }
-#endif
-
+        
         private void OnDamageDealed(object sender, CharacterHealthSystem.OnDamageDealedArgs e)
         {
             if(!character.HealthController.IsAlive) return;
@@ -168,46 +147,6 @@ namespace Gann4Games.Thirdym.NPC
                 return false;
             }
             else return false;
-        }
-        public CharacterCustomization GetClosestAliveRagdoll(string[] tagList)
-        {
-            List<CharacterCustomization> ragdollList = new List<CharacterCustomization>();
-            foreach (string currentTag in tagList)
-            {
-                foreach (CharacterCustomization ragdoll in charactersOnScene)
-                {
-                    if (ragdoll == null)
-                    {
-                        charactersOnScene.Remove(ragdoll);
-                        continue;
-                    }
-                    if (ragdoll.CompareTag(currentTag))
-                    {
-                        if (ragdoll.HealthController.IsAlive)
-                            ragdollList.Add(ragdoll);
-                        else
-                            continue;
-                    }
-                }
-            }
-            Transform[] ragdollTransforms = GeneralTools.GetTransformsOfArray(ragdollList.ToArray());
-            CharacterCustomization closestRagdoll = GeneralTools.GetClosestTransform(transform.position, ragdollTransforms).GetComponent<CharacterCustomization>();
-            return closestRagdoll;
-        }
-        public CharacterCustomization GetClosestDeadRagdoll(string[] tagList)
-        {
-            List<CharacterCustomization> ragdollList = new List<CharacterCustomization>();
-            foreach (string allyTag in tagList)
-            {
-                foreach (CharacterCustomization corpse in charactersOnScene)
-                {
-                    if (corpse.CompareTag(allyTag) && !corpse.HealthController.IsAlive)
-                        ragdollList.Add(corpse);
-                }
-            }
-            Transform[] ragdollTransforms = GeneralTools.GetTransformsOfArray(ragdollList.ToArray());
-
-            return GeneralTools.GetClosestTransform(transform.position, ragdollTransforms).GetComponent<CharacterCustomization>();
         }
 
         /// <summary>

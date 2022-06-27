@@ -51,9 +51,9 @@ namespace Gann4Games.Thirdym.Interactables
         {
             if (IsMoving) return;
             OnMoveStart();
-            _rigidbody.DOMove(CurrentFrame.position, CurrentFrame.time).SetEase(CurrentFrame.easing).OnComplete(() => OnMoveEnd());
-            _rigidbody.DORotate(CurrentFrame.rotation, CurrentFrame.time).SetEase(CurrentFrame.easing);
-            transform.DOScale(CurrentFrame.scale, CurrentFrame.time).SetEase(CurrentFrame.easing);
+            _rigidbody.DOMove(CurrentFrame.position, CurrentFrame.time).SetEase(CurrentFrame.easing).SetUpdate(UpdateType.Fixed).OnComplete(() => OnMoveEnd());
+            _rigidbody.DORotate(CurrentFrame.rotation, CurrentFrame.time).SetEase(CurrentFrame.easing).SetUpdate(UpdateType.Fixed);
+            transform.DOScale(CurrentFrame.scale, CurrentFrame.time).SetEase(CurrentFrame.easing).SetUpdate(UpdateType.Fixed);
         }
 
         void OnMoveStart()

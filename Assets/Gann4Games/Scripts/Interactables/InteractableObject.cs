@@ -7,8 +7,9 @@ namespace Gann4Games.Thirdym.Interactables
     /// </summary>
     public abstract class InteractableObject : MonoBehaviour, IInteractable
     {
+        [SerializeField] protected string hintMessage = "Press {0} to interact."; 
         public string UseKey => PlayerInputHandler.InputAsString(PlayerInputHandler.instance.gameplayControls.Player.Use);
-        public virtual string Hint => string.Format("Press '{0}' to interact.", UseKey);
+        public virtual string Hint => string.Format(hintMessage, UseKey.ToUpper());
         public abstract void Interact(CharacterCustomization character = null);
         public virtual void ShowTooltip() => NotificationHandler.Notify(Hint);
     }

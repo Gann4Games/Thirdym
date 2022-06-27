@@ -2610,7 +2610,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 281b8863acb10d14f97719583d817d24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupableBody: {fileID: 0}
 --- !u!54 &54094074023315396
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4257,7 +4256,6 @@ GameObject:
   - component: {fileID: 4767574830358030}
   - component: {fileID: 116872202793667348}
   - component: {fileID: 7339744613345601289}
-  - component: {fileID: 7895035464829839035}
   - component: {fileID: 114878597408337190}
   - component: {fileID: 114912258299896946}
   - component: {fileID: 114326362518174878}
@@ -4321,26 +4319,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPoint: {x: 0, y: 0, z: 0}
-  stateMachine: {fileID: 7895035464829839035}
-  character: {fileID: 114266830533150404}
   pointToLookAt: {x: 0, y: 0, z: 0}
   facerTransform: {fileID: 4681177875611186}
   navmeshAgent: {fileID: 195661160007103772}
   target: {fileID: 0}
---- !u!114 &7895035464829839035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1727890713172640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d087eee7867f9c4492aad1b366c2687, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NPCStatus: 0
-  NPC: {fileID: 7339744613345601289}
 --- !u!114 &114878597408337190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4353,29 +4335,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bdc0f5191f185a4880cde97fe330a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  facerTransform: {fileID: 0}
-  spawnParticle: {fileID: 1747376530275154, guid: 18acd054965d33f44903c7ed26f77751,
-    type: 3}
   enviroment: {fileID: 114146514735537194}
-  isRagdollState: 0
-  invertBalanceDetection: 0
-  inverseVelocity: 1
   guide: {fileID: 0}
   body: {fileID: 4022487472662872}
   head: {fileID: 4849286135714090}
   bodyParts: []
-  LegsMotion:
+  legsMotion:
   - {fileID: 59897064607458558}
   - {fileID: 59512682991149596}
   - {fileID: 59630873706525384}
   - {fileID: 59811417918031476}
   - {fileID: 59934943363379376}
   - {fileID: 59456035366539286}
-  rootBalancer:
-  - {fileID: 59842676297326670}
-  HeadRB: {fileID: 0}
-  BodyRB: {fileID: 0}
-  jumping: 0
 --- !u!114 &114912258299896946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4414,20 +4385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0743f9637fadc4ba83cedaf5a4cca3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLifeState: 0
   bodyParts: []
-  HeavyHit: 0
-  Unconcious: 0
-  Dead: 0
-  OnInjury:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
-  OnResurrect:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114950315861743326
 MonoBehaviour:
   m_ObjectHideFlags: 0

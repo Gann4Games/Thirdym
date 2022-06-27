@@ -15,12 +15,12 @@ namespace Gann4Games.Thirdym.StateMachines
 
         public void OnUpdateState(StateMachine context)
         {
-            if(!PlayerInputHandler.instance.aiming) _context.SetState(_context.GroundedState);
+            if(!_context.Character.InputHandler.aiming) _context.SetState(_context.GroundedState);
             
             _context.SetHorizontalAnimationValue(_context.MovementAxis.x/2);
             _context.SetVerticalAnimationValue(_context.MovementAxis.y/2);
             
-            _context.SetRootJointRotation(PlayerInputHandler.instance.walking ? 0 : _context.MovementAxis.y * -15);
+            _context.SetRootJointRotation(_context.Character.InputHandler.walking ? 0 : _context.MovementAxis.y * -15);
             _context.MakeGuideLookTowardsCamera(Time.deltaTime * 10);
             _context.MakeRootFollowGuide();
         }

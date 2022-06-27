@@ -9,12 +9,10 @@ namespace Gann4Games.Thirdym.StateMachines
 
         public void OnUpdateState(StateMachine context)
         {
-            throw new System.NotImplementedException();
         }
 
         public void OnExitState(StateMachine context)
         {
-            throw new System.NotImplementedException();
         }
     }
 }

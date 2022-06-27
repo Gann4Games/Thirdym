@@ -22,8 +22,8 @@ namespace Gann4Games.Thirdym.StateMachines
             if(_context.enviroment.IsGrounded) 
                 _context.SetState(_context.GroundedState);
             
-            bool goingUp = PlayerInputHandler.instance.jumping;
-            bool goingDown = PlayerInputHandler.instance.crouching;
+            bool goingUp = _context.Character.InputHandler.jumping;
+            bool goingDown = _context.Character.InputHandler.crouching;
             
             Vector3 input = new Vector3(
                 _context.MovementAxis.x,
