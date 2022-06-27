@@ -35,11 +35,13 @@ namespace Gann4Games.Thirdym.StateMachines
         
         // Sub-states
         private PlayerGrounded_AimingState AimingState = new PlayerGrounded_AimingState();
+        private PlayerGrounded_RagdollingState RagdollingState = new PlayerGrounded_RagdollingState();
         
         public void OnEnterState(StateMachine context)
         {
             _context = (RagdollController)context;
             _context.SetGroundedAnimationState(true);
+            _context.SetLimbsWeight(1, 0);
             _context.SetRootJointSpring(500);
             _context.SetRootJointDamping(10);
         }
@@ -48,6 +50,7 @@ namespace Gann4Games.Thirdym.StateMachines
         {
             if (_context.Character.HealthController.IsInjured) _context.SetState(_context.InjuredState);
             if(PlayerInputHandler.instance.aiming) _context.SetState(AimingState);
+            if(PlayerInputHandler.instance.ragdolling) _context.SetState(RagdollingState);
             if(!_context.enviroment.IsGrounded) _context.SetState(_context.JumpingState);
             if(_context.enviroment.IsSwimming && !_context.enviroment.IsGrounded) _context.SetState(_context.UnderwaterState);
             

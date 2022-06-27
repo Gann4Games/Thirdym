@@ -19,6 +19,7 @@ namespace Gann4Games.Thirdym.StateMachines
         {
             if(_context.Character.HealthController.IsDead) _context.SetState(_context.DeadState);
             if(_context.enviroment.IsGrounded) _context.SetState(_context.GroundedState);
+            if(_context.enviroment.IsSwimming) _context.SetState(_context.UnderwaterState);
             
             _context.MakeRootFollowGuide();
             _context.SetVerticalAnimationValue(_context.RelativeZVelocity);
