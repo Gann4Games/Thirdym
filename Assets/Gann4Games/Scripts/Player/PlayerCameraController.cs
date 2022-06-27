@@ -73,6 +73,11 @@ public class PlayerCameraController : MonoBehaviour
     }
     
     public static Vector3 GetCameraAngle() => instance.activeCamera.transform.eulerAngles;
+    public static Vector3 GetCameraDirection() => instance.activeCamera.transform.forward;
+
+    public static Vector3 GetCameraTransformedDirection(Vector3 direction) =>
+        instance.activeCamera.transform.TransformDirection(direction);
+    public static Transform GetCameraTransform() => instance.activeCamera.transform;
 
 
     private void OnDrawGizmosSelected()
@@ -149,13 +154,13 @@ public class PlayerCameraController : MonoBehaviour
             tpConfig.startOffset = new Vector3(-tpConfig.startOffset.x, tpConfig.startOffset.y, tpConfig.startOffset.z);
             tpConfig.offset_aiming = new Vector3(-tpConfig.offset_aiming.x, tpConfig.offset_aiming.y, tpConfig.offset_aiming.z);
         }
-        if (!PlayerInputHandler.instance.aiming || character.RagdollController.enviroment.IsDraggingBody)
+        if (!PlayerInputHandler.instance.aiming)
         {
             tpConfig.offset = tpConfig.startOffset;
             tpConfig.position = health.transform.position;
             tpConfig.pos_lerp = Mathf.Lerp(tpConfig.pos_lerp, tpConfig.start_pos_lerp, Time.deltaTime*10);
         }
-        else if(PlayerInputHandler.instance.aiming && !character.RagdollController.enviroment.IsDraggingBody)
+        else
         {
             if (!IngameMenuHandler.instance.paused)
             {

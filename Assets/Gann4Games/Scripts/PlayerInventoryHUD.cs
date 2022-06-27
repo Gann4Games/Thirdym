@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using TMPro;
 using Gann4Games.Thirdym.Enums;
-using Gann4Games.Thirdym.ScriptableObjects;
 
 public class PlayerInventoryHUD : MonoBehaviour {
     static PlayerInventoryHUD instance;

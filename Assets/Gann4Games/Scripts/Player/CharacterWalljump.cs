@@ -38,7 +38,7 @@ public class CharacterWalljump : MonoBehaviour
     CharacterCustomization _character;
 
     Vector3 rayStartPosition => _character.RagdollController.enviroment.transform.position;
-    Vector3 rayDirection => _character.RagdollController.bodyVelocity;
+    Vector3 rayDirection => _character.RagdollController.BodyRigidbody.velocity;
     private void Awake() 
     {
         _character = GetComponent<CharacterCustomization>();

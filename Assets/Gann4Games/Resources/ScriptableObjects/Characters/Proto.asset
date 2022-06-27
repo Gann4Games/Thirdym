@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f56050529e950c947bcdcc54793cfeba, type: 3}
+  m_Name: Proto
+  m_EditorClassIdentifier: 
+  profile: {fileID: 0}
+  character_name: Proto
+  damageIndicator: {fileID: 2489321738901700669, guid: 5de52ddfb1e43b54b841675cea7c9c49,
+    type: 3}
+  battleSuit: {fileID: 8781917826008984203, guid: d8b3970004c4dc441a683ade271de1bc,
+    type: 3}
+  skill: 1
+  maximumHealth: 500
+  injuryLevel: 100
+  regeneration_rate: 100
+  bladeDamage: 50
+  blood_splat: {fileID: 1362980632775236, guid: a6e1bb3d294ccf448aa50f1a6b029969,
+    type: 3}
+  blood_bleed: {fileID: 1882992891793642, guid: 61d2bf4c658bb804a85a6e3357a2e70a,
+    type: 3}
+  blood_squirt: {fileID: 1224442589504162, guid: 7a09dcbddcad390428ec0d6b32b95dc5,
+    type: 3}
+  bloodColor: {r: 1, g: 0, b: 0, a: 1}
+  bladesColor: {r: 0, g: 0.26228237, b: 4, a: 1}
+  faction: Factions/CorrectionNine
+  enemyTags:
+  - Factions/CivilSecurity
+  - Factions/UsurpationForces
+  - Factions/Falkonian
+  - Factions/Androids
+  allyTags:
+  - Factions/CorrectionNine
+  sfxCollideHard: {fileID: 8300000, guid: 43fa865b096a54d4ead08df1817aba95, type: 3}
+  sfxCollideMedium: {fileID: 8300000, guid: a629709fc5c005848814945bb7ca8b1a, type: 3}
+  sfxCollideSoft: {fileID: 8300000, guid: 90b28444bd3e5d648bba8b809df77020, type: 3}
+  enemyDownSFX: []
+  alertSFX:
+  - {fileID: 0}
+  painSFX:
+  - {fileID: 8300000, guid: bd8b749f7f3e16b4d9e3fc278c96bad1, type: 3}
+  - {fileID: 8300000, guid: 4b42bccc004a8444d91c2a69c19fb6f0, type: 3}
+  - {fileID: 8300000, guid: a5e1204c162cd6f4c89c1d490d0769ac, type: 3}
+  - {fileID: 8300000, guid: ecd59de15f193ce4da20bb208a2bb975, type: 3}
+  injuryStateSFX:
+  - {fileID: 8300000, guid: e69f76c4ed6ea754aadebbaa84e8fcc4, type: 3}
+  deathSFX:
+  - {fileID: 8300000, guid: aae41667ac9282d4fbccb782e06264d7, type: 3}
+  - {fileID: 8300000, guid: 2d337b0b054da724eb144404d00e752e, type: 3}
+  forcedDeathSFX: {fileID: 8300000, guid: 9e76f76bf74a79f49acb34fc5a8e1e09, type: 3}
+  author: Gann4Life

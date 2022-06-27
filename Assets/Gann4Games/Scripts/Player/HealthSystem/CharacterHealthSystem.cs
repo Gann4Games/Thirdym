@@ -21,9 +21,9 @@ public class CharacterHealthSystem : StateMachine
     public float InjuryLevel { get; private set; }
     public float HealthPercentage => Health / MaxHealth;
     
-    public HealthAliveState aliveState = new HealthAliveState();
-    public HealthInjuredState injuredState = new HealthInjuredState();
-    public HealthDeadState deadState = new HealthDeadState();
+    public HealthAliveState AliveState = new HealthAliveState();
+    public HealthInjuredState InjuredState = new HealthInjuredState();
+    public HealthDeadState DeadState = new HealthDeadState();
     
     public bool IsAlive => Health > InjuryLevel;
     public bool IsInjured => Health < InjuryLevel;
@@ -42,7 +42,7 @@ public class CharacterHealthSystem : StateMachine
         Health = MaxHealth;
         if (!Character.isNPC) MainHUDHandler.instance.healthbar.maxValue = MaxHealth;
         
-        SetState(aliveState);
+        SetState(AliveState);
     }
 
     private void Update()
@@ -50,8 +50,8 @@ public class CharacterHealthSystem : StateMachine
         CurrentState.OnUpdateState(this);
 
 
-        Character.RagdollController.isRagdollState = !IsAlive;
-        AnimateArms(!IsDead);
+        //Character.RagdollController.isRagdollState = !IsAlive;
+        //AnimateArms(!IsDead);
 
         if (Character.isPlayer)
         {
@@ -60,17 +60,17 @@ public class CharacterHealthSystem : StateMachine
         }
     }
 
-    void AnimateArms(bool animate)
-    {
-        //HingeJoint[] hj = GetComponentsInChildren<HingeJoint>();            //Requires optimization
-        HingeJoint[] hj = Character.ArmController.GetUpperBodyParts().ToArray();
-        foreach (HingeJoint hinge in hj)
-        {
-            if (hinge == null) continue;
-            float smoothVal = Mathf.Lerp(hinge.spring.spring, (animate)?500:0, Time.deltaTime);
-            hinge.spring = PhysicsTools.SetHingeJointSpring(hinge.spring, smoothVal);
-        }
-    }
+    // void AnimateArms(bool animate)
+    // {
+    //     //HingeJoint[] hj = GetComponentsInChildren<HingeJoint>();            //Requires optimization
+    //     HingeJoint[] hj = Character.ArmController.GetUpperBodyParts().ToArray();
+    //     foreach (HingeJoint hinge in hj)
+    //     {
+    //         if (hinge == null) continue;
+    //         float smoothVal = Mathf.Lerp(hinge.spring.spring, (animate)?500:0, Time.deltaTime);
+    //         hinge.spring = PhysicsTools.SetHingeJointSpring(hinge.spring, smoothVal);
+    //     }
+    // }
     public void PlayPainSound()
     {
         if (IsDead) return;

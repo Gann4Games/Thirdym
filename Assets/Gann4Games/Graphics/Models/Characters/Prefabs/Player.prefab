@@ -357,7 +357,7 @@ HingeJoint:
     bounciness: 0
     bounceMinVelocity: 0.2
     contactDistance: 0
-  m_BreakForce: 10000
+  m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
   m_EnablePreprocessing: 0
@@ -2573,29 +2573,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bdc0f5191f185a4880cde97fe330a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  facerTransform: {fileID: 0}
-  spawnParticle: {fileID: 1747376530275154, guid: 18acd054965d33f44903c7ed26f77751,
-    type: 3}
   enviroment: {fileID: 114690075204158734}
-  isRagdollState: 0
-  invertBalanceDetection: 0
-  inverseVelocity: 1
   guide: {fileID: 0}
   body: {fileID: 4328011973998686}
   head: {fileID: 4063309805565270}
   bodyParts: []
-  LegsMotion:
+  legsMotion:
   - {fileID: 59547896402257552}
   - {fileID: 59791767786553138}
   - {fileID: 59620510035674838}
   - {fileID: 59411776136040378}
   - {fileID: 59830259956259356}
   - {fileID: 59290211551028358}
-  rootBalancer:
-  - {fileID: 59189403760234368}
-  HeadRB: {fileID: 0}
-  BodyRB: {fileID: 0}
-  jumping: 0
 --- !u!114 &114585330830061758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2741,7 +2730,7 @@ MonoBehaviour:
   isNPC: 0
   usePlayerPrefs: 1
   ragdollAnimator: {fileID: 95888107412333752}
-  preset: {fileID: 11400000, guid: 55b3d60731443f549bd92aa3c4e8753d, type: 2}
+  preset: {fileID: 11400000, guid: 2d04e0c994a7f754789074e8b40951f8, type: 2}
   baseBody:
     body: {fileID: 4328011973998686}
     head: {fileID: 4063309805565270}
@@ -3505,7 +3494,7 @@ HingeJoint:
     bounciness: 0
     bounceMinVelocity: 0.2
     contactDistance: 0
-  m_BreakForce: 10000
+  m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
   m_EnablePreprocessing: 0
@@ -5021,7 +5010,7 @@ HingeJoint:
     bounciness: 0
     bounceMinVelocity: 0.2
     contactDistance: 0
-  m_BreakForce: 10000
+  m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
   m_EnablePreprocessing: 0
@@ -5796,7 +5785,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 281b8863acb10d14f97719583d817d24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupableBody: {fileID: 0}
 --- !u!54 &54271080101166358
 Rigidbody:
   m_ObjectHideFlags: 0

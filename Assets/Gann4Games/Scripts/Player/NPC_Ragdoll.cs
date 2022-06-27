@@ -93,7 +93,7 @@ namespace Gann4Games.Thirdym.NPC
             if (Vector3.Distance(navmeshAgent.transform.position, transform.position) > maximumDistance)
                 navmeshAgent.transform.position = transform.position;
         }
-        public void SelfBalance() => character.RagdollController.AISelfBalance();
+        
         public void GoTo(Vector3 place, float stopDistance = 2)
         {
             navmeshAgent.stoppingDistance = stopDistance;
@@ -123,8 +123,8 @@ namespace Gann4Games.Thirdym.NPC
         }
         public void RagdollBodyLookAt(Vector3 point2face)
         {
-            point2face.y = character.RagdollController.rootBalancer[0].transform.position.y;
-            character.RagdollController.rootBalancer[0].transform.LookAt(point2face);
+            point2face.y = character.RagdollController.RootJoint.transform.position.y;
+            character.RagdollController.RootJoint.transform.LookAt(point2face);
         }
         public void RagdollBodySetRotation(Vector3 rotation) => character.RagdollController.guide.transform.eulerAngles = rotation;
         /// <summary>

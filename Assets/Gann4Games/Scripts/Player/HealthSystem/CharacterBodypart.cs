@@ -2,6 +2,7 @@
 using System;
 using Gann4Games.Thirdym.Core;
 using Gann4Games.Thirdym.Events;
+using Gann4Games.Thirdym.Utility;
 
 [RequireComponent(typeof(CollisionEvents))]
 public class CharacterBodypart : MonoBehaviour, IDamageable
@@ -9,6 +10,7 @@ public class CharacterBodypart : MonoBehaviour, IDamageable
 
     public float damageMultiplier;
     public CharacterCustomization character;
+    private RagdollController _ragdoll;
 
     [Header("Optional sound effect")]
     [Tooltip("Replaces the private parameters from the character preset.")]
@@ -18,6 +20,9 @@ public class CharacterBodypart : MonoBehaviour, IDamageable
     CharacterHealthSystem _healthController;
     CollisionEvents _colliderEvents;
 
+    private HingeJoint _joint;
+    private float _startJointSpring;
+    
     public void DealDamage(float damage, DamageType damageType, Vector3 where)
     {
 
@@ -56,7 +61,14 @@ public class CharacterBodypart : MonoBehaviour, IDamageable
     }
     private void Start()
     {
+        if (TryGetComponent(out HingeJoint joint))
+        {
+            _joint = joint;
+            _startJointSpring = _joint.spring.spring;
+        }
+        
         character = GetComponentInParent<CharacterCustomization>();
+        _ragdoll = character.RagdollController;
         _healthController = character.HealthController;
 
         // If optional SFX parameters are set, don't use the ones stored in the character preset.
@@ -70,6 +82,12 @@ public class CharacterBodypart : MonoBehaviour, IDamageable
         if (sfxCollideHard) _sfxCollideHard = sfxCollideHard;
         else _sfxCollideHard = character.preset.sfxCollideHard;
         #endregion
+    }
+
+    private void Update()
+    {
+        if (_joint && _joint.spring.spring != _ragdoll.LimbsJointWeight)
+            _joint.spring = PhysicsTools.SetHingeJointSpring(_joint.spring, _ragdoll.LimbsJointWeight * _startJointSpring);
     }
     private void OnDestroy()
     {

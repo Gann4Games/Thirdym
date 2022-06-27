@@ -152,8 +152,8 @@ public class CharacterCustomization : MonoBehaviour
         #endregion
 
         // Pose character for mainmenu
-        CharacterPoser char_poser = GetComponent<CharacterPoser>();
-        if (char_poser) char_poser.PoseCharacter();
+        CharacterPoser charPoser = GetComponent<CharacterPoser>();
+        if (charPoser) charPoser.PoseCharacter();
     }
 
     public void SetAnimationOverride(AnimatorOverrideController animatorOverride)

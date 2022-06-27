@@ -1345,12 +1345,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114708178553171508, guid: 8d9e74cff91236143b1f5886f6346f26,
         type: 3}
-      propertyPath: preset
-      value: 
-      objectReference: {fileID: 11400000, guid: 86ddba055a7008f45a6d046ea24f2eeb,
-        type: 2}
-    - target: {fileID: 114708178553171508, guid: 8d9e74cff91236143b1f5886f6346f26,
-        type: 3}
       propertyPath: useHelmet
       value: 0
       objectReference: {fileID: 0}

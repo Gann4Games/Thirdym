@@ -1,3 +1,6 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
 namespace Gann4Games.Thirdym.StateMachines
 {
     /// <summary>
@@ -28,19 +31,47 @@ namespace Gann4Games.Thirdym.StateMachines
     /// </summary>
     public class PlayerGroundedState : IState
     {
-        public override void OnEnterState(StateMachine context)
+        private RagdollController _context;
+        
+        // Sub-states
+        private PlayerGrounded_AimingState AimingState = new PlayerGrounded_AimingState();
+        
+        public void OnEnterState(StateMachine context)
         {
-            throw new System.NotImplementedException();
+            _context = (RagdollController)context;
+            _context.SetGroundedAnimationState(true);
+            _context.SetRootJointSpring(500);
+            _context.SetRootJointDamping(10);
         }
 
-        public override void OnUpdateState(StateMachine context)
+        public void OnUpdateState(StateMachine context)
         {
-            throw new System.NotImplementedException();
+            if (_context.Character.HealthController.IsInjured) _context.SetState(_context.InjuredState);
+            if(PlayerInputHandler.instance.aiming) _context.SetState(AimingState);
+            if(!_context.enviroment.IsGrounded) _context.SetState(_context.JumpingState);
+            if(_context.enviroment.IsSwimming && !_context.enviroment.IsGrounded) _context.SetState(_context.UnderwaterState);
+            
+            if (PlayerInputHandler.instance.gameplayControls.Player.Jump.triggered) // Basic jump
+                _context.DoJump();
+
+            _context.SetCrouchAnimationState(PlayerInputHandler.instance.crouching);
+            
+            // The magnitude is used for the left joystick (gamepad) support
+            _context.SetVerticalAnimationValue(PlayerInputHandler.instance.walking
+                ? .25f * _context.MovementAxis.magnitude
+                : .5f * _context.MovementAxis.magnitude);
+                    
+            _context.SetRootJointRotation(PlayerInputHandler.instance.walking 
+                ? 0 
+                : -15 * _context.MovementAxis.magnitude);
+                    
+            _context.MakeGuideLookTowardsMovement();
+            _context.MakeRootFollowGuide();
         }
 
-        public override void OnExitState(StateMachine context)
+        public void OnExitState(StateMachine context)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Leaving grounded state!");
         }
     }
 }

@@ -65,7 +65,7 @@ namespace Gann4Games.Thirdym.NPC
                     } 
                     else _timer.Count();
 
-                    NPC.SelfBalance();
+                    //NPC.SelfBalance();
                     NPC.character.Animator.SetFloat("X", 0);
                     NPC.character.Animator.SetFloat("Y", 0);
 
@@ -148,7 +148,7 @@ namespace Gann4Games.Thirdym.NPC
                 case NPCState.Runaway:  // Running away only happens when the NPC doesn't have any weapon, even in its inventory. This isually happens after death.
                     // LookingForWeapons >> [Runaway]
 
-                    NPC.SelfBalance();
+                    //NPC.SelfBalance();
                     NPC.RagdollBody2Nav();
                     NPC.RagdollWalk2Nav();
                     NPC.HeadLookAtNav();
