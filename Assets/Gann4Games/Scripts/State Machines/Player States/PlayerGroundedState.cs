@@ -71,7 +71,6 @@ namespace Gann4Games.Thirdym.StateMachines
 
         public void OnExitState(StateMachine context)
         {
-            Debug.Log("Leaving grounded state!");
         }
     }
 }

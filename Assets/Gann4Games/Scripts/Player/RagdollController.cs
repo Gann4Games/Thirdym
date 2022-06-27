@@ -90,7 +90,6 @@ public class RagdollController : StateMachine {
 	/// <param name="time">The time it will take to make this transition (in seconds)</param>
 	public void SetLimbsWeight(float weight, float time)
 	{
-		Debug.Log($"Driving weight to {weight} in {time} seconds.");
 		DOTween.To(() => LimbsJointWeight, x => LimbsJointWeight = x, weight, time);
 	}
     

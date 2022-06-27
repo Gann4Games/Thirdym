@@ -12,7 +12,6 @@ namespace Gann4Games.Thirdym.StateMachines
         private RagdollController _context;
         public void OnEnterState(StateMachine context)
         {
-            Debug.Log("Its swimming time!");
             _context = (RagdollController)context;
             _context.SetRootJointSpring(100);
             _context.SetRootJointDamping(50);
