@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1822644811582123756}
   - component: {fileID: 1822644811582123757}
-  m_Layer: 18
+  m_Layer: 3
   m_Name: IngamePostProcessing
   m_TagString: Untagged
   m_Icon: {fileID: 0}

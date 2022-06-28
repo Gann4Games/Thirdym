@@ -24945,12 +24945,12 @@ PrefabInstance:
     - target: {fileID: 1901129722859578768, guid: d2919eaa2427d7042b825b2040d9473e,
         type: 3}
       propertyPath: m_Lens.FieldOfView
-      value: 60
+      value: 12.08
       objectReference: {fileID: 0}
     - target: {fileID: 1901129722859578768, guid: d2919eaa2427d7042b825b2040d9473e,
         type: 3}
       propertyPath: m_Lens.FarClipPlane
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1901179555194901473, guid: d2919eaa2427d7042b825b2040d9473e,
         type: 3}
@@ -24960,17 +24960,17 @@ PrefabInstance:
     - target: {fileID: 1902765912951659513, guid: d2919eaa2427d7042b825b2040d9473e,
         type: 3}
       propertyPath: m_FollowOffset.x
-      value: -1.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1902765912951659513, guid: d2919eaa2427d7042b825b2040d9473e,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 0
+      value: 0.54
       objectReference: {fileID: 0}
     - target: {fileID: 1902765912951659513, guid: d2919eaa2427d7042b825b2040d9473e,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: 0
+      value: 8.1
       objectReference: {fileID: 0}
     - target: {fileID: 1903203641534451593, guid: d2919eaa2427d7042b825b2040d9473e,
         type: 3}

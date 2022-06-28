@@ -2072,7 +2072,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 502829982}
-  m_LocalRotation: {x: -0.09195221, y: 0.2388996, z: 0.022730794, w: 0.96641356}
+  m_LocalRotation: {x: -0.09195222, y: 0.2388996, z: 0.022730794, w: 0.96641356}
   m_LocalPosition: {x: -215.21565, y: -157.52678, z: 33.554955}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -12081,21 +12081,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   json_structure:
-    choosen_suit: 3
+    choosen_suit: 7
     audio_master: 1
     audio_environment: 1
     audio_music: 1
     audio_effects: 1
     graphics_bloom: 1
     graphics_toneMapping: 1
-    graphics_whiteBalance: 1
-    weapons_pistolSlot: 0
-    weapons_automaticSlot: 0
-    weapons_shotgunSlot: 0
+    graphics_whiteBalance: 0
+    weapons_pistolSlot: 2
+    weapons_automaticSlot: 1
+    weapons_shotgunSlot: 1
     weapons_energySlot: 0
-    weapons_havePistol: 0
+    weapons_havePistol: 1
     weapons_haveAutomatic: 0
-    weapons_haveShotgun: 0
+    weapons_haveShotgun: 1
     weapons_haveEnergyBased: 0
     weapons_haveDefibrilators: 0
   suit_list:
@@ -12105,6 +12105,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 55b3d60731443f549bd92aa3c4e8753d, type: 2}
   - {fileID: 11400000, guid: c453347c217497648b7d19655a7c8d66, type: 2}
   - {fileID: 11400000, guid: 83b1d1308eb9fd340b89f26c9fef5d01, type: 2}
+  - {fileID: 11400000, guid: 2d04e0c994a7f754789074e8b40951f8, type: 2}
   - {fileID: 11400000, guid: 96e022d4dd249a549b3a5f792353d6eb, type: 2}
   - {fileID: 11400000, guid: 86ddba055a7008f45a6d046ea24f2eeb, type: 2}
   choosen_suit: 3
