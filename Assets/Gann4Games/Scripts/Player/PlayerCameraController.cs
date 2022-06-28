@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 using Gann4Games.Thirdym.Enums;
 
@@ -48,7 +49,7 @@ public class PlayerCameraController : MonoBehaviour
 {
     public static PlayerCameraController instance;
     public CameraMode camMode;
-    public Camera activeCamera;
+    public CinemachineVirtualCamera activeCamera;
     public TpMode tpConfig;
     public FlyMode flyConfig;
     public VehicleMode vehicleConfig;
