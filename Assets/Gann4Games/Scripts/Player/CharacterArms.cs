@@ -126,6 +126,6 @@ public class CharacterArms : MonoBehaviour {
         _character.baseBody.rightHand.Rotate(-90, -90, 0);
     }
     void RightHandLookAtLeftHand() => RightHandLookAt(_character.baseBody.leftHand.position);
-    void RightHandLookAtScreenCenter() => RightHandLookAt(PlayerCameraController.instance.CameraCenterPoint);
+    void RightHandLookAtScreenCenter() => RightHandLookAt(PlayerCameraController.Instance.CameraCenterPoint);
     void RightHandToDefaultPosition() => _character.baseBody.rightHand.localRotation = Quaternion.Lerp(_character.baseBody.rightHand.localRotation, Quaternion.identity, Time.deltaTime * 10);
 }

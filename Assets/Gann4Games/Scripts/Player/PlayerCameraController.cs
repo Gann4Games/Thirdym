@@ -1,6 +1,9 @@
 using Cinemachine;
 using UnityEngine;
+using Cinemachine;
 using Gann4Games.Thirdym.Enums;
+using UnityEngine.Rendering.UI;
+using UnityEngine.Serialization;
 
 [System.Serializable] 
 public class TpMode
@@ -47,23 +50,24 @@ public class TpMode
 }
 public class PlayerCameraController : MonoBehaviour
 {
-    public static PlayerCameraController instance;
+    public static CinemachineBrain CameraBrain { get; private set; }
+    public static PlayerCameraController Instance;
     public CameraMode camMode;
-    public CinemachineVirtualCamera activeCamera;
+    [FormerlySerializedAs("activeCamera")] public CinemachineVirtualCamera thirdPersonCamera;
     public TpMode tpConfig;
     public FlyMode flyConfig;
     public VehicleMode vehicleConfig;
     public ButtonSwitchMode buttonConfig;
     
-    [HideInInspector] public CharacterCustomization character;
-    CharacterHealthSystem health;
+    private CharacterCustomization _character;
+    private CharacterHealthSystem _health;
 
     public Vector3 CameraCenterPoint
     {
         get
         {
-            Vector3 startPosition = instance.activeCamera.transform.position;
-            Vector3 rayDirection = instance.activeCamera.transform.forward;
+            Vector3 startPosition = CameraBrain.transform.position;
+            Vector3 rayDirection = CameraBrain.transform.forward;
             RaycastHit hit;
             LayerMask mask = ~(1 << LayerMask.NameToLayer("Ragdoll"));
             if (Physics.Raycast(startPosition, rayDirection, out hit, Mathf.Infinity, mask, QueryTriggerInteraction.Ignore))
@@ -73,12 +77,12 @@ public class PlayerCameraController : MonoBehaviour
         }
     }
     
-    public static Vector3 GetCameraAngle() => instance.activeCamera.transform.eulerAngles;
-    public static Vector3 GetCameraDirection() => instance.activeCamera.transform.forward;
+    public static Vector3 GetCameraAngle() => CameraBrain.transform.eulerAngles;
+    public static Vector3 GetCameraDirection() => CameraBrain.transform.forward;
 
     public static Vector3 GetCameraTransformedDirection(Vector3 direction) =>
-        instance.activeCamera.transform.TransformDirection(direction);
-    public static Transform GetCameraTransform() => instance.activeCamera.transform;
+        CameraBrain.transform.TransformDirection(direction);
+    public static Transform GetCameraTransform() => CameraBrain.transform;
 
 
     private void OnDrawGizmosSelected()
@@ -91,12 +95,15 @@ public class PlayerCameraController : MonoBehaviour
     }
     private void Awake()
     {
-        instance = this;
-        character = GetComponent<CharacterCustomization>();
+        Instance = this;
+        CameraBrain = FindObjectOfType<CinemachineBrain>();
+        _character = GetComponent<CharacterCustomization>();
+        
+        if(!CameraBrain) Debug.LogError("Hey Gann, i'm unable to find cinemachine brain!");
     }
     void Start()
     {
-        health = character.HealthController;
+        _health = _character.HealthController;
         tpConfig.startOffset = tpConfig.offset;
         tpConfig.start_pos_lerp = tpConfig.pos_lerp;
     }
@@ -105,17 +112,17 @@ public class PlayerCameraController : MonoBehaviour
         switch (camMode)
         {
             case CameraMode.Player:
-                if (health.IsAlive)
+                if (_health.IsAlive)
                 {
                     ThirdPersonCam();
-                    activeCamera.transform.position = Vector3.Lerp(activeCamera.transform.position, tpConfig.position + activeCamera.transform.TransformDirection(tpConfig.offset), tpConfig.pos_lerp);
-                    activeCamera.transform.eulerAngles = Vector3.Lerp(activeCamera.transform.eulerAngles, tpConfig.rotation, tpConfig.rot_lerp);
+                    thirdPersonCamera.transform.position = Vector3.Lerp(thirdPersonCamera.transform.position, tpConfig.position + thirdPersonCamera.transform.TransformDirection(tpConfig.offset), tpConfig.pos_lerp);
+                    thirdPersonCamera.transform.eulerAngles = Vector3.Lerp(thirdPersonCamera.transform.eulerAngles, tpConfig.rotation, tpConfig.rot_lerp);
                 }
                 else DeathCamera();
                 break;
             case CameraMode.FlyCam:
-                activeCamera.transform.position = Vector3.Lerp(activeCamera.transform.position, flyConfig.followTarget.position, flyConfig.lerp);
-                activeCamera.transform.rotation = flyConfig.followTarget.rotation;
+                thirdPersonCamera.transform.position = Vector3.Lerp(thirdPersonCamera.transform.position, flyConfig.followTarget.position, flyConfig.lerp);
+                thirdPersonCamera.transform.rotation = flyConfig.followTarget.rotation;
                 break;
             case CameraMode.Vehicle:
                 // newlines
@@ -125,21 +132,21 @@ public class PlayerCameraController : MonoBehaviour
                 switch (vehicleConfig.vType)
                 {
                     case VehicleType.Mobile:
-                        Vector3 mobPos = vehicleConfig.mobileTransform.position + activeCamera.transform.TransformDirection(vehicleConfig.mobilePosOffset);
-                        activeCamera.transform.position = Vector3.Lerp(activeCamera.transform.position, mobPos, vehicleConfig.mobileLerp);
-                        activeCamera.transform.eulerAngles = vehicleConfig.mobileTransform.eulerAngles + vehicleConfig.mobileRotOffset;
+                        Vector3 mobPos = vehicleConfig.mobileTransform.position + thirdPersonCamera.transform.TransformDirection(vehicleConfig.mobilePosOffset);
+                        thirdPersonCamera.transform.position = Vector3.Lerp(thirdPersonCamera.transform.position, mobPos, vehicleConfig.mobileLerp);
+                        thirdPersonCamera.transform.eulerAngles = vehicleConfig.mobileTransform.eulerAngles + vehicleConfig.mobileRotOffset;
                         break;
                     case VehicleType.Walker:
                         Vector3 walkerPos = vehicleConfig.walkerTransform.position + vehicleConfig.walkerTransform.TransformDirection(vehicleConfig.walkerPosOffset);
-                        activeCamera.transform.position = Vector3.Lerp(activeCamera.transform.position, walkerPos, vehicleConfig.walkerLerp);
-                        activeCamera.transform.eulerAngles = vehicleConfig.walkerTransform.eulerAngles + vehicleConfig.walkerRotOffset;
+                        thirdPersonCamera.transform.position = Vector3.Lerp(thirdPersonCamera.transform.position, walkerPos, vehicleConfig.walkerLerp);
+                        thirdPersonCamera.transform.eulerAngles = vehicleConfig.walkerTransform.eulerAngles + vehicleConfig.walkerRotOffset;
                         break;
                 }
                 break;
             case CameraMode.ButtonSwitch:
                 Vector3 btnPos = buttonConfig.target.position + buttonConfig.target.TransformDirection(buttonConfig.posOffset);
-                activeCamera.transform.position = Vector3.Lerp(activeCamera.transform.position, btnPos, buttonConfig.lerp);
-                activeCamera.transform.rotation = Quaternion.Lerp(activeCamera.transform.rotation, buttonConfig.target.rotation * Quaternion.Euler(buttonConfig.rotOffset), buttonConfig.lerp);
+                thirdPersonCamera.transform.position = Vector3.Lerp(thirdPersonCamera.transform.position, btnPos, buttonConfig.lerp);
+                thirdPersonCamera.transform.rotation = Quaternion.Lerp(thirdPersonCamera.transform.rotation, buttonConfig.target.rotation * Quaternion.Euler(buttonConfig.rotOffset), buttonConfig.lerp);
                 break;
         }
     }
@@ -147,8 +154,8 @@ public class PlayerCameraController : MonoBehaviour
     void ThirdPersonCam()
     {
         tpConfig.rotation = new Vector3(
-            activeCamera.transform.eulerAngles.x - CameraMovement().x * tpConfig.sensitivity.y,
-            activeCamera.transform.eulerAngles.y + CameraMovement().y * tpConfig.sensitivity.x,
+            thirdPersonCamera.transform.eulerAngles.x - CameraMovement().x * tpConfig.sensitivity.y,
+            thirdPersonCamera.transform.eulerAngles.y + CameraMovement().y * tpConfig.sensitivity.x,
             0);
         if (PlayerInputHandler.instance.cameraSwitch && !IngameMenuHandler.instance.paused)
         {
@@ -158,7 +165,7 @@ public class PlayerCameraController : MonoBehaviour
         if (!PlayerInputHandler.instance.aiming)
         {
             tpConfig.offset = tpConfig.startOffset;
-            tpConfig.position = health.transform.position;
+            tpConfig.position = _health.transform.position;
             tpConfig.pos_lerp = Mathf.Lerp(tpConfig.pos_lerp, tpConfig.start_pos_lerp, Time.deltaTime*10);
         }
         else
@@ -178,9 +185,9 @@ public class PlayerCameraController : MonoBehaviour
     void DeathCamera()
     {
         float height = 0.5f;
-        Vector3 lookAtPoint = character.ArmController.Neck[0].transform.position;
-        Vector3 desiredPosition = health.transform.position + Vector3.up*height;
-        activeCamera.transform.LookAt(lookAtPoint);
-        activeCamera.transform.position = Vector3.Lerp(activeCamera.transform.position, desiredPosition, Time.deltaTime);
+        Vector3 lookAtPoint = _character.ArmController.Neck[0].transform.position;
+        Vector3 desiredPosition = _health.transform.position + Vector3.up*height;
+        thirdPersonCamera.transform.LookAt(lookAtPoint);
+        thirdPersonCamera.transform.position = Vector3.Lerp(thirdPersonCamera.transform.position, desiredPosition, Time.deltaTime);
     }
 }

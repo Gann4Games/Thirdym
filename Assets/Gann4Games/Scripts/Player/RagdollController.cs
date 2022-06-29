@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Gann4Games.Thirdym.Utility;
 using UnityEngine.Serialization;
 using Gann4Games.Thirdym.StateMachines;
 using DG.Tweening;
@@ -95,9 +94,11 @@ public class RagdollController : StateMachine {
     
 // Extracted functionality from spaghetti code goes below
 // Guide transform
-	public void MakeGuideLookTowards(Vector3 point)
+
+	
+	public void MakeGuideLookTowards(Vector3 direction, float lerpTime)
 	{
-		// TO DO
+		// TODO
 	}
 	public void MakeGuideLookTowardsCamera(float lerpTime = 1)
 	{

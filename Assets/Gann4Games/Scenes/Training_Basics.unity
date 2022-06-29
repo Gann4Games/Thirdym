@@ -23998,7 +23998,7 @@ PrefabInstance:
     - target: {fileID: 1901129722859578768, guid: d2919eaa2427d7042b825b2040d9473e,
         type: 3}
       propertyPath: m_Lens.FieldOfView
-      value: 12.08
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1901129722859578768, guid: d2919eaa2427d7042b825b2040d9473e,
         type: 3}
@@ -24013,7 +24013,7 @@ PrefabInstance:
     - target: {fileID: 1902765912951659513, guid: d2919eaa2427d7042b825b2040d9473e,
         type: 3}
       propertyPath: m_FollowOffset.x
-      value: 0
+      value: -8.1
       objectReference: {fileID: 0}
     - target: {fileID: 1902765912951659513, guid: d2919eaa2427d7042b825b2040d9473e,
         type: 3}
@@ -24023,7 +24023,7 @@ PrefabInstance:
     - target: {fileID: 1902765912951659513, guid: d2919eaa2427d7042b825b2040d9473e,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: 8.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1903203641534451593, guid: d2919eaa2427d7042b825b2040d9473e,
         type: 3}

@@ -278,7 +278,7 @@ public class EquipmentSystem : MonoBehaviour {
         if (_character.isNPC)
             prefab.GetComponent<Rigidbody>().AddForce(transform.forward * 500);
         else
-            prefab.GetComponent<Rigidbody>().AddForce(GetComponent<PlayerCameraController>().activeCamera.transform.forward * 500);
+            prefab.GetComponent<Rigidbody>().AddForce(GetComponent<PlayerCameraController>().thirdPersonCamera.transform.forward * 500);
 
         RefreshInventoryHUD();
     }

@@ -15,7 +15,7 @@ public class LookAt : MonoBehaviour
 
     void Start()
     {
-        _character = PlayerCameraController.instance.character;
+        _character = PlayerCameraController.Instance.character;
     }
     private void Update()
     {
@@ -25,7 +25,7 @@ public class LookAt : MonoBehaviour
         {
             if (!_character.HealthController.IsDead)
             {
-                transform.LookAt(PlayerCameraController.instance.CameraCenterPoint);
+                transform.LookAt(PlayerCameraController.Instance.CameraCenterPoint);
             }
         }
     }

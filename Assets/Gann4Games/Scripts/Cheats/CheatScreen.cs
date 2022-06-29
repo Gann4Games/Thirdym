@@ -12,7 +12,7 @@ namespace Gann4Games.Thirdym.Cheats
         private void Awake() => btnCheatEnabler.gameObject.SetActive(true);
         public void CreateObjectOnView(GameObject newObject)
         {
-            Instantiate(newObject, PlayerCameraController.instance.CameraCenterPoint + Vector3.up * 1, Quaternion.identity);
+            Instantiate(newObject, PlayerCameraController.Instance.CameraCenterPoint + Vector3.up * 1, Quaternion.identity);
         }
     }
 }
