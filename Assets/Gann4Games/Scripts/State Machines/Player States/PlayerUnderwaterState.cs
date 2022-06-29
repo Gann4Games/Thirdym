@@ -8,11 +8,13 @@ namespace Gann4Games.Thirdym.StateMachines
     /// </summary>
     public class PlayerUnderwaterState : IState
     {
-        private const float SwimForce = 2500;
+        private const float SwimSpeed = 0.5f;
         private RagdollController _context;
+        
         public void OnEnterState(StateMachine context)
         {
             _context = (RagdollController)context;
+            _context.SetCrouchAnimationState(false);
             _context.SetRootJointSpring(100);
             _context.SetRootJointDamping(50);
         }
@@ -21,25 +23,14 @@ namespace Gann4Games.Thirdym.StateMachines
         {
             if(_context.enviroment.IsGrounded) 
                 _context.SetState(_context.GroundedState);
-            
-            bool goingUp = _context.Character.InputHandler.jumping;
-            bool goingDown = _context.Character.InputHandler.crouching;
-            
-            Vector3 input = new Vector3(
-                _context.MovementAxis.x,
-                Convert.ToInt32(goingUp) - Convert.ToInt32(goingDown),
-                _context.MovementAxis.y);
 
-            Vector3 force = new Vector3(
-                SwimForce * input.x,
-                SwimForce * input.y,
-                SwimForce * input.z) * Time.deltaTime;
-
-            Vector3 relativeForceDirection = (_context.RootJoint.transform.right * force.x) +
-                                     (_context.RootJoint.transform.up * force.y) +
-                                     (_context.RootJoint.transform.forward * force.z);
+            int upDirection = (_context.Character.InputHandler.jumping ? 1 : 0) + 
+                              (_context.Character.InputHandler.crouching ? -1 : 0);
             
-            _context.HeadRigidbody.AddForce(relativeForceDirection);
+            Vector3 input = new Vector3(_context.MovementAxis.x, upDirection, _context.MovementAxis.y) * SwimSpeed;
+
+            _context.HeadRigidbody.velocity += _context.transform.TransformDirection(input);
+            
             _context.SetRootJointRotation((input.y * 45) - (90 * input.z));
             _context.SetVerticalAnimationValue(input.z);
             _context.MakeGuideLookTowardsCamera();
