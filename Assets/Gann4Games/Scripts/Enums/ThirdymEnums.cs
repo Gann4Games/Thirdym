@@ -15,11 +15,4 @@ namespace Gann4Games.Thirdym.Enums
         Walker,
         Ship
     }
-    public enum CameraMode
-    {
-        Player,
-        FlyCam,
-        ButtonSwitch,
-        Vehicle
-    }
 }

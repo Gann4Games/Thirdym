@@ -15,7 +15,7 @@ public class LookAt : MonoBehaviour
 
     void Start()
     {
-        _character = PlayerCameraController.Instance.character;
+        _character = PlayerCameraController.Instance.Character;
     }
     private void Update()
     {

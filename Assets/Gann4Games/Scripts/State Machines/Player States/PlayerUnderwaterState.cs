@@ -14,7 +14,6 @@ namespace Gann4Games.Thirdym.StateMachines
         public void OnEnterState(StateMachine context)
         {
             _context = (RagdollController)context;
-            _context.SetCrouchAnimationState(false);
             _context.SetRootJointSpring(100);
             _context.SetRootJointDamping(50);
         }
@@ -31,6 +30,7 @@ namespace Gann4Games.Thirdym.StateMachines
 
             _context.HeadRigidbody.velocity += _context.transform.TransformDirection(input);
             
+            _context.SetCrouchAnimationState(false);
             _context.SetRootJointRotation((input.y * 45) - (90 * input.z));
             _context.SetVerticalAnimationValue(input.z);
             _context.MakeGuideLookTowardsCamera();

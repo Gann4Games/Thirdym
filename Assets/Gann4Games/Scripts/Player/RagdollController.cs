@@ -66,7 +66,7 @@ public class RagdollController : StateMachine {
 	public void DoJump()
 	{
 		float jumpForce = 5;
-		Vector3 direction = (transform.forward * MovementAxis.magnitude) + transform.up;
+		Vector3 direction = PlayerCameraController.GetCameraTransformedDirection(MovementAxis.x, 0, MovementAxis.y)/*(transform.forward * MovementAxis.magnitude)*/ + transform.up;
 		SetCharacterVelocity(direction * jumpForce);
 	}
 	

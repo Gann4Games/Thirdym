@@ -67,7 +67,7 @@ public class CharacterShootHandler : MonoBehaviour {
         if(_character.EquipmentController.currentWeapon.bulletSpawnCount != 0)
             _character.PlayFireSFX();
         if(_character.EquipmentController.currentWeapon.useFireRecoil)
-            _character.baseBody.rightElbow.GetComponent<Rigidbody>().AddForce(PlayerCameraController.Instance.thirdPersonCamera.transform.forward * -(500 * (_weapon.weaponDamage / 10)));
+            _character.baseBody.rightElbow.GetComponent<Rigidbody>().AddForce(PlayerCameraController.GetCameraDirection() * -(500 * (_weapon.weaponDamage / 10)));
 
         CreateBullets();
             
