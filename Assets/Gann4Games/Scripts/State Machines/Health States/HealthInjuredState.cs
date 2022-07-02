@@ -14,6 +14,7 @@ namespace Gann4Games.Thirdym.StateMachines
         {
             _context = (CharacterHealthSystem)context;
             _context.Character.PlayInjurySFX();
+            if(_context.Character.isPlayer) MainHUDHandler.SetDamageEffectColor(Color.red, 1);
         }
 
         public void OnUpdateState(StateMachine context)
@@ -34,6 +35,9 @@ namespace Gann4Games.Thirdym.StateMachines
             }
         }
 
-        public void OnExitState(StateMachine context) { }
+        public void OnExitState(StateMachine context) 
+        {
+            if(_context.Character.isPlayer) MainHUDHandler.SetDamageEffectColor(Color.black, 0);
+        }
     }
 }

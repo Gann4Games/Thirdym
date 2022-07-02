@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class MainHUDHandler : MonoBehaviour {
     public static MainHUDHandler instance;
@@ -9,15 +10,22 @@ public class MainHUDHandler : MonoBehaviour {
     [Space]
     [SerializeField] CanvasGroup damageEffectGroup;
     [SerializeField] Image damageEffectImage;
-
-    public float mainAlpha = 0;
     public RectTransform crosshair;
     [HideInInspector] public Image crosshairImage;
 
-    TextMeshProUGUI _healthbarText;
-    TextMeshProUGUI _energybarText;
-    float _fadeAmount = 1;
-    Color _mainColor = Color.black;
+    private TextMeshProUGUI _healthbarText;
+    private TextMeshProUGUI _energybarText;
+    //private float _fadeAmount = 1;
+    private Color _mainColor = Color.black;
+
+    private Tween _fadeTween;
+    private Tween _colorTween;
+
+    public static void SetHealthValue(float value, float time = 1)
+    {
+        instance.healthbar.DOValue(value, time, true);
+    } 
+
     private void Awake()
     {
         instance = this;
@@ -25,20 +33,57 @@ public class MainHUDHandler : MonoBehaviour {
         _energybarText = energybar.GetComponentInChildren<TextMeshProUGUI>();
         crosshairImage = crosshair.GetComponent<Image>();
     }
-    public void ShowEffect(Color color, float intensity = 1, float fade = 1)
+
+    public void ShowDamageEffect(Color color, float fadeTime = 1)
     {
-        damageEffectGroup.alpha = intensity;
-        damageEffectImage.color = color;
-        _fadeAmount = fade;
+        SetDamageEffectColor(color, 1, 0, fadeTime);
+
+        // if(_fadeTween != null) _fadeTween.Kill();
+        // if(_colorTween != null) _colorTween.Kill();
+
+        // damageEffectGroup.alpha = 1;
+        // damageEffectImage.color = color;
+
+        // _fadeTween = damageEffectGroup.DOFade(0, fadeTime);
+        // _colorTween = damageEffectImage.DOColor(Color.black, fadeTime);
+        // _fadeTween.Play();
+        // _colorTween.Play();
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="color"></param>
+    /// <param name="opacity"></param>
+    /// <param name="fadeInTime"></param>
+    /// <param name="fadeOutTime">-1 for no fading out.</param>
+    public static void SetDamageEffectColor(Color color, float opacity = 1, float fadeInTime = 5, float fadeOutTime = -1)
+    {
+        instance._fadeTween?.Kill();
+        instance._colorTween?.Kill();
+
+        instance._fadeTween = instance.damageEffectGroup.DOFade(opacity, fadeInTime);
+        instance._colorTween = instance.damageEffectImage.DOColor(color, fadeInTime).OnComplete(() => {
+            if(fadeOutTime >= 0) 
+            {
+                instance._fadeTween = instance.damageEffectGroup.DOFade(0, fadeOutTime);
+                instance._colorTween = instance.damageEffectImage.DOColor(Color.black, fadeOutTime);
+            }
+        });
+
+        instance._fadeTween.Play();
+        instance._colorTween.Play();
+    }
+
     private void Update()
     {
-        if (damageEffectGroup.alpha != mainAlpha) damageEffectGroup.alpha = Mathf.Lerp(damageEffectGroup.alpha, mainAlpha, Time.deltaTime * _fadeAmount);
-        if (damageEffectImage.color != _mainColor) damageEffectImage.color = Color.Lerp(damageEffectImage.color, _mainColor, Time.deltaTime * _fadeAmount);
+        // if (damageEffectGroup.alpha != mainAlpha) damageEffectGroup.alpha = Mathf.Lerp(damageEffectGroup.alpha, mainAlpha, Time.deltaTime * _fadeAmount);
+        // if (damageEffectImage.color != _mainColor) damageEffectImage.color = Color.Lerp(damageEffectImage.color, _mainColor, Time.deltaTime * _fadeAmount);
 
-        HealthbarUpdate();
-        EnergybarUpdate();
+        HealthbarUpdateText();
+        EnergybarUpdateText();
     }
-    void HealthbarUpdate() => _healthbarText.text = string.Format("{0} HP", healthbar.value.ToString("F0"));
-    void EnergybarUpdate() => _energybarText.text = string.Format("{0}% Energy", (energybar.value).ToString("F0")); 
+
+    void HealthbarUpdateText() => _healthbarText.text = string.Format("{0} HP", healthbar.value.ToString("F0"));
+    void EnergybarUpdateText() => _energybarText.text = string.Format("{0}% Energy", (energybar.value).ToString("F0")); 
 }

@@ -1,41 +1,66 @@
 ﻿using UnityEngine;
 using Gann4Games.Thirdym.ScriptableObjects;
 using Gann4Games.Thirdym.Core;
+using System.Collections;
 
 public class Bullet : MonoBehaviour {
     [HideInInspector] public Transform user; //Automatically set by actionShoot.cs
 
     public SO_WeaponPreset weapon;
 
-    [SerializeField] GameObject energyImpact;
-    [SerializeField] GameObject bulletHole;
-    [SerializeField] float bulletSpeed = 10;
+    [SerializeField] private GameObject energyImpact;
+    [SerializeField] private GameObject bulletHole;
+    [SerializeField] private float bulletSpeed = 10;
 
-    Rigidbody _rigidbody;
-    TrailRenderer _trailRenderer;
-    Vector3 _fireDirection;
+    private Rigidbody _rigidbody;
+    private Collider _collider;
+    private TrailRenderer _trailRenderer;
+    private Vector3 _fireDirection;
+
     private void Start()
     {
         _trailRenderer = GetComponent<TrailRenderer>();
         _rigidbody = GetComponent<Rigidbody>();
+        _collider = GetComponent<Collider>();
 
-        ApplyVisuals();
+        LoadVisualsFrom(weapon);
 
-        FireBullet(transform.right);
+        SetBulletDirection(transform.right);
         Destroy(gameObject, weapon.bulletDespawnTime);
     }
-    void ApplyVisuals()
+
+    private void OnCollisionEnter(Collision other)
     {
-        _trailRenderer.startColor = weapon.weaponBullet.bulletColor;
-        _trailRenderer.endColor = weapon.weaponBullet.bulletColor;
-        _trailRenderer.startWidth = weapon.weaponBullet.bulletWidth;
-        _trailRenderer.endWidth = weapon.weaponBullet.bulletWidth;
-        _trailRenderer.time = weapon.weaponBullet.bulletLenght;
-        _trailRenderer.material = weapon.weaponBullet.bulletMaterial;
-        _trailRenderer.textureMode = weapon.weaponBullet.textureMode;
+        // Deal damage if it is damageable
+        if (other.gameObject.TryGetComponent(out IDamageable damageable))
+            damageable.DealDamage(weapon.weaponDamage, DamageType.Bullet, user.position);
+
+        // Apply force if it has dynamics (a rigidbody)
+        if(other.gameObject.TryGetComponent(out Rigidbody otherRigidbody))
+            otherRigidbody.AddForce(transform.forward * (50 * weapon.weaponDamage));
+
+        if (weapon.useRicochet) DoRicochet();
+        else DoImpact();
+
+        // TODO: Delegate particle spawning to breakable and/or damageable objects.
     }
 
-    private void FireBullet(Vector3 direction)
+    /// <summary>
+    /// Loads visuals from a weapon's scriptable object parameters.
+    /// </summary>
+    /// <param name="preset">The weapon's scriptable object.</param>
+    private void LoadVisualsFrom(SO_WeaponPreset preset)
+    {
+        _trailRenderer.startColor = preset.weaponBullet.bulletColor;
+        _trailRenderer.endColor = preset.weaponBullet.bulletColor;
+        _trailRenderer.startWidth = preset.weaponBullet.bulletWidth;
+        _trailRenderer.endWidth = preset.weaponBullet.bulletWidth;
+        _trailRenderer.time = preset.weaponBullet.bulletLenght;
+        _trailRenderer.material = preset.weaponBullet.bulletMaterial;
+        _trailRenderer.textureMode = preset.weaponBullet.textureMode;
+    }
+
+    private void SetBulletDirection(Vector3 direction)
     {
         _fireDirection = direction;
         direction.Normalize();
@@ -43,40 +68,9 @@ public class Bullet : MonoBehaviour {
         _rigidbody.velocity = direction * bulletSpeed * Time.deltaTime;
     }
 
-    private void OnCollisionEnter(Collision other)
-    {
-        if (weapon.useRicochet) Ricochet();
-        else DoImpact();
+    public void InvertDirection() => SetBulletDirection(-_rigidbody.velocity);
 
-        var damageableObject = other.gameObject.GetComponent<IDamageable>();
-        if (damageableObject != null)
-        {
-            damageableObject.DealDamage(weapon.weaponDamage, DamageType.Bullet, user.position);
-        }
-
-        Rigidbody otherRigidbody = other.gameObject.GetComponent<Rigidbody>();
-        if (otherRigidbody)
-        {
-            BreakableObject breakableObject = other.transform.GetComponent<BreakableObject>();
-
-            if(breakableObject)
-            {
-                breakableObject.RigidBody.isKinematic = false;
-                breakableObject.RigidBody.AddForce(transform.forward * (50 * weapon.weaponDamage));
-            }
-        }
-        else
-            CreateParticle(weapon.weaponBullet.onHitPrefab, transform.position, transform.rotation);
-        
-        
-        // Should spawn whatever particle the breakable object has configured instead of particles being hardcoded per bullet.
-        /* 
-        if (true) // Si el objeto es de tipo "Energy"   
-        {
-            CreateParticle(energyImpact, transform.position, transform.rotation, other.transform);
-        }*/
-    }
-    void Ricochet()
+    private void DoRicochet()
     {
         Vector3 incomingDirection = _fireDirection.normalized;
         float ricochetAngle = 0;
@@ -88,15 +82,16 @@ public class Bullet : MonoBehaviour {
             ricochetAngle = Vector3.Dot(incomingDirection, bounceDirection);
             if(ricochetAngle > weapon.ricochetMinAngle)
             {
-                FireBullet(bounceDirection);
+                SetBulletDirection(bounceDirection);
             }
             else
             {
-                Destroy(gameObject);
+                StartCoroutine(DisablePhysicsCoroutine());
+                //Destroy(gameObject);
             }
         }
     }
-    void BulletHole(Vector3 where, Vector3 surfaceNormal, float normalOffset = 0.01f)
+    private void BulletHole(Vector3 where, Vector3 surfaceNormal, float normalOffset = 0.01f)
     {
         GameObject newBulletHole = Instantiate(bulletHole, where+surfaceNormal*normalOffset, Quaternion.LookRotation(-surfaceNormal));
         MeshRenderer renderer = newBulletHole.GetComponent<MeshRenderer>();
@@ -104,18 +99,27 @@ public class Bullet : MonoBehaviour {
 
         newBulletHole.transform.localScale = Vector3.one*(weapon.weaponBullet.bulletWidth/2);
     }
-    public void CreateParticle(GameObject prefab, Vector3 startPos, Quaternion startRot, Transform parent = null)
+    
+    private void CreateParticle(GameObject prefab, Vector3 startPos, Quaternion startRot, Transform parent = null)
     {
         GameObject particle = Instantiate(prefab, startPos, startRot, parent);
         particle.GetComponent<ParticleSystem>().Play();
     }
-    public void DoImpact()
+
+    private void DoImpact()
     {
         CreateParticle(weapon.weaponBullet.onHitPrefab, transform.position, transform.rotation);
-        Destroy(gameObject);
+        StartCoroutine(DisablePhysicsCoroutine());
     }
-    public void Deflect()
+
+    private IEnumerator DisablePhysicsCoroutine(float delay = 3)
     {
-        FireBullet(-_rigidbody.velocity);
+        // For now, its the trail who actually destroys the object.
+        _collider.enabled = false;
+        _rigidbody.isKinematic = true;
+
+        // But we don't want to wait too much for the trail to destroy the bullet...
+        yield return new WaitForSeconds(delay);
+        Destroy(gameObject);
     }
 }

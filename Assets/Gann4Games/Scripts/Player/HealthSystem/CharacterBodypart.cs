@@ -25,8 +25,6 @@ public class CharacterBodypart : MonoBehaviour, IDamageable
     
 	public void DealDamage(float damage, DamageType damageType, Vector3 where)
 	{
-
-		character.preset.IndicateDamage(transform.position).Display(damage.ToString("F0"), Color.red);
 		_healthController.DealDamage(damage, where, !character.isNPC);
 
 		switch (damageType)
@@ -47,8 +45,8 @@ public class CharacterBodypart : MonoBehaviour, IDamageable
 			}
 
 			case DamageType.Collision:
-				if(!character.isNPC)
-					MainHUDHandler.instance.ShowEffect(Color.white, damage / _healthController.MaxHealth, 10);
+				if(character.isPlayer)
+					MainHUDHandler.instance.ShowDamageEffect(Color.white);
 				break;
 		}
 	}

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Gann4Games.Thirdym.StateMachines;
-using Gann4Games.Thirdym.Utility;
+using DG.Tweening;
 
 public class CharacterHealthSystem : StateMachine
 {
     public List<CharacterBodypart> bodyParts;
 
-    public EventHandler<OnDamageDealedArgs> OnDamageDealed;
+    public event EventHandler<OnDamageDealedArgs> OnDamageDealed;
     public class OnDamageDealedArgs
     {
         public Vector3 where;
@@ -40,8 +40,10 @@ public class CharacterHealthSystem : StateMachine
         MaxHealth = Character.preset.maximumHealth;
         InjuryLevel = Character.preset.injuryLevel;
         Health = MaxHealth;
+
         if (!Character.isNPC) MainHUDHandler.instance.healthbar.maxValue = MaxHealth;
-        
+        UpdateHealthbarUI(1);
+
         SetState(AliveState);
     }
 
@@ -53,11 +55,11 @@ public class CharacterHealthSystem : StateMachine
         //Character.RagdollController.isRagdollState = !IsAlive;
         //AnimateArms(!IsDead);
 
-        if (Character.isPlayer)
-        {
-            MainHUDHandler.instance.mainAlpha = 1 - HealthPercentage;
-            MainHUDHandler.instance.healthbar.value = Health;
-        }
+        // if (Character.isPlayer)
+        // {
+        //     MainHUDHandler.instance.mainAlpha = 1 - HealthPercentage;
+        //     MainHUDHandler.instance.healthbar.value = Health;
+        // }
     }
 
     // void AnimateArms(bool animate)
@@ -81,13 +83,25 @@ public class CharacterHealthSystem : StateMachine
     public void DealDamage(float amount, Vector3 damageSource, bool showScreenBlood = true)
     {
         Health -= amount;
+        // MainHUDHandler.instance.healthbar.value = Health;
         PlayPainSound();
 
-        if (damageSource != Vector3.zero) OnDamageDealed.Invoke(this, new OnDamageDealedArgs { where = damageSource });
+        //if (damageSource != Vector3.zero) OnDamageDealed?.Invoke(this, new OnDamageDealedArgs { where = damageSource });
+        OnDamageDealed?.Invoke(this, new OnDamageDealedArgs { where = damageSource });
 
-        if (!Character.isNPC && showScreenBlood)
-            MainHUDHandler.instance.ShowEffect(Color.red, amount / MaxHealth, 10);
+        if (Character.isPlayer) MainHUDHandler.instance.ShowDamageEffect(Color.red);
+        UpdateHealthbarUI(1);
     }
 
-    public void AddHealth(float amount) => Health += amount;
+    public void AddHealth(float amount)
+    {
+        Health += amount;
+        UpdateHealthbarUI(0);
+    }
+
+    private void UpdateHealthbarUI(float transitionTime)
+    {
+        if(!Character.isPlayer) return;
+        MainHUDHandler.SetHealthValue(Health, transitionTime);
+    }
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Gann4Games.Thirdym.StateMachines
@@ -8,7 +7,7 @@ namespace Gann4Games.Thirdym.StateMachines
     /// </summary>
     public class PlayerUnderwaterState : IState
     {
-        private const float SwimSpeed = 0.5f;
+        private const float SwimSpeed = 50;
         private RagdollController _context;
         
         public void OnEnterState(StateMachine context)
@@ -20,13 +19,13 @@ namespace Gann4Games.Thirdym.StateMachines
 
         public void OnUpdateState(StateMachine context)
         {
-            if(_context.enviroment.IsGrounded) 
-                _context.SetState(_context.GroundedState);
+            if(!_context.Character.HealthController.IsAlive) _context.SetState(_context.InjuredState);
+            if(!_context.enviroment.IsSwimming || _context.enviroment.IsGrounded) _context.SetState(_context.GroundedState);
 
             int upDirection = (_context.Character.InputHandler.jumping ? 1 : 0) + 
                               (_context.Character.InputHandler.crouching ? -1 : 0);
             
-            Vector3 input = new Vector3(_context.MovementAxis.x, upDirection, _context.MovementAxis.y) * SwimSpeed;
+            Vector3 input = new Vector3(_context.MovementAxis.x, upDirection, _context.MovementAxis.y) * SwimSpeed * Time.deltaTime;
 
             _context.HeadRigidbody.velocity += _context.transform.TransformDirection(input);
             

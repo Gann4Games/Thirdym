@@ -5,7 +5,8 @@ using Gann4Games.Thirdym.StateMachines;
 using DG.Tweening;
 
 public class RagdollController : StateMachine {
-	public CheckGround enviroment;
+
+    public CheckGround enviroment;
 	public Vector2 MovementAxis => PlayerInputHandler.instance.movementAxis;
 
 	[Header("Ragdoll Components")]

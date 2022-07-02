@@ -63,6 +63,10 @@ namespace Gann4Games.Thirdym.StateMachines
             _context.SetVerticalAnimationValue(PlayerInputHandler.instance.walking
                 ? .25f * _context.MovementAxis.magnitude
                 : .5f * _context.MovementAxis.magnitude);
+
+                
+            // In grounded move, the player is not supposed to strafe, the value will not be zero often when coming from an aiming state (which allows strafing).
+            if(_context.GetHorizontalAnimationValue() != 0) _context.SetHorizontalAnimationValue(0);
                     
             _context.SetRootJointRotation(PlayerInputHandler.instance.walking 
                 ? 0 

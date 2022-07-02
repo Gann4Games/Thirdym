@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Audio;
 using Gann4Games.Thirdym.Utility;
-using Gann4Games.Thirdym.Enums;
 
 public class CharacterSkillHandler : MonoBehaviour {
     public enum SkillType

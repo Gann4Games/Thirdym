@@ -54,9 +54,10 @@ public class PlayerCameraController : MonoBehaviour
 
     public void DisableAllCameras()
     {
-        thirdPersonCamera.gameObject.SetActive(false);
-        aimCamera.gameObject.SetActive(false);
-        deathCamera.gameObject.SetActive(false);
+        thirdPersonCamera?.gameObject.SetActive(false);
+        firstPersonCamera?.gameObject.SetActive(false);
+        aimCamera?.gameObject.SetActive(false);
+        deathCamera?.gameObject.SetActive(false);
     }
 
     public void EnableThirdPersonCamera() 
@@ -91,11 +92,15 @@ public class PlayerCameraController : MonoBehaviour
         _cameraRotationX = transform.eulerAngles.y;
 
         if(!CameraBrain) Debug.LogError("Hey Gann, i'm unable to find cinemachine brain!");
+
+        
     }
 
     private void Update()
     {
         ThirdPersonCam();
+
+        if(Character.HealthController.IsDead && !deathCamera.isActiveAndEnabled) EnableDeathCamera();
     }
 
     private void ThirdPersonCam()

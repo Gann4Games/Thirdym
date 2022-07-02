@@ -1,3 +1,4 @@
+using System;
 using Gann4Games.Thirdym.Utility;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ namespace Gann4Games.Thirdym.StateMachines
         {
             _context = (CharacterHealthSystem)context;
             _timer = new TimerTool(3);
+            _context.OnDamageDealed += OnDamageDealed;
         }
 
         public void OnUpdateState(StateMachine context)
@@ -22,6 +24,11 @@ namespace Gann4Games.Thirdym.StateMachines
             HealthRegeneration();
         }
         
+        public void OnExitState(StateMachine context) 
+        {
+            _context.OnDamageDealed -= OnDamageDealed;
+        }
+
         private void HealthRegeneration()
         {
             if (_context.MaxHealthReached) { _timer.Reset(); return; }
@@ -29,7 +36,6 @@ namespace Gann4Games.Thirdym.StateMachines
             if(!_timer.HasFinished()) return;
             _context.AddHealth(Time.deltaTime * _context.HealthPercentage * _context.Character.preset.regeneration_rate);
         }
-        
-        public void OnExitState(StateMachine context) { }
+        private void OnDamageDealed(object sender, CharacterHealthSystem.OnDamageDealedArgs e) => _timer.Reset();
     }
 }

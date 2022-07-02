@@ -11,7 +11,6 @@ namespace Gann4Games.Thirdym.ScriptableObjects
         [Header("HUD related")]
         public Texture2D profile;
         public string character_name;
-        public GameObject damageIndicator;
 
         [Space]
 
@@ -69,16 +68,15 @@ namespace Gann4Games.Thirdym.ScriptableObjects
         public GameObject BloodSquirtFX() => BloodFX(blood_squirt);
         GameObject BloodFX(GameObject obj)
         {
-            GameObject new_fx = Instantiate(obj);
-            ParticleSystem[] particles = new_fx.GetComponentsInChildren<ParticleSystem>();
+            GameObject newFX = Instantiate(obj);
+            ParticleSystem[] particles = newFX.GetComponentsInChildren<ParticleSystem>();
             foreach (ParticleSystem ps in particles)
             {
 
                 ParticleSystem.MainModule ps_main = ps.main;
                 ps_main.startColor = bloodColor;
             }
-            return new_fx;
+            return newFX;
         }
-        public DamageIndicator IndicateDamage(Vector3 where) => Instantiate(damageIndicator, where, Quaternion.identity).GetComponent<DamageIndicator>();
     }
 }
