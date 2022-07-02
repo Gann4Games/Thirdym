@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Text.RegularExpressions;
+using System;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    public event System.EventHandler OnUse;
+    public event EventHandler OnReady;
+    public event EventHandler OnStop;
 
     public static PlayerInputHandler instance;
     public GameplayInput gameplayControls;
@@ -45,10 +47,12 @@ public class PlayerInputHandler : MonoBehaviour
     private void OnEnable()
     {
         gameplayControls.Enable();
+        OnReady?.Invoke(this, EventArgs.Empty);
     }
 
     private void OnDisable()
     {
         gameplayControls.Disable();
+        OnStop?.Invoke(this, EventArgs.Empty);
     }
 }

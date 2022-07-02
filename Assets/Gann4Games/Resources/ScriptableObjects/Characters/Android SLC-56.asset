@@ -14,11 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   profile: {fileID: 0}
   character_name: Android SLC-56
-  damageIndicator: {fileID: 2489321738901700669, guid: 5de52ddfb1e43b54b841675cea7c9c49,
-    type: 3}
   battleSuit: {fileID: 934245907513136065, guid: 167812aa2d321664aba0dd3fa0601f2e,
     type: 3}
-  skill: 2
+  ability: {fileID: 11400000, guid: f6809716f05708e40bececb7bb2e3867, type: 2}
   maximumHealth: 750
   injuryLevel: 100
   regeneration_rate: 100

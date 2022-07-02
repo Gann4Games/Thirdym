@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using Gann4Games.Thirdym.Enums;
-using Gann4Games.Thirdym.Core;
+using Gann4Games.Thirdym.Abilities;
 
 namespace Gann4Games.Thirdym.ScriptableObjects
 {
@@ -16,11 +15,13 @@ namespace Gann4Games.Thirdym.ScriptableObjects
 
         [Header("Ingame parameters")]
         public GameObject battleSuit;
-        public CharacterSkillHandler.SkillType skill;
+        public Ability ability;
+
         [Header("Health")]
         public float maximumHealth = 1500;
         public float injuryLevel = 100;
         public float regeneration_rate = 500;
+        
         [Header("Damage")]
         [Tooltip("Damage amount caused by character's blades.")]
         public float bladeDamage = 10;

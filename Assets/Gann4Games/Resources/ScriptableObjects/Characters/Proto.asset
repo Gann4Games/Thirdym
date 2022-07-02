@@ -14,11 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   profile: {fileID: 0}
   character_name: Proto
-  damageIndicator: {fileID: 2489321738901700669, guid: 5de52ddfb1e43b54b841675cea7c9c49,
-    type: 3}
   battleSuit: {fileID: 8781917826008984203, guid: d8b3970004c4dc441a683ade271de1bc,
     type: 3}
-  skill: 1
+  ability: {fileID: 11400000, guid: 425a4dce435e67b4b9f3875ac61a1af1, type: 2}
   maximumHealth: 500
   injuryLevel: 100
   regeneration_rate: 100
