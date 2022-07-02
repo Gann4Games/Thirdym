@@ -14,7 +14,11 @@ public class CharacterSkillHandler : MonoBehaviour {
     private Ability ability => Character.preset.ability;
 
     public void Consume(float amount) => _energy -= amount * Time.deltaTime;
-    public void Regenerate(float amount) => _energy += amount * Time.deltaTime;
+    public void Regenerate(float amount)
+    {
+        if(IsEnergyFilled) return;
+        _energy += amount * Time.deltaTime;
+    }
 
     private void Awake()
     {
