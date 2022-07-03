@@ -106,9 +106,11 @@ public class RagdollController : StateMachine {
 	{
         guide.rotation = Quaternion.Lerp(guide.rotation, rotation, lerpTimeClamped);
     }
-	public void MakeGuideLookTowards(Vector3 direction, float lerpTimeClamped)
+	public void MakeGuideLookTowards(Vector3 point, float lerpTimeClamped)
 	{
-        guide.rotation = Quaternion.Lerp(guide.rotation, Quaternion.LookRotation(direction), lerpTimeClamped);
+        point.y = RootJoint.transform.position.y;
+        Quaternion desiredRotation = Quaternion.LookRotation(point - RootJoint.transform.position);
+        guide.rotation = Quaternion.Lerp(guide.rotation, desiredRotation, lerpTimeClamped);
     }
 	public void MakeGuideLookTowardsCamera(float lerpTimeClamped = 1)
 	{

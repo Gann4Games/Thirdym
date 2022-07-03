@@ -1,7 +1,6 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using Gann4Games.Thirdym.Utility;
 using Gann4Games.Thirdym.Enums;
 using Gann4Games.Thirdym.StateMachines;
 using System.Collections.Generic;
@@ -63,14 +62,9 @@ namespace Gann4Games.Thirdym.NPC
         //public void SetRotation(Vector3 rotation) => Ragdoll.makeguide//Ragdoll.guide.transform.eulerAngles = rotation;
 
         /// <summary>Imitates the navmesh agent's rotation</summary>
-        public void SetRotationLikeNavmeshAgent() => Ragdoll.MakeGuideSetRotation(navmeshAgent.transform.rotation, 0.1f);
+        public void SetRotationLikeNavmeshAgent(float lerpTimeClamped = 0.1f) => Ragdoll.MakeGuideSetRotation(navmeshAgent.transform.rotation, lerpTimeClamped);
 
-        public void SetRotationTowards(Vector3 point)
-        {
-            point.y = Ragdoll.RootJoint.transform.position.y;
-            //Ragdoll.RootJoint.transform.LookAt(point);
-            Ragdoll.MakeGuideLookTowards(point, 0.1f);
-        }
+        public void SetRotationTowards(Vector3 point, float lerpTimeClamped = 0.1f) => Ragdoll.MakeGuideLookTowards(point, lerpTimeClamped);
 
         /// <summary>Walks towards the desired point</summary>
         public void WalkTowards(Vector3 point, float stopDistance = 1)
