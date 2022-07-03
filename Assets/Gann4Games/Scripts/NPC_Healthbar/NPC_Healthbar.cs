@@ -6,8 +6,8 @@ public class NPC_Healthbar : MonoBehaviour
     public GameObject healthbarPrefab;
     public TMPro.TextMeshPro textField;
 
-    Animator _anim;
-    CharacterCustomization _character;
+    private Animator _anim;
+    private CharacterCustomization _character;
 
     private void OnDrawGizmosSelected()
     {
