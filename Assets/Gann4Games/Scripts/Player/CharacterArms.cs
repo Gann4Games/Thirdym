@@ -66,7 +66,7 @@ public class CharacterArms : MonoBehaviour {
         }
         if (_anim)
         {
-            _anim.SetBool("Disarmed", equipment.disarmed);
+            _anim.SetBool("Disarmed", equipment.IsDisarmed);
             if (!healthOp.IsDead)
             {
                 foreach (HingeJoint neckJoint in Neck)
@@ -80,12 +80,18 @@ public class CharacterArms : MonoBehaviour {
                 {
                     bool isCharacterFiring = _character.InputHandler.firing;
                     bool isCharacterAiming = _character.InputHandler.aiming;
-                    bool isCharacterDisarmed = equipment.disarmed;
+                    bool isCharacterDisarmed = equipment.IsDisarmed;
                     bool aimGun = isCharacterAiming && !isCharacterDisarmed;
 
                     AimWeapon(aimGun);
                     _anim.SetBool("WeaponAiming", isCharacterAiming);
                     _anim.SetBool("WeaponAction", isCharacterFiring);
+                } 
+                else // TODO: NEEDS PROPER DEVELOPMENT
+                {
+                    AimWeapon(_character.EquipmentController.IsDisarmed);
+                    _anim.SetBool("WeaponAiming", _character.EquipmentController.IsDisarmed);
+                    _anim.SetBool("WeaponAction", _character.EquipmentController.IsDisarmed);
                 }
             }
             else 

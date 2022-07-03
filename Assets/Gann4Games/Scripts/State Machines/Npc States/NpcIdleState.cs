@@ -24,10 +24,17 @@ namespace Gann4Games.Thirdym.StateMachines
             // TODO: Wander state
             // TODO: Alert state
             // TODO: Attack state
+            // TODO: Injury state
+            // TODO: Dead state
+
+            if(!_context.HealthController.IsAlive) _context.SetState(_context.InjuryState);
+            if(_context.Ragdoll.enviroment.IsSwimming) _context.HealthController.AddHealth(-_context.HealthController.Health);
+            if(!_context.Ragdoll.enviroment.IsGrounded) _context.SetState(_context.JumpState);
 
             if(_timer.HasFinished()) CheckEnvironment();
             _timer.Count();
 
+            _context.WalkTowardsNavmeshAgent();
             _context.Ragdoll.MakeRootFollowGuide();
 
             if (!_closestCharacter) return;
@@ -44,8 +51,13 @@ namespace Gann4Games.Thirdym.StateMachines
         {
             _timer.Reset();
             _timer.SetMaxTime(Random.Range(5, 10));
+
             _closestCharacter = _context.FindClosestCharacterInScene();
             _lookTowards = _closestCharacter.transform.position;
+            
+            // Look for weapons if it is disarmed
+            if(!_context.Character.EquipmentController.HasAnyWeapon && _context.IsAnyWeaponAround) _context.SetState(_context.RunawayState);
+            
         }
     }
 }

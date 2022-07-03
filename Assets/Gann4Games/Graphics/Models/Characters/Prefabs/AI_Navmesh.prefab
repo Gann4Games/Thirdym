@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4852022438769928}
   - component: {fileID: 33071429290393694}
   - component: {fileID: 23169789217353026}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FootR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 114460992132807646}
   - component: {fileID: 114448362685252798}
   - component: {fileID: 7145100802214438966}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Right_Shoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0.000000014901161, z: -0.0000000018626451}
+  m_ConnectedAnchor: {x: 0.000000067055225, y: 0.000000059604645, z: -0.00000014901161}
   m_UseSpring: 0
   m_Spring:
     spring: 500
@@ -245,7 +245,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4574396979074058}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LKnee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,7 +280,7 @@ GameObject:
   - component: {fileID: 4653925137129774}
   - component: {fileID: 33843585867767726}
   - component: {fileID: 23400275227742132}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HandL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 136193264008207282}
   - component: {fileID: 114201253395934292}
   - component: {fileID: 3634632289647479048}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -465,7 +465,7 @@ GameObject:
   - component: {fileID: 4159421997467204}
   - component: {fileID: 33782820736986896}
   - component: {fileID: 23111025381549412}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HighLegL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -547,7 +547,7 @@ GameObject:
   - component: {fileID: 4454835966097240}
   - component: {fileID: 33287775197233890}
   - component: {fileID: 23120302836497236}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Helmet_1 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -633,7 +633,7 @@ GameObject:
   - component: {fileID: 114169105020639732}
   - component: {fileID: 114000182725482316}
   - component: {fileID: 6071253409170798750}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Right_Knee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -697,7 +697,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.013699874, y: -0.28287667, z: -0.010033129}
+  m_ConnectedAnchor: {x: 0.013699599, y: -0.2828766, z: -0.010032952}
   m_UseSpring: 1
   m_Spring:
     spring: 250
@@ -782,7 +782,7 @@ GameObject:
   - component: {fileID: 4718906308376004}
   - component: {fileID: 33433438898504632}
   - component: {fileID: 23395561649636856}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FootL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -865,7 +865,7 @@ GameObject:
   - component: {fileID: 54881153168376082}
   - component: {fileID: 59811417918031476}
   - component: {fileID: 114737758537412212}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Xtra_RLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -915,7 +915,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.047485355, y: -0.16686358, z: -0.013038636}
+  m_ConnectedAnchor: {x: 0.04748539, y: -0.16686356, z: -0.0130384965}
   m_UseSpring: 1
   m_Spring:
     spring: 250
@@ -966,7 +966,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4601428767468344}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RElbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1003,7 +1003,7 @@ GameObject:
   - component: {fileID: 54151196235659534}
   - component: {fileID: 59897064607458558}
   - component: {fileID: 114183248201840878}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Xtra_LLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1053,7 +1053,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.047485355, y: -0.16686358, z: -0.013038636}
+  m_ConnectedAnchor: {x: -0.047485314, y: -0.16686356, z: -0.013038774}
   m_UseSpring: 1
   m_Spring:
     spring: 250
@@ -1107,7 +1107,7 @@ GameObject:
   - component: {fileID: 54729430860205886}
   - component: {fileID: 59414721512425758}
   - component: {fileID: 114527789597557916}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Xtra_RShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1157,7 +1157,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.11230469, y: -0.000000014901161, z: -0.00000010803342}
+  m_ConnectedAnchor: {x: 0.112304755, y: 0.000000029802322, z: -0.00000025518239}
   m_UseSpring: 0
   m_Spring:
     spring: 500
@@ -1211,7 +1211,7 @@ GameObject:
   - component: {fileID: 54376398461261412}
   - component: {fileID: 59004057029280996}
   - component: {fileID: 114570602367085724}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1261,7 +1261,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0.22680551, z: -0.01978302}
+  m_ConnectedAnchor: {x: 0.000000057778834, y: 0.22680545, z: -0.01978302}
   m_UseSpring: 1
   m_Spring:
     spring: 500
@@ -1314,7 +1314,7 @@ GameObject:
   - component: {fileID: 4273871725161592}
   - component: {fileID: 33494368663308398}
   - component: {fileID: 23537094338317522}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ShoulderR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1397,7 +1397,7 @@ GameObject:
   - component: {fileID: 54243751343603030}
   - component: {fileID: 59001426077728420}
   - component: {fileID: 114089185992868316}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Left_Bicep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1446,7 +1446,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.204248, y: -0.016245857, z: 0.0057900734}
+  m_ConnectedAnchor: {x: -0.20424835, y: -0.016245902, z: 0.0057902634}
   m_UseSpring: 0
   m_Spring:
     spring: 500
@@ -1499,7 +1499,7 @@ GameObject:
   - component: {fileID: 4751114426297046}
   - component: {fileID: 33516254189303472}
   - component: {fileID: 23066412916769236}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1585,7 +1585,7 @@ GameObject:
   - component: {fileID: 114837886197728244}
   - component: {fileID: 114745366455537264}
   - component: {fileID: 9161503683854751239}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Right_Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1649,7 +1649,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0000000037252903, y: -0.000000014901161, z: -9.313226e-10}
+  m_ConnectedAnchor: {x: 0.000000037252903, y: 0, z: 0.00000013876706}
   m_UseSpring: 1
   m_Spring:
     spring: 250
@@ -1732,7 +1732,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4727650167001186}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LBicep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1766,7 +1766,7 @@ GameObject:
   - component: {fileID: 4185184545446142}
   - component: {fileID: 33449494134128900}
   - component: {fileID: 23149630498387862}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ElbowR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1848,7 +1848,7 @@ GameObject:
   - component: {fileID: 4819426865509858}
   - component: {fileID: 33876237777351210}
   - component: {fileID: 23650658690751086}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HighArmR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1930,7 +1930,7 @@ GameObject:
   - component: {fileID: 4053618298847566}
   - component: {fileID: 33503908927648222}
   - component: {fileID: 23794718955522396}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ShoulderL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2010,7 +2010,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4547484015405860}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: AI_Navmesh
   m_TagString: Untagged
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
@@ -2046,7 +2046,7 @@ GameObject:
   - component: {fileID: 4075244439221846}
   - component: {fileID: 33373502550570052}
   - component: {fileID: 23693591590310560}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LowLegL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2128,7 +2128,7 @@ GameObject:
   - component: {fileID: 4639522098425956}
   - component: {fileID: 33601332092046900}
   - component: {fileID: 23550134462402550}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: KneeR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2210,7 +2210,7 @@ GameObject:
   - component: {fileID: 4053546583520576}
   - component: {fileID: 95440290256324234}
   - component: {fileID: 114566712922850504}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: StaticAnimator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2278,7 +2278,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4860401528772712}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RHip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2312,7 +2312,7 @@ GameObject:
   - component: {fileID: 4190009009804120}
   - component: {fileID: 33407870963333356}
   - component: {fileID: 23132791007011608}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LowLegR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2395,7 +2395,7 @@ GameObject:
   - component: {fileID: 54591029910522504}
   - component: {fileID: 59743648213050768}
   - component: {fileID: 114709577014092340}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Right_Bicep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2444,7 +2444,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.2042476, y: -0.016245857, z: 0.0057900734}
+  m_ConnectedAnchor: {x: 0.20424753, y: -0.016245902, z: 0.005790204}
   m_UseSpring: 0
   m_Spring:
     spring: 500
@@ -2495,7 +2495,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4110392023967242}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2527,7 +2527,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4193785945854436}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LElbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2564,7 +2564,7 @@ GameObject:
   - component: {fileID: 114146514735537194}
   - component: {fileID: 54094074023315396}
   - component: {fileID: 114033636639834010}
-  m_Layer: 2
+  m_Layer: 7
   m_Name: groundChecker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2651,7 +2651,7 @@ GameObject:
   - component: {fileID: 4601060989248832}
   - component: {fileID: 33517262701871764}
   - component: {fileID: 23629510288120492}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HandR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2731,7 +2731,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4381165973511674}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2763,7 +2763,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4999103274643930}
   - component: {fileID: 120080698055783612}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2901,7 +2901,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4607598132180092}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LHip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2936,7 +2936,7 @@ GameObject:
   - component: {fileID: 54632258246753556}
   - component: {fileID: 59282230013489658}
   - component: {fileID: 114243275753189074}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: AimGuide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2985,7 +2985,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0.15591618, z: -0.023902787}
+  m_ConnectedAnchor: {x: 0.00000006981145, y: 0.15591621, z: -0.023902893}
   m_UseSpring: 1
   m_Spring:
     spring: 500
@@ -3039,7 +3039,7 @@ GameObject:
   - component: {fileID: 54828062571556942}
   - component: {fileID: 59768584174806474}
   - component: {fileID: 114614814042826616}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Xtra_LShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3089,7 +3089,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.11230471, y: -0.000000014901161, z: -0.00000010803342}
+  m_ConnectedAnchor: {x: -0.11230462, y: 0.000000029802322, z: 0.00000004284084}
   m_UseSpring: 0
   m_Spring:
     spring: 500
@@ -3141,7 +3141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4947211575606346}
   - component: {fileID: 120060241295603608}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Wea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3277,7 +3277,7 @@ GameObject:
   - component: {fileID: 114889310190320060}
   - component: {fileID: 114523565430581096}
   - component: {fileID: 1976611712779601352}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Head
   m_TagString: Pickupable
   m_Icon: {fileID: 0}
@@ -3326,7 +3326,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  m_ConnectedAnchor: {x: 0.000000057778834, y: -0.000000059604645, z: 0}
   m_UseSpring: 1
   m_Spring:
     spring: 500
@@ -3424,7 +3424,7 @@ GameObject:
   - component: {fileID: 4712254834490190}
   - component: {fileID: 33076364243070316}
   - component: {fileID: 23684871982404546}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Visor_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3510,7 +3510,7 @@ GameObject:
   - component: {fileID: 114742822655483570}
   - component: {fileID: 114451409099940082}
   - component: {fileID: 1810625054990495177}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Left_Knee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3574,7 +3574,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.01370009, y: -0.28287667, z: -0.010033129}
+  m_ConnectedAnchor: {x: -0.013700418, y: -0.2828766, z: -0.010033309}
   m_UseSpring: 1
   m_Spring:
     spring: 250
@@ -3657,7 +3657,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4362408559258022}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Left_Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3689,7 +3689,7 @@ GameObject:
   - component: {fileID: 4552162625207850}
   - component: {fileID: 33044267554371050}
   - component: {fileID: 23116929340532794}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HighArmL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3769,7 +3769,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4934048717914974}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Helmet_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3803,7 +3803,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4515920605287836}
   - component: {fileID: 195661160007103772}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: NavmeshAgent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3861,7 +3861,7 @@ GameObject:
   - component: {fileID: 114425035940550284}
   - component: {fileID: 114628136006166028}
   - component: {fileID: 1481867666277848430}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Left_Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3925,7 +3925,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0000000037252903, y: -0.000000014901161, z: -9.313226e-10}
+  m_ConnectedAnchor: {x: 0.000000037252903, y: 0, z: -0.00000013876706}
   m_UseSpring: 1
   m_Spring:
     spring: 250
@@ -4010,7 +4010,7 @@ GameObject:
   - component: {fileID: 4642975936230864}
   - component: {fileID: 33303541175925898}
   - component: {fileID: 23680175765047822}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: KneeL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4092,7 +4092,7 @@ GameObject:
   - component: {fileID: 4855661229304084}
   - component: {fileID: 33330271559314632}
   - component: {fileID: 23446976895481262}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HighLegR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4174,7 +4174,7 @@ GameObject:
   - component: {fileID: 4003410553485572}
   - component: {fileID: 33115067599046890}
   - component: {fileID: 23724504027134336}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LowArmL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4267,7 +4267,7 @@ GameObject:
   - component: {fileID: 59842676297326670}
   - component: {fileID: 82620639392712568}
   - component: {fileID: 6318733510735290523}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ragdoll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4297,7 +4297,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727890713172640}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 300d451e2b5392f4ea9181dd3e4eabbb, type: 3}
   m_Name: 
@@ -4409,7 +4409,7 @@ MonoBehaviour:
   isNPC: 1
   usePlayerPrefs: 0
   ragdollAnimator: {fileID: 95440290256324234}
-  preset: {fileID: 11400000, guid: 55b3d60731443f549bd92aa3c4e8753d, type: 2}
+  preset: {fileID: 11400000, guid: d7125a7022e14ee44b4d98b33a1ca91e, type: 2}
   baseBody:
     body: {fileID: 4022487472662872}
     head: {fileID: 4849286135714090}
@@ -4632,7 +4632,7 @@ GameObject:
   - component: {fileID: 4070489026209970}
   - component: {fileID: 33329438625382612}
   - component: {fileID: 23719081032829056}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LowArmR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4712,7 +4712,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4493469716523368}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4746,7 +4746,7 @@ GameObject:
   - component: {fileID: 4519622504967364}
   - component: {fileID: 33465718019900306}
   - component: {fileID: 23885215610337752}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ElbowL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4826,7 +4826,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4828694678953882}
-  m_Layer: 2
+  m_Layer: 7
   m_Name: WeaponDropPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4861,7 +4861,7 @@ GameObject:
   - component: {fileID: 65623876293054024}
   - component: {fileID: 114510357138273622}
   - component: {fileID: 6189017611658166895}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Right_Foot
   m_TagString: Pickupable
   m_Icon: {fileID: 0}
@@ -4973,7 +4973,7 @@ GameObject:
   - component: {fileID: 114140671869095192}
   - component: {fileID: 114570071297991624}
   - component: {fileID: 3022245758180296946}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Right_Elbow
   m_TagString: Pickupable
   m_Icon: {fileID: 0}
@@ -5037,7 +5037,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00000011920929, y: -0.000000029802322, z: 0.000001296401}
+  m_ConnectedAnchor: {x: -0.000000059604645, y: -0.000000029802322, z: 0.0000010821968}
   m_UseSpring: 0
   m_Spring:
     spring: 500
@@ -5120,7 +5120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4681177875611186}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: LookAt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5150,7 +5150,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4423621675692526}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RKnee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5189,7 +5189,7 @@ GameObject:
   - component: {fileID: 114602388446664812}
   - component: {fileID: 114480985975013028}
   - component: {fileID: 2672323902026882854}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Left_Elbow
   m_TagString: Pickupable
   m_Icon: {fileID: 0}
@@ -5253,7 +5253,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0000003874302, y: -0.000000029802322, z: 0.000001296401}
+  m_ConnectedAnchor: {x: 0.0000005662441, y: -0.000000029802322, z: 0.0000011418015}
   m_UseSpring: 0
   m_Spring:
     spring: 500
@@ -5337,7 +5337,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4179463568221042}
   - component: {fileID: 3000523603698652612}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Right_Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5379,7 +5379,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4133793093403082}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RBicep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5417,7 +5417,7 @@ GameObject:
   - component: {fileID: 114841032494256020}
   - component: {fileID: 114942928934997188}
   - component: {fileID: 627883017148543359}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Left_Shoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5482,7 +5482,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.000000007450581, y: 0.000000014901161, z: -0.0000000018626451}
+  m_ConnectedAnchor: {x: 0.00000008195639, y: 0.000000059604645, z: 0.00000014901161}
   m_UseSpring: 0
   m_Spring:
     spring: 500
@@ -5567,7 +5567,7 @@ GameObject:
   - component: {fileID: 4985729746561724}
   - component: {fileID: 33896064080100162}
   - component: {fileID: 23009415897360106}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Scanner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5652,7 +5652,7 @@ GameObject:
   - component: {fileID: 65558954122729394}
   - component: {fileID: 114003179876848118}
   - component: {fileID: 7608307040633983240}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Left_Foot
   m_TagString: Pickupable
   m_Icon: {fileID: 0}

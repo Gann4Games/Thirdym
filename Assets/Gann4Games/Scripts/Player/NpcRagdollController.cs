@@ -16,17 +16,22 @@ namespace Gann4Games.Thirdym.NPC
 
         // New code (npc update/rework)
         public RagdollController Ragdoll { get; private set; }
-        public CharacterCustomization Character => Ragdoll.Character;
-        public CharacterHealthSystem HealthController => Ragdoll.Character.HealthController;
+        public CharacterCustomization Character { get; private set; }
+        public CharacterHealthSystem HealthController { get; private set; }
 
         // States
-        private NpcIdleState IdleState = new NpcIdleState();
-        private NpcAlertState AlertState = new NpcAlertState();
-        private NpcAttackState AttackState = new NpcAttackState();
-        private NpcRunawayState RunawayState = new NpcRunawayState();
+        public NpcIdleState IdleState = new NpcIdleState();
+        public NpcJumpState JumpState = new NpcJumpState();
+        public NpcAlertState AlertState = new NpcAlertState();
+        public NpcAttackState AttackState = new NpcAttackState();
+        public NpcRunawayState RunawayState = new NpcRunawayState();
+        public NpcDeadState DeadState = new NpcDeadState();
+        public NpcInjuryState InjuryState = new NpcInjuryState();
         private void Awake()
         {
             Ragdoll = GetComponent<RagdollController>();
+            Character = Ragdoll.Character;
+            HealthController = Character.HealthController;
             SetState(IdleState);
         }
 
@@ -82,12 +87,13 @@ namespace Gann4Games.Thirdym.NPC
             // Ragdoll.SetHorizontalAnimationValue(Mathf.Lerp(Ragdoll.GetHorizontalAnimationValue(), feetDirection.x, Time.deltaTime));
             Ragdoll.SetHorizontalAnimationValue(feetDirection.x);
         }
-        public void WalkTowardsNavmeshAgent() => WalkTowards(navmeshAgent.transform.position);
+        public void WalkTowardsNavmeshAgent(float stopDistance = 1) => WalkTowards(navmeshAgent.transform.position, stopDistance);
 
         public void Attack() => Character.ShootSystem.ShootAsNPC();
 
-        /*NAVMESH*/
-        public float DistanceBetweenNavmesh() => Vector3.Distance(transform.position, navmeshAgent.transform.position);
+/*NAVMESH*/
+        public float DistanceBetween(Vector3 position) => Vector3.Distance(transform.position, position);
+        public float DistanceBetweenNavmesh() => DistanceBetween(navmeshAgent.transform.position);
         public bool HasArrived => navmeshAgent.remainingDistance <= navmeshAgent.stoppingDistance;
 
         public bool IsNavmeshTooFarAway(float distance = 3) => Vector3.Distance(navmeshAgent.transform.position, transform.position) > distance;
@@ -153,7 +159,8 @@ namespace Gann4Games.Thirdym.NPC
         public bool IsTargetVisible(Transform target)
         {
             Ray ray = new Ray(transform.position, target.transform.position - transform.position);
-            Physics.Raycast(ray, out RaycastHit hit);
+            Physics.Raycast(ray, out RaycastHit hit, 10, ~LayerMask.NameToLayer("Default"), QueryTriggerInteraction.Ignore);
+            Debug.DrawLine(transform.position, hit.point, Color.cyan, 2);
             return hit.transform == target;
         }
     }

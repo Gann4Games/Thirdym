@@ -17,7 +17,7 @@ public class ShootSystem : MonoBehaviour {
     private void Update()
     {
         bool isCharacterDead = _character.HealthController.IsDead;
-        bool isCharacterDisarmed = _character.EquipmentController.disarmed;
+        bool isCharacterDisarmed = _character.EquipmentController.IsDisarmed;
         bool isCharacterAPlayer = _character.isPlayer;
         bool isGamePaused = IngameMenuHandler.instance.paused;
         bool isCharacterFiring = PlayerInputHandler.instance.firing;

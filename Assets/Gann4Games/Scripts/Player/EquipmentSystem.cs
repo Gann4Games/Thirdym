@@ -19,39 +19,41 @@ public class EquipmentSystem : MonoBehaviour {
 
     bool UsePlayerPrefs => _character.usePlayerPrefs;
 
-    bool hasMelee => melee != null;
-    bool hasPistol => pistol != null;
-    bool hasRifle => rifle != null;
-    bool hasShotgun => shotgun != null;
-    bool hasHeavy => heavy != null;
-    bool hasTool => tool != null;
+    public bool HasMelee => melee != null;
+    public bool HasPistol => pistol != null;
+    public bool HasRifle => rifle != null;
+    public bool HasShotgun => shotgun != null;
+    public bool HasHeavy => heavy != null;
+    public bool HasTool => tool != null;
+
+    public bool HasAnyWeapon => HasMelee || HasPistol || HasRifle || HasShotgun || HasHeavy;
 
     [Header("Configuration")]
     public Transform dropPosition;
 
     [Header("Status")]
     public SO_WeaponPreset currentWeapon;
-    public bool disarmed => currentWeapon == null;
+    public bool IsDisarmed => currentWeapon == null;
 
     [Header("Weapons")]
     public SO_WeaponPreset startWeapon;
     [Space]
-    [Tooltip("Self descriptive")]
+    [Tooltip("The melee weapon that the character has in its inventory.")]
     public SO_WeaponPreset melee;
 
-    [Tooltip("Self descriptive")]
+    [Tooltip("The pistol that the character has in its inventory.")]
     public SO_WeaponPreset pistol;
 
-    [Tooltip("Any type of rifle")]
+    [Tooltip("The rifle that the character has in its inventory.")]
     public SO_WeaponPreset rifle;
 
-    [Tooltip("Self descriptive")]
+    [Tooltip("The shotgun that the character has in its inventory.")]
     public SO_WeaponPreset shotgun;
 
-    [Tooltip("Weapons that are heavy, mostly based on energy")]
+    [Tooltip("The heavy weapon that the character has in its inventory.")]
     public SO_WeaponPreset heavy;
 
-    [Tooltip("Tools include the following: Defibrilator, electroshock, more coming soon")]
+    [Tooltip("Tools are elements like a defibrilator or electroshock.")]
     public SO_WeaponPreset tool;
     
 
@@ -65,67 +67,67 @@ public class EquipmentSystem : MonoBehaviour {
     {
         if (_character.isNPC) return;
 
-        if(PlayerInputHandler.instance.dropWeapon && !disarmed)
+        if(PlayerInputHandler.instance.dropWeapon && !IsDisarmed)
             DropEquippedWeapon();
 
-        if (PlayerInputHandler.instance.gameplayControls.Player.gun_blades.triggered && hasMelee)
+        if (PlayerInputHandler.instance.gameplayControls.Player.gun_blades.triggered && HasMelee)
             EquipWeapon(melee);
-        else if (PlayerInputHandler.instance.gameplayControls.Player.gun_pistol.triggered && hasPistol)
+        else if (PlayerInputHandler.instance.gameplayControls.Player.gun_pistol.triggered && HasPistol)
             EquipWeapon(pistol);
-        else if (PlayerInputHandler.instance.gameplayControls.Player.gun_rifle.triggered && hasRifle)
+        else if (PlayerInputHandler.instance.gameplayControls.Player.gun_rifle.triggered && HasRifle)
             EquipWeapon(rifle);
-        else if (PlayerInputHandler.instance.gameplayControls.Player.gun_shotgun.triggered && hasShotgun)
+        else if (PlayerInputHandler.instance.gameplayControls.Player.gun_shotgun.triggered && HasShotgun)
             EquipWeapon(shotgun);
-        else if (PlayerInputHandler.instance.gameplayControls.Player.gun_energy.triggered && hasHeavy)
+        else if (PlayerInputHandler.instance.gameplayControls.Player.gun_energy.triggered && HasHeavy)
             EquipWeapon(heavy);
-        else if (PlayerInputHandler.instance.gameplayControls.Player.gun_explosive.triggered && hasTool)
+        else if (PlayerInputHandler.instance.gameplayControls.Player.gun_explosive.triggered && HasTool)
             EquipWeapon(tool);
     }
     void RefreshInventoryHUD()
     {
         if (_character.isNPC) return;
 
-        if (hasMelee) PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Melee, EquipMode.Stored);
+        if (HasMelee) PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Melee, EquipMode.Stored);
         else PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Melee, EquipMode.None);
 
-        if (hasPistol) PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Pistol, EquipMode.Stored);
+        if (HasPistol) PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Pistol, EquipMode.Stored);
         else PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Pistol, EquipMode.None);
 
-        if (hasRifle) PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Rifle, EquipMode.Stored);
+        if (HasRifle) PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Rifle, EquipMode.Stored);
         else PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Rifle, EquipMode.None);
 
-        if (hasShotgun) PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Shotgun, EquipMode.Stored);
+        if (HasShotgun) PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Shotgun, EquipMode.Stored);
         else PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Shotgun, EquipMode.None);
 
-        if (hasHeavy) PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Heavy, EquipMode.Stored);
+        if (HasHeavy) PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Heavy, EquipMode.Stored);
         else PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Heavy, EquipMode.None);
 
-        if (hasTool) PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Tool, EquipMode.Stored);
+        if (HasTool) PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Tool, EquipMode.Stored);
         else PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Tool, EquipMode.None);
 
-        if (!disarmed) PlayerInventoryHUD.DisplayWeaponAs(currentWeapon.weaponType, EquipMode.Equipped);
+        if (!IsDisarmed) PlayerInventoryHUD.DisplayWeaponAs(currentWeapon.weaponType, EquipMode.Equipped);
     }
     public bool HasWeapon(WeaponType weapon)
     {
         switch(weapon)
         {
             case WeaponType.Melee:
-                return hasMelee;
+                return HasMelee;
 
             case WeaponType.Pistol:
-                return hasPistol;
+                return HasPistol;
 
             case WeaponType.Rifle:
-                return hasRifle;
+                return HasRifle;
 
             case WeaponType.Shotgun:
-                return hasShotgun;
+                return HasShotgun;
 
             case WeaponType.Heavy:
-                return hasHeavy;
+                return HasHeavy;
 
             case WeaponType.Tool:
-                return hasTool;
+                return HasTool;
             default:
                 return false;
         }
