@@ -4283,7 +4283,7 @@ Transform:
   m_GameObject: {fileID: 1727890713172640}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.0000014603138}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4828694678953882}
   - {fileID: 4022487472662872}
@@ -4305,7 +4305,6 @@ MonoBehaviour:
   height: 0.7
   healthbarPrefab: {fileID: 2093871233608223081, guid: e5d3060678a5d8d4da165651c79cbbad,
     type: 3}
-  textField: {fileID: 0}
 --- !u!114 &7339744613345601289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4318,11 +4317,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ea095e170bd67f48947529c085d0548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPoint: {x: 0, y: 0, z: 0}
-  pointToLookAt: {x: 0, y: 0, z: 0}
   facerTransform: {fileID: 4681177875611186}
   navmeshAgent: {fileID: 195661160007103772}
-  target: {fileID: 0}
 --- !u!114 &114878597408337190
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -55,7 +55,7 @@ namespace Gann4Games.Thirdym.StateMachines
             if(_context.enviroment.IsSwimming && !_context.enviroment.IsGrounded) _context.SetState(_context.UnderwaterState);
             
             if (PlayerInputHandler.instance.gameplayControls.Player.Jump.triggered) // Basic jump
-                _context.DoJump();
+                _context.JumpAsPlayer();
 
             _context.SetCrouchAnimationState(PlayerInputHandler.instance.crouching);
             

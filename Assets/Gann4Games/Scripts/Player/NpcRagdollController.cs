@@ -1,25 +1,24 @@
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.AI;
 using Gann4Games.Thirdym.Utility;
 using Gann4Games.Thirdym.Enums;
 using Gann4Games.Thirdym.StateMachines;
+using System.Collections.Generic;
 
 namespace Gann4Games.Thirdym.NPC
 {
     public class NpcRagdollController : StateMachine
     {
-        public Vector3 targetPoint;
-        public Vector3 pointToLookAt;
-
-        private CharacterCustomization character;
-
         [Tooltip("A transform that is used by the head to follow its rotation")]
         public Transform facerTransform;
 
-        [SerializeField] NavMeshAgent navmeshAgent;
-        [SerializeField] CharacterCustomization target;
+        public NavMeshAgent navmeshAgent;
+
+        // New code (npc update/rework)
+        public RagdollController Ragdoll { get; private set; }
+        public CharacterCustomization Character => Ragdoll.Character;
+        public CharacterHealthSystem HealthController => Ragdoll.Character.HealthController;
 
         // States
         private NpcIdleState IdleState = new NpcIdleState();
@@ -28,7 +27,7 @@ namespace Gann4Games.Thirdym.NPC
         private NpcRunawayState RunawayState = new NpcRunawayState();
         private void Awake()
         {
-            character = GetComponent<CharacterCustomization>();
+            Ragdoll = GetComponent<RagdollController>();
             SetState(IdleState);
         }
 
@@ -39,152 +38,129 @@ namespace Gann4Games.Thirdym.NPC
             // * A player provides input to the ragdoll in order to take control over it.
             // * Probably im going to need an "InputProvider" class.
             // * PlayerInputHandler does this, but the same features are needed for Npcs.
-            
-            CurrentState.OnUpdateState(this);
+
+            CurrentState?.OnUpdateState(this);
         }
-        
+
         private void OnDamageDealed(object sender, CharacterHealthSystem.OnDamageDealedArgs e)
         {
-            if(!character.HealthController.IsAlive) return;
-            SetTargetPoint(e.where);
-            RagdollBodyLookAt(targetPoint);
-            HeadLookAt(targetPoint);
+            if (!HealthController.IsAlive) return;
+            LookAt(e.where);
         }
-        private void OnDestroy()
+        private void OnEnable() => HealthController.OnDamageDealed += OnDamageDealed;
+        private void OnDestroy() => HealthController.OnDamageDealed -= OnDamageDealed;
+
+        //---------------------------------------- New (updated) functionality ----------------------------------------
+
+/*ACTIONS*/
+
+        /// <summary>Makes the NPC look towards the vector specified</summary>
+        public void LookAt(Vector3 point) => facerTransform.LookAt(point);
+
+        /// <summary>Makes the NPC look towards its ghost navmesh agent with its head</summary>
+        public void LookAtNavmeshAgent() => LookAt(navmeshAgent.transform.position);
+
+        //public void SetRotation(Vector3 rotation) => Ragdoll.makeguide//Ragdoll.guide.transform.eulerAngles = rotation;
+
+        /// <summary>Imitates the navmesh agent's rotation</summary>
+        public void SetRotationLikeNavmeshAgent() => Ragdoll.MakeGuideSetRotation(navmeshAgent.transform.rotation, 0.1f);
+
+        public void SetRotationTowards(Vector3 point)
         {
-            character.HealthController.OnDamageDealed -= OnDamageDealed;
+            point.y = Ragdoll.RootJoint.transform.position.y;
+            //Ragdoll.RootJoint.transform.LookAt(point);
+            Ragdoll.MakeGuideLookTowards(point, 0.1f);
         }
 
+        /// <summary>Walks towards the desired point</summary>
+        public void WalkTowards(Vector3 point, float stopDistance = 1)
+        {
+            //Direction to move feet
+            Vector3 feetDirection = transform.InverseTransformDirection(point - transform.position).normalized;
 
+            // Stop feet movement at desired distance
+            if (DistanceBetweenNavmesh() < stopDistance) feetDirection = Vector3.zero;
+
+            //Set feet movement on its Y position
+            // Ragdoll.SetVerticalAnimationValue(Mathf.Lerp(Ragdoll.GetVerticalAnimationValue(), feetDirection.z, Time.deltaTime));
+            Ragdoll.SetVerticalAnimationValue(feetDirection.z);
+            //Set feet movement on its X position
+            // Ragdoll.SetHorizontalAnimationValue(Mathf.Lerp(Ragdoll.GetHorizontalAnimationValue(), feetDirection.x, Time.deltaTime));
+            Ragdoll.SetHorizontalAnimationValue(feetDirection.x);
+        }
+        public void WalkTowardsNavmeshAgent() => WalkTowards(navmeshAgent.transform.position);
+
+        public void Attack() => Character.ShootSystem.ShootAsNPC();
+
+        /*NAVMESH*/
+        public float DistanceBetweenNavmesh() => Vector3.Distance(transform.position, navmeshAgent.transform.position);
+        public bool HasArrived => navmeshAgent.remainingDistance <= navmeshAgent.stoppingDistance;
+
+        public bool IsNavmeshTooFarAway(float distance = 3) => Vector3.Distance(navmeshAgent.transform.position, transform.position) > distance;
+
+        /// <summary>Avoids the navmesh agent to go too far from the ragdoll</summary>
+        /// <param name="maximumDistance">Max distance that the nav is able to travel</param>>
+        public void ClampNavmeshAgent(float maximumDistance = 3)
+        {
+            // This thing here... makes a huge trick to help making unstable ragdoll movement fluent with navmesh. :)
+            navmeshAgent.speed = maximumDistance /  DistanceBetweenNavmesh(); 
+            
+            if (IsNavmeshTooFarAway(maximumDistance))
+                navmeshAgent.transform.position = transform.position;
+        }
+
+        public void GoTo(Vector3 point, float stopDistance = 2)
+        {
+            navmeshAgent.stoppingDistance = stopDistance;
+            navmeshAgent.SetDestination(point);
+        }
+
+/*UTILITIES*/
+        /// <returns>A random point around the specified reference point (doesn't use height)</returns>
+        public Vector3 RandomPointAround(Vector3 referencePoint, float range = 1)
+        {
+            float x = Random.Range(-range, range);
+            float y = Random.Range(-range, range);
+            return referencePoint + new Vector3(x, 0, y);
+        }
+
+        /// <summary>Checks wheter the point is on the field of view or not</summary>
         public bool IsOnSight(Vector3 point)
         {
             Vector3 directionToPoint = point - transform.position;
-            float product = Vector3.Dot(character.baseBody.head.forward, directionToPoint.normalized);
+            float product = Vector3.Dot(Ragdoll.Character.baseBody.head.forward, directionToPoint.normalized);
             return product > 0.25f;
         }
 
-        /// <summary>
-        /// Avoids the Nav agent to go too far from the ragdoll
-        /// </summary>
-        /// <param name="maximumDistance">Max distance that the nav is able to travel</param>>
-        public void ClampNavAgent(float maximumDistance = 3)
-        {
-            if (Vector3.Distance(navmeshAgent.transform.position, transform.position) > maximumDistance)
-                navmeshAgent.transform.position = transform.position;
-        }
-        
-        public void GoTo(Vector3 place, float stopDistance = 2)
-        {
-            navmeshAgent.stoppingDistance = stopDistance;
-            navmeshAgent.SetDestination(place);
-        }
+/*CHARACTER/RAGDOLL ANALYSIS*/
+        public bool IsFriend(CharacterCustomization character) => Character.preset.allyTags.Contains(character.preset.faction);
+        public bool IsEnemy(CharacterCustomization character) => Character.preset.enemyTags.Contains(character.preset.faction);
 
-        /// <summary>
-        /// Walks towards the Nav Mesh agent automatically
-        /// </summary>
-        public void RagdollWalk2Nav() => RagdollWalkTowards(navmeshAgent.transform.position);
-        /// <summary>
-        /// Walks towards any desired position set
-        /// </summary>
-        /// <param name="toPoint">The point to walk at</param>
-        public void RagdollWalkTowards(Vector3 toPoint, float stopDistance = .5f)
-        {
-            //Direction to move feet
-            Vector3 feetDirection = transform.InverseTransformDirection(transform.position - toPoint).normalized;
+        public IEnumerable<CharacterCustomization> AllCharactersInScene() => FindObjectsOfType<CharacterCustomization>()
+            .OrderBy(character => Vector3.Distance(transform.position, character.transform.position))
+            .Where(character => character != Character);
 
-            // Stop feet movement at desired distance
-            if (Vector3.Distance(transform.position, transform.position + feetDirection) < stopDistance) feetDirection = Vector3.zero;
+        public CharacterCustomization FindClosestCharacterInScene() => AllCharactersInScene().FirstOrDefault();
 
-            //Set feet movement on its Y position
-            character.Animator.SetFloat("Y", Mathf.Lerp(character.Animator.GetFloat("Y"), -feetDirection.z, Time.deltaTime));
-            //Set feet movement on its X position
-            character.Animator.SetFloat("X", Mathf.Lerp(character.Animator.GetFloat("X"), -feetDirection.x, Time.deltaTime));
-        }
-        public void RagdollBodyLookAt(Vector3 point2face)
-        {
-            point2face.y = character.RagdollController.RootJoint.transform.position.y;
-            character.RagdollController.RootJoint.transform.LookAt(point2face);
-        }
-        public void RagdollBodySetRotation(Vector3 rotation) => character.RagdollController.guide.transform.eulerAngles = rotation;
-        /// <summary>
-        /// Sets the body rotation to be equals as the NavMesh Agent rotation
-        /// </summary>
-        public void RagdollBody2Nav() => RagdollBodySetRotation(navmeshAgent.transform.eulerAngles);
-        public void RagdollBodyLookAtCurrentTarget() => RagdollBodyLookAt(new Vector3(target.transform.position.x, character.RagdollController.guide.transform.position.y, target.transform.position.z));
-        /// <summary>
-        /// Sets the vector target point
-        /// </summary>
-        /// <param name="newVector">The new point to set on the vector target</param>
-        public void SetTargetPoint(Vector3 newVector) => targetPoint = newVector;
-        public void HeadLookAtNav()
-        {
-            Vector3 navPosition = navmeshAgent.transform.position;
-            HeadLookAt(new Vector3(navPosition.x, facerTransform.position.y, navPosition.z));
-        }
-        public void HeadLookAt(Vector3 point2face) => facerTransform.LookAt(point2face);
-        public void Attack() => character.ShootSystem.ShootAsNPC();
-        /// <summary>
-        /// Fires a raycast towards the current target and checks for any specified list of tags
-        /// </summary>
-        /// <returns>true if any of the tags specified has been found on the target</returns>
-        public bool IsFacingAt(Vector3 point, string[] tagList)
-        {
-            Vector3 rayPos = transform.position + Vector3.up * 0.75f;
-            Vector3 direction = (point - new Vector3(0, .25f, 0)) - (rayPos);
-            if (Physics.Raycast(rayPos, direction, out RaycastHit hit))
-            {
-                Debug.DrawLine(rayPos, hit.point, Color.red);
-                foreach (string currentTag in tagList)
-                {
-                    if (hit.transform.CompareTag(currentTag))
-                    {
-                        Debug.DrawLine(rayPos, hit.point, Color.green);
-                        return true;
-                    }
-                }
-                // else kind of part
-                Debug.DrawLine(rayPos, hit.point, Color.red);
-                return false;
-            }
-            else return false;
-        }
+        /*GLOBAL WEAPONS*/
+        public IEnumerable<PickupableWeapon> AllWeaponsInScene() => FindObjectsOfType<PickupableWeapon>().OrderBy(weapon => Vector3.Distance(transform.position, weapon.transform.position));
+        public IEnumerable<PickupableWeapon> FindWeaponsOfType(WeaponType weaponType) => AllWeaponsInScene().Where(weapon => weapon.weaponData.weaponType == weaponType);
+        public PickupableWeapon FindClosestWeaponOfType(WeaponType weaponType) => FindWeaponsOfType(weaponType).FirstOrDefault();
+        public PickupableWeapon FindClosestWeapon() => AllWeaponsInScene().FirstOrDefault();
 
-        /// <summary>
-        /// Gets a random place relative to a specified point
-        /// </summary>
-        /// <param name="referencePoint">The referenced point</param>
-        /// <returns>A random point closer to the reference point</returns>
-        public Vector3 GetRandomPlaceAround(Vector3 referencePoint, Vector2 range)
-        {
-            float XRange = Random.Range(0, range.x);
-            float X = Random.Range(-XRange, XRange);
-            float YRange = Random.Range(0, range.y);
-            float Y = Random.Range(-YRange, YRange);
+/*VISIBLE WEAPONS*/
+        public IEnumerable<PickupableWeapon> AllVisibleWeaponsInScene() => AllWeaponsInScene().Where(weapon => IsTargetVisible(weapon.transform));
+        public IEnumerable<PickupableWeapon> FindVisibleWeaponsOfType(WeaponType weaponType) => AllVisibleWeaponsInScene().Where(weapon => weapon.weaponData.weaponType == weaponType);
+        public PickupableWeapon FindClosestVisibleWeaponOfType(WeaponType weaponType) => FindVisibleWeaponsOfType(weaponType).FirstOrDefault();
+        public PickupableWeapon FindClosestVisibleWeapon() => AllVisibleWeaponsInScene().FirstOrDefault();
 
-            return referencePoint + new Vector3(X, 0, Y);
-        }
-        public bool HasActiveTarget => target != null;
-        public bool HasArrived => navmeshAgent.remainingDistance <= navmeshAgent.stoppingDistance;
-        public PickupableWeapon[] FindGuns() => FindObjectsOfType<PickupableWeapon>();
-        public PickupableWeapon GetClosestWeapon()
+        public bool IsAnyWeaponAround => AllVisibleWeaponsInScene().Count() > 0;
+
+        public bool IsTargetVisible(Transform target)
         {
-            PickupableWeapon[] weapons = FindObjectsOfType<PickupableWeapon>();
-            Transform[] weaponsTransform = GeneralTools.GetTransformsOfArray(weapons);
-            return GeneralTools.GetClosestTransform(transform.position, weaponsTransform).GetComponent<PickupableWeapon>();
-        }
-        public PickupableWeapon FindDefibrilator()
-        {
-            PickupableWeapon[] guns = GameObject.FindObjectsOfType<PickupableWeapon>();
-            PickupableWeapon defibrilatorWorldWeapon = new PickupableWeapon();
-            foreach (PickupableWeapon gun in guns)
-            {
-                if (gun.weaponData.weaponType == WeaponType.Tool)
-                { 
-                    defibrilatorWorldWeapon = gun; 
-                    break; 
-                }
-            }
-            return defibrilatorWorldWeapon;
+            Ray ray = new Ray(transform.position, target.transform.position - transform.position);
+            Physics.Raycast(ray, out RaycastHit hit);
+            return hit.transform == target;
         }
     }
 }

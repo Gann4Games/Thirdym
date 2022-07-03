@@ -59,15 +59,21 @@ public class RagdollController : StateMachine {
 	}
 	void Update ()
 	{
-		CurrentState.OnUpdateState(this);
 		UpdateRootJointStatus();
+		if(Character.isPlayer) CurrentState.OnUpdateState(this);
 	}
 
 	public float RelativeZVelocity => body.InverseTransformDirection(BodyRigidbody.velocity).z;
-	public void DoJump()
+	public void JumpAsPlayer()
 	{
-		float jumpForce = 5;
-		Vector3 direction = PlayerCameraController.GetCameraTransformedDirection(MovementAxis.x, 0, MovementAxis.y)/*(transform.forward * MovementAxis.magnitude)*/ + transform.up;
+		Vector3 direction = PlayerCameraController.GetCameraTransformedDirection(MovementAxis.x, 0, MovementAxis.y);
+        JumpTowards(direction);
+    }
+
+	public void JumpTowards(Vector3 direction)
+	{
+        direction += Vector3.up;
+        float jumpForce = 5;
 		SetCharacterVelocity(direction * jumpForce);
 	}
 	
@@ -96,16 +102,19 @@ public class RagdollController : StateMachine {
 // Extracted functionality from spaghetti code goes below
 // Guide transform
 
-	
-	public void MakeGuideLookTowards(Vector3 direction, float lerpTime)
+	public void MakeGuideSetRotation(Quaternion rotation, float lerpTimeClamped)
 	{
-		// TODO
-	}
-	public void MakeGuideLookTowardsCamera(float lerpTime = 1)
+        guide.rotation = Quaternion.Lerp(guide.rotation, rotation, lerpTimeClamped);
+    }
+	public void MakeGuideLookTowards(Vector3 direction, float lerpTimeClamped)
+	{
+        guide.rotation = Quaternion.Lerp(guide.rotation, Quaternion.LookRotation(direction), lerpTimeClamped);
+    }
+	public void MakeGuideLookTowardsCamera(float lerpTimeClamped = 1)
 	{
 		guide.rotation = Quaternion.Slerp(guide.rotation,
 			Quaternion.Euler(0, PlayerCameraController.GetCameraAngle().y, 0),
-			lerpTime);
+			lerpTimeClamped);
 	}
 
 	public void MakeGuideLookTowardsMovement()
@@ -136,8 +145,19 @@ public class RagdollController : StateMachine {
 		RootJoint.spring = hingeSpring;
 		RootJoint.useSpring = Character.HealthController.IsAlive;
 	}
+
+	/// <summary>
+    /// Note: a negative value will tilt the body forward, and a positive value will do the opposite (duh)
+    /// </summary>
+    /// <param name="angle"></param>
 	public void SetRootJointRotation(float angle) => _bodyRotation = angle;
 	public void SetRootJointSpring(float spring) => _bodySpring = spring;
 	public void SetRootJointDamping(float damping) => _bodyDamp = damping;
+
+	/// <summary>
+    /// If this function is not running, the ragdoll will never rotate.
+    /// Its like an attachment that allows for smooth physics rotation.
+    /// Its open to changes so it doesn't rely on an external transform...
+    /// </summary>
 	public void MakeRootFollowGuide() => RootJoint.transform.rotation = guide.rotation;
 }
