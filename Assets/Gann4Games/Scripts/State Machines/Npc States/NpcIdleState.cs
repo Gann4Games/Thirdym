@@ -4,7 +4,7 @@ namespace Gann4Games.Thirdym.StateMachines
     {
         public void OnEnterState(StateMachine context)
         {
-            throw new System.NotImplementedException();
+            throw new System.NotImplementedException("NPCs have to be made.");
         }
 
         public void OnUpdateState(StateMachine context)
