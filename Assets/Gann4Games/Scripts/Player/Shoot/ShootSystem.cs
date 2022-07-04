@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 public class ShootSystem : MonoBehaviour {
-    CharacterCustomization _character;
+    RagdollController _ragdoll;
     Transform _user;
 
     CharacterShootHandler _shootScript;
@@ -11,14 +11,14 @@ public class ShootSystem : MonoBehaviour {
     }
     private void Start()
     {
-        _character = GetComponent<CharacterCustomization>();
+        _ragdoll = GetComponent<RagdollController>();
         _user = transform;
     }
     private void Update()
     {
-        bool isCharacterDead = _character.HealthController.IsDead;
-        bool isCharacterDisarmed = _character.EquipmentController.IsDisarmed;
-        bool isCharacterAPlayer = _character.isPlayer;
+        bool isCharacterDead = _ragdoll.HealthController.IsDead;
+        bool isCharacterDisarmed = _ragdoll.EquipmentController.IsDisarmed;
+        bool isCharacterAPlayer = _ragdoll.Customizator.isPlayer;
         bool isGamePaused = IngameMenuHandler.instance.paused;
         bool isCharacterFiring = PlayerInputHandler.instance.firing;
         bool isCharacterAiming = PlayerInputHandler.instance.aiming;
@@ -35,7 +35,7 @@ public class ShootSystem : MonoBehaviour {
     /// </summary>
     public void ShootAsNPC()
     {
-        if (!_character.isNPC && IngameMenuHandler.instance.paused) return;
+        if (!_ragdoll.Customizator.isNPC && IngameMenuHandler.instance.paused) return;
         _shootScript.StartShooting();
     }
 }

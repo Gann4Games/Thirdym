@@ -34,7 +34,7 @@ namespace Gann4Games.Thirdym.StateMachines
             if (_context.MaxHealthReached) { _timer.Reset(); return; }
             _timer.Count();
             if(!_timer.HasFinished()) return;
-            _context.AddHealth(Time.deltaTime * _context.HealthPercentage * _context.Character.preset.regeneration_rate);
+            _context.AddHealth(Time.deltaTime * _context.HealthPercentage * _context.Ragdoll.Customizator.preset.regeneration_rate);
         }
         private void OnDamageDealed(object sender, CharacterHealthSystem.OnDamageDealedArgs e) => _timer.Reset();
     }

@@ -17,14 +17,14 @@ namespace Gann4Games.Thirdym.StateMachines
 
         public void OnUpdateState(StateMachine context)
         {
-            if(_context.Character.HealthController.IsDead) _context.SetState(_context.DeadState);
+            if(_context.HealthController.IsDead) _context.SetState(_context.DeadState);
             if(_context.enviroment.IsGrounded) _context.SetState(_context.GroundedState);
             if(_context.enviroment.IsSwimming) _context.SetState(_context.UnderwaterState);
             
             _context.MakeRootFollowGuide();
             _context.SetVerticalAnimationValue(_context.RelativeZVelocity);
 
-            bool ragdolling = _context.Character.InputHandler.ragdolling;
+            bool ragdolling = _context.InputHandler.ragdolling;
             _context.SetCrouchAnimationState(ragdolling);
             _context.SetRootJointRotation(ragdolling
                 ?_context.MovementAxis.y*-90

@@ -2,6 +2,6 @@ namespace Gann4Games.Thirdym.Interactables
 {
     public interface IInteractable
     {
-        void Interact(CharacterCustomization character);
+        void Interact(RagdollController character);
     }
 }

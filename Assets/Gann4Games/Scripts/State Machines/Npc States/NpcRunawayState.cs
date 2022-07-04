@@ -26,7 +26,7 @@ namespace Gann4Games.Thirdym.StateMachines
 
             if(_context.DistanceBetween(_closestWeapon.transform.position) < 1) 
             {
-                _closestWeapon.Interact(_context.Character);
+                _closestWeapon.Interact(_context.Ragdoll);
                 _context.SetState(_context.IdleState);
             }
 

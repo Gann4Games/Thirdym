@@ -217,7 +217,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.75
-  character: {fileID: 114266830533150404}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -435,7 +434,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 1
-  character: {fileID: 114266830533150404}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -752,7 +750,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.5
-  character: {fileID: 114266830533150404}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -1704,7 +1701,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.75
-  character: {fileID: 114266830533150404}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -3394,7 +3390,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 2
-  character: {fileID: 114266830533150404}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -3629,7 +3624,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.5
-  character: {fileID: 114266830533150404}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -3980,7 +3974,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.75
-  character: {fileID: 114266830533150404}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -4332,17 +4325,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enviroment: {fileID: 114146514735537194}
-  guide: {fileID: 0}
-  body: {fileID: 4022487472662872}
-  head: {fileID: 4849286135714090}
+  animator: {fileID: 95440290256324234}
   bodyParts: []
-  legsMotion:
-  - {fileID: 59897064607458558}
-  - {fileID: 59512682991149596}
-  - {fileID: 59630873706525384}
-  - {fileID: 59811417918031476}
-  - {fileID: 59934943363379376}
-  - {fileID: 59456035366539286}
 --- !u!114 &114912258299896946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4406,9 +4390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 616d983dec1c6ca4ba1a3827c84c5170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isNPC: 1
   usePlayerPrefs: 0
-  ragdollAnimator: {fileID: 95440290256324234}
   preset: {fileID: 11400000, guid: d7125a7022e14ee44b4d98b33a1ca91e, type: 2}
   baseBody:
     body: {fileID: 4022487472662872}
@@ -4939,7 +4921,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.25
-  character: {fileID: 114266830533150404}
   sfxCollideHard: {fileID: 8300000, guid: 8c07e4ff1edf7ac43a29709cd15bc7ac, type: 3}
   sfxCollideMedium: {fileID: 8300000, guid: c4c3a36b127a53c43bd9267cbf859606, type: 3}
   sfxCollideSoft: {fileID: 8300000, guid: 8170e72824abbb84e98a282fc375e4db, type: 3}
@@ -5092,7 +5073,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.5
-  character: {fileID: 114266830533150404}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -5308,7 +5288,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.5
-  character: {fileID: 114266830533150404}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -5537,7 +5516,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.75
-  character: {fileID: 114266830533150404}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -5730,7 +5708,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.25
-  character: {fileID: 114266830533150404}
   sfxCollideHard: {fileID: 8300000, guid: 8c07e4ff1edf7ac43a29709cd15bc7ac, type: 3}
   sfxCollideMedium: {fileID: 8300000, guid: c4c3a36b127a53c43bd9267cbf859606, type: 3}
   sfxCollideSoft: {fileID: 8300000, guid: 8170e72824abbb84e98a282fc375e4db, type: 3}

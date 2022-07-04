@@ -6,20 +6,18 @@ public class CheckGround : MonoBehaviour {
 
     public bool IsGrounded => _grounded;
     public bool IsSwimming => _swimming;
-    public CharacterCustomization Character { get; private set; }
-    EquipmentSystem _equipmentController;
+    public RagdollController Ragdoll { get; private set; }
 
     bool _grounded;
     bool _swimming;
 
     private void Start()
     {
-        Character = transform.parent.GetComponentInChildren<CharacterCustomization>();
-        _equipmentController = Character.EquipmentController;
+        Ragdoll = transform.parent.GetComponentInChildren<RagdollController>();
     }
     private void Update()
     {
-        if (Character.HealthController.IsDead)
+        if (Ragdoll.HealthController.IsDead)
             _grounded = false;
     }
     

@@ -1,69 +1,109 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Gann4Games.Thirdym.StateMachines;
+using Gann4Games.Thirdym.NPC;
 using DG.Tweening;
+using Gann4Games.Thirdym.Utility;
 
+/// <summary>
+/// 
+/// </summary>
 public class RagdollController : StateMachine {
 
+    public event EventHandler OnReady;
     public CheckGround enviroment;
 	public Vector2 MovementAxis => PlayerInputHandler.instance.movementAxis;
 
-	[Header("Ragdoll Components")]
-	[HideInInspector] public Transform guide;
-	public Transform body;
-	public Transform head;
-	float AngleX
-	{
-		get
-		{
-			float ang = body.localEulerAngles.x;
-			ang = (ang > 180) ? ang - 360 : ang;
-			return ang;
-		}
-	}
-	float _bodyRotation;
-	float _bodySpring;
-	float _bodyDamp = 10;
-	public Rigidbody[] bodyParts;
-	[FormerlySerializedAs("LegsMotion")] [SerializeField] List<HingeJoint> legsMotion;
+    [Header("Ragdoll Components")]
+    [SerializeField] private Animator animator;
+
+    public Rigidbody[] bodyParts;
+	
 	public HingeJoint RootJoint { get; private set; }
 
-	public CharacterCustomization Character { get; private set; }
 	public Rigidbody HeadRigidbody { get; private set;  }
 	public Rigidbody BodyRigidbody { get; private set; }
 	
 	public float LimbsJointWeight { get; private set; }
 
-	// Player states
-	public PlayerGroundedState GroundedState = new PlayerGroundedState();
+/*RAGDOLL CORE COMPONENTS*/
+	public CharacterCustomization Customizator { get; private set; }
+	public AudioSource AudioPlayer { get; private set; }
+    public CharacterHealthSystem HealthController { get; private set; }
+    public ShootSystem ShootSystem { get; private set; }
+    public EquipmentSystem EquipmentController { get; private set; }
+    public CharacterArms ArmController { get; private set; }
+    public PlayerCameraController CameraController { get; private set; }
+    public NpcRagdollController Npc { get; private set; }
+    public CharacterWalljump WalljumpController { get; private set; }
+    public PlayerInputHandler InputHandler { get; private set; }
+    public CharacterMeleeHandler MeleeHandler { get; private set; }
+    public CharacterInteractor Interactor { get; private set; }
+    public Animator Animator => animator;
+
+    // Player states
+    public PlayerGroundedState GroundedState = new PlayerGroundedState();
 	public PlayerUnderwaterState UnderwaterState = new PlayerUnderwaterState();
 	public PlayerJumpingState JumpingState = new PlayerJumpingState();
 	public PlayerInjuredState InjuredState = new PlayerInjuredState();
 	public PlayerDeadState DeadState = new PlayerDeadState();
 
+	private float _bodyRotation;
+	private float _bodySpring;
+	private float _bodyDamp = 10;
+	private Transform _guide;
+
+	public float RelativeZVelocity => BodyRigidbody.transform.InverseTransformDirection(BodyRigidbody.velocity).z;
+
 	void Awake () {
         SetLimbsWeight(1, 0);
-		Character = GetComponent<CharacterCustomization>();
-		bodyParts = GetComponentsInChildren<Rigidbody>();
-		HeadRigidbody = head.GetComponent<Rigidbody>();
-		BodyRigidbody = body.GetComponent<Rigidbody>();
 
-		guide = new GameObject("guide").transform;
-		guide.rotation = body.rotation;
-        
-		RootJoint = GetComponent<HingeJoint>();
-		RootJoint.autoConfigureConnectedAnchor = false;
-        
-		SetState(GroundedState);
+        GetCoreComponents();
+        GetBodyparts();
+        ConfigureComponents();
+
+        SetState(GroundedState);
 	}
-	void Update ()
+
+	private void Start() => OnReady?.Invoke(this, EventArgs.Empty);
+
+	private void GetCoreComponents()
+	{
+		RootJoint = GetComponent<HingeJoint>();
+
+		AudioPlayer = GetComponent<AudioSource>();
+		HealthController = GetComponent<CharacterHealthSystem>();
+		ShootSystem = GetComponent<ShootSystem>();
+		EquipmentController = GetComponent<EquipmentSystem>();
+		ArmController = GetComponent<CharacterArms>();
+		CameraController = GetComponent<PlayerCameraController>();
+		Npc = GetComponent<NpcRagdollController>();
+		WalljumpController = GetComponent<CharacterWalljump>();
+		InputHandler = GetComponent<PlayerInputHandler>();
+		MeleeHandler = GetComponent<CharacterMeleeHandler>();
+		Interactor = GetComponent<CharacterInteractor>();
+		Customizator = GetComponent<CharacterCustomization>();
+	}
+
+	private void GetBodyparts()
+	{
+		bodyParts = GetComponentsInChildren<Rigidbody>();
+		HeadRigidbody = Customizator.baseBody.head.GetComponent<Rigidbody>();
+		BodyRigidbody = Customizator.baseBody.body.GetComponent<Rigidbody>();
+	}
+
+	private void ConfigureComponents()
+	{
+		RootJoint.autoConfigureConnectedAnchor = false;
+		_guide = new GameObject("guide").transform;
+		//_guide.rotation = body.rotation;
+	}
+
+	private void Update ()
 	{
 		UpdateRootJointStatus();
-		if(Character.isPlayer) CurrentState.OnUpdateState(this);
+		if(Customizator.isPlayer) CurrentState.OnUpdateState(this);
 	}
-
-	public float RelativeZVelocity => body.InverseTransformDirection(BodyRigidbody.velocity).z;
 	public void JumpAsPlayer()
 	{
 		Vector3 direction = PlayerCameraController.GetCameraTransformedDirection(MovementAxis.x, 0, MovementAxis.y);
@@ -104,17 +144,17 @@ public class RagdollController : StateMachine {
 
 	public void MakeGuideSetRotation(Quaternion rotation, float lerpTimeClamped)
 	{
-        guide.rotation = Quaternion.Lerp(guide.rotation, rotation, lerpTimeClamped);
+        _guide.rotation = Quaternion.Lerp(_guide.rotation, rotation, lerpTimeClamped);
     }
 	public void MakeGuideLookTowards(Vector3 point, float lerpTimeClamped)
 	{
         point.y = RootJoint.transform.position.y;
         Quaternion desiredRotation = Quaternion.LookRotation(point - RootJoint.transform.position);
-        guide.rotation = Quaternion.Lerp(guide.rotation, desiredRotation, lerpTimeClamped);
+        _guide.rotation = Quaternion.Lerp(_guide.rotation, desiredRotation, lerpTimeClamped);
     }
 	public void MakeGuideLookTowardsCamera(float lerpTimeClamped = 1)
 	{
-		guide.rotation = Quaternion.Slerp(guide.rotation,
+		_guide.rotation = Quaternion.Slerp(_guide.rotation,
 			Quaternion.Euler(0, PlayerCameraController.GetCameraAngle().y, 0),
 			lerpTimeClamped);
 	}
@@ -123,21 +163,22 @@ public class RagdollController : StateMachine {
 	{
 		Vector3 direction = PlayerCameraController.GetCameraTransformedDirection(new Vector3(MovementAxis.x, 0, MovementAxis.y));
 		direction.y = 0;
-		guide.forward = Vector3.Lerp(guide.forward, guide.position + direction.normalized, Time.deltaTime * 10);
+		_guide.forward = Vector3.Lerp(_guide.forward, _guide.position + direction.normalized, Time.deltaTime * 10);
 	}
     
-// Animation
+/*ANIMATION*/
 	// States
-	public void SetCrouchAnimationState(bool value) => Character.Animator.SetBool("Crouch", value);
-	public void SetGroundedAnimationState(bool value) => Character.Animator.SetBool("Grounded", value);
-	public void SetKickingAnimationState(bool value) => Character.Animator.SetBool("Kicking", value);
+	public void SetCrouchAnimationState(bool value) => Animator.SetBool("Crouch", value);
+	public void SetGroundedAnimationState(bool value) => Animator.SetBool("Grounded", value);
+	public void SetKickingAnimationState(bool value) => Animator.SetBool("Kicking", value);
 	// Values
-	public void SetHorizontalAnimationValue(float value) => Character.Animator.SetFloat("X", value);
-	public void SetVerticalAnimationValue(float value) => Character.Animator.SetFloat("Y", value);
-	public float GetHorizontalAnimationValue() => Character.Animator.GetFloat("X");
-	public float GetVerticalAnimationValue() => Character.Animator.GetFloat("Y");
+	public void SetHorizontalAnimationValue(float value) => Animator.SetFloat("X", value);
+	public void SetVerticalAnimationValue(float value) => Animator.SetFloat("Y", value);
+	public float GetHorizontalAnimationValue() => Animator.GetFloat("X");
+	public float GetVerticalAnimationValue() => Animator.GetFloat("Y");
 	public bool IsMoving() => MovementAxis != Vector2.zero;
-// Root joint
+
+/*ROOT JOINT*/
 	public void UpdateRootJointStatus()
 	{
 		JointSpring hingeSpring = RootJoint.spring;
@@ -145,7 +186,7 @@ public class RagdollController : StateMachine {
 		hingeSpring.damper = _bodyDamp;
 		hingeSpring.targetPosition = _bodyRotation;
 		RootJoint.spring = hingeSpring;
-		RootJoint.useSpring = Character.HealthController.IsAlive;
+		RootJoint.useSpring = HealthController.IsAlive;
 	}
 
 	/// <summary>
@@ -161,5 +202,18 @@ public class RagdollController : StateMachine {
     /// Its like an attachment that allows for smooth physics rotation.
     /// Its open to changes so it doesn't rely on an external transform...
     /// </summary>
-	public void MakeRootFollowGuide() => RootJoint.transform.rotation = guide.rotation;
+	public void MakeRootFollowGuide() => RootJoint.transform.rotation = _guide.rotation;
+
+/*AUDIO / SOUNDS*/
+	public void PlaySFX(AudioClip sfx) => AudioPlayer.PlayOneShot(sfx);
+    public void PlayFireSFX() => AudioPlayer.PlayOneShot(EquipmentController.currentWeapon.GetFireSFX());
+    public void PlayEnemyDownSFX() => PlaySFX(AudioTools.GetRandomClip(Customizator.preset.enemyDownSFX));
+    public void PlayAlertSFX() => PlaySFX(AudioTools.GetRandomClip(Customizator.preset.alertSFX));
+    public void PlayPainSFX() => PlaySFX(AudioTools.GetRandomClip(Customizator.preset.painSFX));
+    public void PlayInjurySFX() => PlaySFX(AudioTools.GetRandomClip(Customizator.preset.injuryStateSFX));
+    public void PlayDeathSFX()
+    {
+        PlaySFX(Customizator.preset.forcedDeathSFX);
+        PlaySFX(AudioTools.GetRandomClip(Customizator.preset.deathSFX));
+    }
 }

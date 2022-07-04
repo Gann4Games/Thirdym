@@ -16,8 +16,6 @@ namespace Gann4Games.Thirdym.NPC
 
         // New code (npc update/rework)
         public RagdollController Ragdoll { get; private set; }
-        public CharacterCustomization Character { get; private set; }
-        public CharacterHealthSystem HealthController { get; private set; }
 
         // States
         public NpcIdleState IdleState = new NpcIdleState();
@@ -30,29 +28,41 @@ namespace Gann4Games.Thirdym.NPC
         private void Awake()
         {
             Ragdoll = GetComponent<RagdollController>();
-            Character = Ragdoll.Character;
-            HealthController = Character.HealthController;
+        }
+
+        private void OnEnable() 
+        {
+            Ragdoll.OnReady += Initialize;
+            Ragdoll.HealthController.OnDamageDealed += OnDamageDealed;
+        } 
+
+        private void OnDestroy()
+        {
+            Ragdoll.OnReady -= Initialize;
+            Ragdoll.HealthController.OnDamageDealed -= OnDamageDealed;
+        } 
+
+        private void Initialize(object sender, System.EventArgs e)
+        {
             SetState(IdleState);
         }
 
         private void Update()
         {
+            CurrentState?.OnUpdateState(this);
+
             // TODO: Npc input provider or something
             // * In order to move a ragdoll as an Npc, it requires input.
             // * A player provides input to the ragdoll in order to take control over it.
             // * Probably im going to need an "InputProvider" class.
             // * PlayerInputHandler does this, but the same features are needed for Npcs.
-
-            CurrentState?.OnUpdateState(this);
         }
 
         private void OnDamageDealed(object sender, CharacterHealthSystem.OnDamageDealedArgs e)
         {
-            if (!HealthController.IsAlive) return;
+            if (!Ragdoll.HealthController.IsAlive) return;
             LookAt(e.where);
         }
-        private void OnEnable() => HealthController.OnDamageDealed += OnDamageDealed;
-        private void OnDestroy() => HealthController.OnDamageDealed -= OnDamageDealed;
 
         //---------------------------------------- New (updated) functionality ----------------------------------------
 
@@ -89,7 +99,7 @@ namespace Gann4Games.Thirdym.NPC
         }
         public void WalkTowardsNavmeshAgent(float stopDistance = 1) => WalkTowards(navmeshAgent.transform.position, stopDistance);
 
-        public void Attack() => Character.ShootSystem.ShootAsNPC();
+        public void Attack() => Ragdoll.ShootSystem.ShootAsNPC();
 
 /*NAVMESH*/
         public float DistanceBetween(Vector3 position) => Vector3.Distance(transform.position, position);
@@ -128,19 +138,19 @@ namespace Gann4Games.Thirdym.NPC
         public bool IsOnSight(Vector3 point)
         {
             Vector3 directionToPoint = point - transform.position;
-            float product = Vector3.Dot(Ragdoll.Character.baseBody.head.forward, directionToPoint.normalized);
+            float product = Vector3.Dot(Ragdoll.Customizator.baseBody.head.forward, directionToPoint.normalized);
             return product > 0.25f;
         }
 
 /*CHARACTER/RAGDOLL ANALYSIS*/
-        public bool IsFriend(CharacterCustomization character) => Character.preset.allyTags.Contains(character.preset.faction);
-        public bool IsEnemy(CharacterCustomization character) => Character.preset.enemyTags.Contains(character.preset.faction);
+        public bool IsFriend(CharacterCustomization character) => Ragdoll.Customizator.preset.allyTags.Contains(character.preset.faction);
+        public bool IsEnemy(CharacterCustomization character) => Ragdoll.Customizator.preset.enemyTags.Contains(character.preset.faction);
 
-        public IEnumerable<CharacterCustomization> AllCharactersInScene() => FindObjectsOfType<CharacterCustomization>()
+        public IEnumerable<RagdollController> AllCharactersInScene() => FindObjectsOfType<RagdollController>()
             .OrderBy(character => Vector3.Distance(transform.position, character.transform.position))
-            .Where(character => character != Character);
+            .Where(ragdoll => ragdoll != Ragdoll);
 
-        public CharacterCustomization FindClosestCharacterInScene() => AllCharactersInScene().FirstOrDefault();
+        public RagdollController FindClosestCharacterInScene() => AllCharactersInScene().FirstOrDefault();
 
         /*GLOBAL WEAPONS*/
         public IEnumerable<PickupableWeapon> AllWeaponsInScene() => FindObjectsOfType<PickupableWeapon>().OrderBy(weapon => Vector3.Distance(transform.position, weapon.transform.position));

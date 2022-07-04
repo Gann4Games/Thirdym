@@ -15,7 +15,7 @@ public class PickupableWeapon : InteractableObject
     public AudioClip collisionSoftSFX;
     public AudioClip collisionMediumSFX;
 
-    CharacterCustomization _character;
+    RagdollController _ragdoll;
     AudioSource _auSource;
 
     CollisionEvents _collisionEvents;
@@ -55,13 +55,13 @@ public class PickupableWeapon : InteractableObject
 
     public void EquipWeapon(SO_WeaponPreset weapon)
     {
-        if (_character.EquipmentController.HasWeapon(weapon.weaponType))
+        if (_ragdoll.EquipmentController.HasWeapon(weapon.weaponType))
         {
             AlreadyEquippedAlert(weapon);
             return;
         }
 
-        _character.EquipmentController.EquipWeapon(weapon);
+        _ragdoll.EquipmentController.EquipWeapon(weapon);
         OnPickup();
     }
     private void OnEnable()
@@ -76,7 +76,7 @@ public class PickupableWeapon : InteractableObject
     }
     void OnPickup()
     {
-        if (_character.isPlayer)
+        if (_ragdoll.Customizator.isPlayer)
         {
             switch (LanguagePrefs.Language)
             {
@@ -89,13 +89,13 @@ public class PickupableWeapon : InteractableObject
             }
         }
 
-        _character.PlaySFX(onPickupSFX);
+        _ragdoll.PlaySFX(onPickupSFX);
         Destroy(gameObject);
     }
 
     void AlreadyEquippedAlert(SO_WeaponPreset weapon)
     {
-        if (_character.isPlayer)
+        if (_ragdoll.Customizator.isPlayer)
         {
             switch (LanguagePrefs.Language)
             {
@@ -109,10 +109,10 @@ public class PickupableWeapon : InteractableObject
         }
     }
 
-    public override void Interact(CharacterCustomization character)
+    public override void Interact(RagdollController character)
     {
-        _character = character;
-        if (_character) EquipWeapon(weaponData);
+        _ragdoll = character;
+        if (_ragdoll) EquipWeapon(weaponData);
     }
     public override string Hint => $"Press {UseKey.ToUpper()} to equip {weaponData.name}";
 }

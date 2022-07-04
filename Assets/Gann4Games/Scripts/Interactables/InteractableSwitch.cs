@@ -6,7 +6,7 @@ namespace Gann4Games.Thirdym.Interactables
     public class InteractableSwitch : InteractableObject
     {
         public event EventHandler Signal;
-        public override void Interact(CharacterCustomization character = null)
+        public override void Interact(RagdollController character = null)
         {
             Signal?.Invoke(this, EventArgs.Empty);
         }

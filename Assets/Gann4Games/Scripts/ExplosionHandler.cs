@@ -36,7 +36,7 @@ namespace Gann4Games.Thirdym.Core
 
 
                 if (otherBodypart == null) continue;
-                otherBodypart.character.HealthController.DealDamage(explosiveData.explosionDamage / distance, Vector3.zero);
+                otherBodypart.Ragdoll.HealthController.DealDamage(explosiveData.explosionDamage / distance, Vector3.zero);
             }
         }
         private void OnCollisionEnter(Collision collision)

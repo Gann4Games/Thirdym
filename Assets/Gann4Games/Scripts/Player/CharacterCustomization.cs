@@ -30,70 +30,36 @@ public class Bodyparts
     public Transform rightKnee;
     public Transform rightFoot;
 }
+
+/// <summary>
+/// 
+/// </summary>
 public class CharacterCustomization : MonoBehaviour
 {
-
-    public bool isNPC;
+    public bool isNPC => GetComponent<NpcRagdollController>();
     public bool isPlayer => !isNPC;
     public bool usePlayerPrefs = false;
-
-    [SerializeField] Animator ragdollAnimator;
 
     public SO_RagdollPreset preset;
     public Bodyparts baseBody;
 
-    AudioSource _audioPlayer;
-    RagdollController _ragdollController;
-    CharacterHealthSystem _healthController;
-    ShootSystem _shootSystem;
-    EquipmentSystem _equipmentController;
-    CharacterArms _armController;
-    PlayerCameraController _cameraController;
-    NpcRagdollController _npc;
-    CharacterWalljump _walljumpController;
-    PlayerInputHandler _playerInputHandler;
-    CharacterMeleeHandler _meleeHandler;
-    CharacterInteractor _interactor;
+    public RagdollController Ragdoll { get; private set; }
 
-    public Animator Animator => ragdollAnimator;
-    public AudioSource SoundSource => _audioPlayer;
-    public RagdollController RagdollController  => _ragdollController;
-    public CharacterHealthSystem HealthController => _healthController;
-    public ShootSystem ShootSystem => _shootSystem; 
-    public EquipmentSystem EquipmentController => _equipmentController; 
-    public CharacterArms ArmController => _armController;
-    public PlayerCameraController CameraController => _cameraController;
-    public NpcRagdollController NPC => _npc;
-    public CharacterWalljump WalljumpController => _walljumpController;
-    public PlayerInputHandler InputHandler => _playerInputHandler;
-    public CharacterMeleeHandler MeleeHandler => _meleeHandler;
-    public CharacterInteractor Interactor => _interactor;
-
-    private void Awake()
+    private void Awake() 
     {
+        Ragdoll = GetComponent<RagdollController>();
+    }
+
+    private void OnEnable() => Ragdoll.OnReady += Initialize;
+    private void OnDisable() => Ragdoll.OnReady -= Initialize;
+
+    private void Initialize(object sender, System.EventArgs args)
+    {
+        transform.tag = preset.faction;
         if (usePlayerPrefs)
             preset = PlayerPreferences.instance.suit_list[PlayerPreferences.instance.json_structure.choosen_suit];
-
-        _audioPlayer = GetComponent<AudioSource>();
-
-        #region Establishing parameters for required components
-        transform.tag = preset.faction;
-
-        _ragdollController = GetComponent<RagdollController>();
-        _healthController = GetComponent<CharacterHealthSystem>();
-        _shootSystem = GetComponent<ShootSystem>();
-        _equipmentController = GetComponent<EquipmentSystem>();
-        _armController = GetComponent<CharacterArms>();
-        _cameraController = GetComponent<PlayerCameraController>();
-        _npc = GetComponent<NpcRagdollController>();
-        _walljumpController = GetComponent<CharacterWalljump>();
-        _playerInputHandler = GetComponent<PlayerInputHandler>();
-        _meleeHandler = GetComponent<CharacterMeleeHandler>();
-        _interactor = GetComponent<CharacterInteractor>();
-        #endregion
-
-        if (!_npc) isNPC = false;
     }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.white;
@@ -159,18 +125,6 @@ public class CharacterCustomization : MonoBehaviour
     public void SetAnimationOverride(AnimatorOverrideController animatorOverride)
     {
         if (animatorOverride == null) return;
-        ragdollAnimator.runtimeAnimatorController = animatorOverride;
-    }
-
-    public void PlaySFX(AudioClip sfx) => _audioPlayer.PlayOneShot(sfx);
-    public void PlayFireSFX() => _audioPlayer.PlayOneShot(EquipmentController.currentWeapon.GetFireSFX());
-    public void PlayEnemyDownSFX() => PlaySFX(AudioTools.GetRandomClip(preset.enemyDownSFX));
-    public void PlayAlertSFX() => PlaySFX(AudioTools.GetRandomClip(preset.alertSFX));
-    public void PlayPainSFX() => PlaySFX(AudioTools.GetRandomClip(preset.painSFX));
-    public void PlayInjurySFX() => PlaySFX(AudioTools.GetRandomClip(preset.injuryStateSFX));
-    public void PlayDeathSFX()
-    {
-        PlaySFX(preset.forcedDeathSFX);
-        PlaySFX(AudioTools.GetRandomClip(preset.deathSFX));
+        Ragdoll.Animator.runtimeAnimatorController = animatorOverride;
     }
 }

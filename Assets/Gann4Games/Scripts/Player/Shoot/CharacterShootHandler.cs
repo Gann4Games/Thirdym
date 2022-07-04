@@ -6,13 +6,13 @@ using Gann4Games.Thirdym.ScriptableObjects;
 public class CharacterShootHandler : MonoBehaviour {
 
     
-    Animator _weaponAnimator;
-    Rigidbody _handRigidbody;
-    TimerTool _timer;
+    private Animator _weaponAnimator;
+    private Rigidbody _handRigidbody;
+    private TimerTool _timer;
 
-    CharacterCustomization _character;
+    private RagdollController _ragdoll;
 
-    SO_WeaponPreset _weapon => _character.EquipmentController.currentWeapon;
+    private SO_WeaponPreset _weapon => _ragdoll.EquipmentController.currentWeapon;
 
     float _repeatTime => _weapon.bulletFireTime;
     public Vector3 HitPosition
@@ -32,13 +32,13 @@ public class CharacterShootHandler : MonoBehaviour {
     }
     private void Awake()
     {
-        _character = GetComponentInParent<CharacterCustomization>();
+        _ragdoll = GetComponentInParent<RagdollController>();
         _timer = new TimerTool(0);
     }
     private void Start()
     {
-        _weaponAnimator = _character.Animator;
-        _handRigidbody = _character.baseBody.rightHand.GetComponent<Rigidbody>();
+        _weaponAnimator = _ragdoll.Animator;
+        _handRigidbody = _ragdoll.Customizator.baseBody.rightHand.GetComponent<Rigidbody>();
     }
     private void Update()
     {
@@ -50,7 +50,7 @@ public class CharacterShootHandler : MonoBehaviour {
         if(!_timer.HasFinished()) 
         {
             _timer.Count();
-            if(!_character.isNPC) MainHUDHandler.instance.crosshairImage.fillAmount = _timer.CurrentTime / _weapon.bulletFireTime;
+            if(!_ragdoll.Customizator.isNPC) MainHUDHandler.instance.crosshairImage.fillAmount = _timer.CurrentTime / _weapon.bulletFireTime;
         }
     }
     public void StartShooting()
@@ -64,10 +64,10 @@ public class CharacterShootHandler : MonoBehaviour {
     }
     void Shoot()
     {
-        if(_character.EquipmentController.currentWeapon.bulletSpawnCount != 0)
-            _character.PlayFireSFX();
-        if(_character.EquipmentController.currentWeapon.useFireRecoil)
-            _character.baseBody.rightElbow.GetComponent<Rigidbody>().AddForce(PlayerCameraController.GetCameraDirection() * -(500 * (_weapon.weaponDamage / 10)));
+        if(_ragdoll.EquipmentController.currentWeapon.bulletSpawnCount != 0)
+            _ragdoll.PlayFireSFX();
+        if(_ragdoll.EquipmentController.currentWeapon.useFireRecoil)
+            _ragdoll.Customizator.baseBody.rightElbow.GetComponent<Rigidbody>().AddForce(PlayerCameraController.GetCameraDirection() * -(500 * (_weapon.weaponDamage / 10)));
 
         CreateBullets();
             
@@ -86,7 +86,7 @@ public class CharacterShootHandler : MonoBehaviour {
             _bulletPrefab.transform.Rotate(Random.Range(-_weapon.bulletSpreadAngle, _weapon.bulletSpreadAngle), Random.Range(-_weapon.bulletSpreadAngle, _weapon.bulletSpreadAngle), 0);
 
             Bullet _bulletComponent = _bulletPrefab.GetComponent<Bullet>();
-            _bulletComponent.user = _character.transform;
+            _bulletComponent.user = _ragdoll.transform;
             _bulletComponent.weapon = _weapon;
         }
     }
@@ -95,12 +95,12 @@ public class CharacterShootHandler : MonoBehaviour {
         AudioClip reloadSFX = AudioTools.GetRandomClip(_weapon.reloadSoundEffects);
 
         yield return new WaitForSeconds(_weapon.reloadStartDelay);
-        _character.Animator.SetBool("WeaponReload", true);
-        _character.SoundSource.PlayOneShot(reloadSFX);
+        _ragdoll.Animator.SetBool("WeaponReload", true);
+        _ragdoll.AudioPlayer.PlayOneShot(reloadSFX);
         _weaponAnimator?.SetBool("WeaponReload", true);
 
         yield return new WaitForSeconds(_weapon.reloadDuration);
-        _character.Animator.SetBool("WeaponReload", false);
+        _ragdoll.Animator.SetBool("WeaponReload", false);
         _weaponAnimator?.SetBool("WeaponReload", false);
     }
 }

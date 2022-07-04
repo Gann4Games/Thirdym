@@ -6,11 +6,11 @@ namespace Gann4Games.Thirdym.StateMachines
 		public void OnEnterState(StateMachine context)
 		{
 			_context = context as RagdollController;
-			_context.Character.EquipmentController.DropAllWeapons();
-			_context.Character.PlayDeathSFX();
+			_context.EquipmentController.DropAllWeapons();
+			_context.PlayDeathSFX();
 			_context.SetLimbsWeight(0, 10);
 
-            if (_context.Character.isNPC) return;
+            if (_context.Customizator.isNPC) return;
 			IngameMenuHandler.PauseAndShowMessage("You have died!");
 		}
 
@@ -23,7 +23,7 @@ namespace Gann4Games.Thirdym.StateMachines
 		public void OnExitState(StateMachine context)
 		{
 			_context.SetLimbsWeight(1, 5);
-			if(_context.Character.isNPC) return;
+			if(_context.Customizator.isNPC) return;
 			IngameMenuHandler.instance.SetPausedStatus(false);
 		}
 	}

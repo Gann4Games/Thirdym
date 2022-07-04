@@ -174,7 +174,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.25
-  character: {fileID: 0}
   sfxCollideHard: {fileID: 8300000, guid: 8c07e4ff1edf7ac43a29709cd15bc7ac, type: 3}
   sfxCollideMedium: {fileID: 8300000, guid: c4c3a36b127a53c43bd9267cbf859606, type: 3}
   sfxCollideSoft: {fileID: 8300000, guid: 8170e72824abbb84e98a282fc375e4db, type: 3}
@@ -407,7 +406,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 2
-  character: {fileID: 114708178553171508}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -1142,7 +1140,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.75
-  character: {fileID: 114708178553171508}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -1410,7 +1407,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.5
-  character: {fileID: 114708178553171508}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -2334,7 +2330,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.75
-  character: {fileID: 114708178553171508}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -2542,12 +2537,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a967dc4c639868f4ba5a1115a7dae6f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 100
-  recoverDelay: 3
-  consumePerSecond: 10
-  regeneratePerSecond: 2.5
-  soundMaster: {fileID: 24100000, guid: c2402c3c0391c96459f25330c98b19e6, type: 2}
-  slowmotionTimeScale: 0.3
 --- !u!114 &6016825591565287816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2576,17 +2565,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enviroment: {fileID: 114690075204158734}
-  guide: {fileID: 0}
-  body: {fileID: 4328011973998686}
-  head: {fileID: 4063309805565270}
+  animator: {fileID: 95888107412333752}
   bodyParts: []
-  legsMotion:
-  - {fileID: 59547896402257552}
-  - {fileID: 59791767786553138}
-  - {fileID: 59620510035674838}
-  - {fileID: 59411776136040378}
-  - {fileID: 59830259956259356}
-  - {fileID: 59290211551028358}
 --- !u!114 &114585330830061758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2704,9 +2684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 616d983dec1c6ca4ba1a3827c84c5170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isNPC: 0
   usePlayerPrefs: 1
-  ragdollAnimator: {fileID: 95888107412333752}
   preset: {fileID: 11400000, guid: 2d04e0c994a7f754789074e8b40951f8, type: 2}
   baseBody:
     body: {fileID: 4328011973998686}
@@ -3322,7 +3300,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.75
-  character: {fileID: 114708178553171508}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -3508,7 +3485,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.5
-  character: {fileID: 114708178553171508}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -4266,7 +4242,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.75
-  character: {fileID: 114708178553171508}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -4369,7 +4344,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 1
-  character: {fileID: 114708178553171508}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -4588,7 +4562,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.25
-  character: {fileID: 0}
   sfxCollideHard: {fileID: 8300000, guid: 8c07e4ff1edf7ac43a29709cd15bc7ac, type: 3}
   sfxCollideMedium: {fileID: 8300000, guid: c4c3a36b127a53c43bd9267cbf859606, type: 3}
   sfxCollideSoft: {fileID: 8300000, guid: 8170e72824abbb84e98a282fc375e4db, type: 3}
@@ -4969,7 +4942,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.5
-  character: {fileID: 114708178553171508}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}
@@ -5903,7 +5875,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageMultiplier: 0.5
-  character: {fileID: 114708178553171508}
   sfxCollideHard: {fileID: 0}
   sfxCollideMedium: {fileID: 0}
   sfxCollideSoft: {fileID: 0}

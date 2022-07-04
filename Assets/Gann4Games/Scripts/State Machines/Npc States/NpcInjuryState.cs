@@ -16,8 +16,8 @@ namespace Gann4Games.Thirdym.StateMachines
 
         public void OnUpdateState(StateMachine context)
         {
-            if(_context.HealthController.IsAlive) _context.SetState(_context.IdleState);
-            if(_context.HealthController.IsDead) _context.SetState(_context.DeadState);
+            if(_context.Ragdoll.HealthController.IsAlive) _context.SetState(_context.IdleState);
+            if(_context.Ragdoll.HealthController.IsDead) _context.SetState(_context.DeadState);
         }
 
         public void OnExitState(StateMachine context)

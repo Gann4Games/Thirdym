@@ -14,7 +14,7 @@ public class CharacterHealthSystem : StateMachine
         public Vector3 where;
     }
 
-    public CharacterCustomization Character { get; private set; }
+    public RagdollController Ragdoll { get; private set; }
 
     public float Health { get; private set; }
     public float MaxHealth { get; private set; }
@@ -32,16 +32,20 @@ public class CharacterHealthSystem : StateMachine
 
     private void Awake()
     {
-        Character = GetComponent<CharacterCustomization>();
+        Ragdoll = GetComponent<RagdollController>();
+        Ragdoll.OnReady += Initialize;
         bodyParts.AddRange(GetComponentsInChildren<CharacterBodypart>());
     }
-    private void Start()
+
+    private void Initialize(object sender, System.EventArgs args)
     {
-        MaxHealth = Character.preset.maximumHealth;
-        InjuryLevel = Character.preset.injuryLevel;
+        Ragdoll.OnReady -= Initialize;
+
+        MaxHealth = Ragdoll.Customizator.preset.maximumHealth;
+        InjuryLevel = Ragdoll.Customizator.preset.injuryLevel;
         Health = MaxHealth;
 
-        if (!Character.isNPC) MainHUDHandler.instance.healthbar.maxValue = MaxHealth;
+        if (!Ragdoll.Customizator.isNPC) MainHUDHandler.instance.healthbar.maxValue = MaxHealth;
         UpdateHealthbarUI(1);
 
         SetState(AliveState);
@@ -49,35 +53,14 @@ public class CharacterHealthSystem : StateMachine
 
     private void Update()
     {
-        CurrentState.OnUpdateState(this);
-
-
-        //Character.RagdollController.isRagdollState = !IsAlive;
-        //AnimateArms(!IsDead);
-
-        // if (Character.isPlayer)
-        // {
-        //     MainHUDHandler.instance.mainAlpha = 1 - HealthPercentage;
-        //     MainHUDHandler.instance.healthbar.value = Health;
-        // }
+        CurrentState?.OnUpdateState(this);
     }
 
-    // void AnimateArms(bool animate)
-    // {
-    //     //HingeJoint[] hj = GetComponentsInChildren<HingeJoint>();            //Requires optimization
-    //     HingeJoint[] hj = Character.ArmController.GetUpperBodyParts().ToArray();
-    //     foreach (HingeJoint hinge in hj)
-    //     {
-    //         if (hinge == null) continue;
-    //         float smoothVal = Mathf.Lerp(hinge.spring.spring, (animate)?500:0, Time.deltaTime);
-    //         hinge.spring = PhysicsTools.SetHingeJointSpring(hinge.spring, smoothVal);
-    //     }
-    // }
     public void PlayPainSound()
     {
         if (IsDead) return;
         int randomChance = UnityEngine.Random.Range(0, 4);
-        if (randomChance == 0) Character.PlayPainSFX();
+        if (randomChance == 0) Ragdoll.PlayPainSFX();
     }
 
     public void DealDamage(float amount, Vector3 damageSource, bool showScreenBlood = true)
@@ -89,7 +72,7 @@ public class CharacterHealthSystem : StateMachine
         //if (damageSource != Vector3.zero) OnDamageDealed?.Invoke(this, new OnDamageDealedArgs { where = damageSource });
         OnDamageDealed?.Invoke(this, new OnDamageDealedArgs { where = damageSource });
 
-        if (Character.isPlayer) MainHUDHandler.instance.ShowDamageEffect(Color.red);
+        if (Ragdoll.Customizator.isPlayer) MainHUDHandler.instance.ShowDamageEffect(Color.red);
         UpdateHealthbarUI(1);
     }
 
@@ -101,7 +84,7 @@ public class CharacterHealthSystem : StateMachine
 
     private void UpdateHealthbarUI(float transitionTime)
     {
-        if(!Character.isPlayer) return;
+        if(!Ragdoll.Customizator.isPlayer) return;
         MainHUDHandler.SetHealthValue(Health, transitionTime);
     }
 }

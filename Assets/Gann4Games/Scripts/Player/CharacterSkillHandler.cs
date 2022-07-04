@@ -5,13 +5,13 @@ using System;
 
 public class CharacterSkillHandler : MonoBehaviour {
 
-    public CharacterCustomization Character { get; private set; }
+    public RagdollController Ragdoll { get; private set; }
     public bool IsAbilityRunning { get; private set; }
     public bool IsEnergyOut => _energy <= 0;
     public bool IsEnergyFilled => _energy >= 100;
 
     private float _energy = 100;
-    private Ability ability => Character.preset.ability;
+    private Ability ability => Ragdoll.Customizator.preset.ability;
 
     public void Consume(float amount) => _energy -= amount * Time.deltaTime;
     public void Regenerate(float amount)
@@ -22,24 +22,24 @@ public class CharacterSkillHandler : MonoBehaviour {
 
     private void Awake()
     {
-        Character = GetComponent<CharacterCustomization>();
+        Ragdoll = GetComponent<RagdollController>();
     }
 
     private void OnEnable() 
     {
-        Character.InputHandler.OnReady += OnInputReady;
-        Character.InputHandler.OnStop += OnInputStop;
+        Ragdoll.InputHandler.OnReady += OnInputReady;
+        Ragdoll.InputHandler.OnStop += OnInputStop;
     }
 
     private void OnDisable()
     {
-        Character.InputHandler.OnReady -= OnInputReady;
-        Character.InputHandler.OnStop -= OnInputStop;
+        Ragdoll.InputHandler.OnReady -= OnInputReady;
+        Ragdoll.InputHandler.OnStop -= OnInputStop;
     }
 
-    private void OnInputReady(object sender, EventArgs e) => Character.InputHandler.gameplayControls.Player.Ability.performed += OnAbilityKeyPressed;
+    private void OnInputReady(object sender, EventArgs e) => Ragdoll.InputHandler.gameplayControls.Player.Ability.performed += OnAbilityKeyPressed;
 
-    private void OnInputStop(object sender, EventArgs e) => Character.InputHandler.gameplayControls.Player.Ability.performed -= OnAbilityKeyPressed;
+    private void OnInputStop(object sender, EventArgs e) => Ragdoll.InputHandler.gameplayControls.Player.Ability.performed -= OnAbilityKeyPressed;
 
     private void OnAbilityKeyPressed(InputAction.CallbackContext obj)
     {

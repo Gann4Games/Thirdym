@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using UnityEngine;
 public class PlayerCameraController : MonoBehaviour
@@ -21,7 +22,7 @@ public class PlayerCameraController : MonoBehaviour
     private float _cameraRotationX;
     private float _cameraRotationY;
 
-    public CharacterCustomization Character { get; private set; }
+    public RagdollController Ragdoll { get; private set; }
 
     public Vector3 CameraCenterPoint
     {
@@ -50,7 +51,7 @@ public class PlayerCameraController : MonoBehaviour
 
 
     public Vector3 ThirdPersonForward() => thirdPersonCamera.transform.forward;
-    Vector2 CameraMovement => Character.InputHandler.cameraAxis;
+    Vector2 CameraMovement => Ragdoll.InputHandler.cameraAxis;
 
     public void DisableAllCameras()
     {
@@ -87,20 +88,26 @@ public class PlayerCameraController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        Ragdoll = GetComponent<RagdollController>();
+    }
+
+
+    private void OnEnable() => Ragdoll.OnReady += Initialize;
+
+    private void Initialize(object sender, EventArgs e)
+    {
+        Ragdoll.OnReady -= Initialize;
         CameraBrain = FindObjectOfType<CinemachineBrain>();
-        Character = GetComponent<CharacterCustomization>();
         _cameraRotationX = transform.eulerAngles.y;
 
         if(!CameraBrain) Debug.LogError("Hey Gann, i'm unable to find cinemachine brain!");
-
-        
     }
 
     private void Update()
     {
         ThirdPersonCam();
 
-        if(Character.HealthController.IsDead && !deathCamera.isActiveAndEnabled) EnableDeathCamera();
+        if(Ragdoll.HealthController.IsDead && !deathCamera.isActiveAndEnabled) EnableDeathCamera();
     }
 
     private void ThirdPersonCam()

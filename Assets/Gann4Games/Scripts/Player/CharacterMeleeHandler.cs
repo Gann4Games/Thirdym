@@ -3,13 +3,13 @@ using Gann4Games.Thirdym.Events;
 
 public class CharacterMeleeHandler : MonoBehaviour
 {
-    CharacterCustomization _character;
+    RagdollController _ragdoll;
         
     public AnimationEventsReader animationEvents;
 
     private void Start()
     {
-        _character = GetComponent<CharacterCustomization>();
+        _ragdoll = GetComponent<RagdollController>();
     }
 
     private void OnEnable()
@@ -25,19 +25,19 @@ public class CharacterMeleeHandler : MonoBehaviour
 
     private void AnimationEvents_OnLeftMeleeAttack(object sender, System.EventArgs args)
     {
-        CharacterMeleeObject meleeObject = _character.baseBody.leftHand.GetComponentInChildren<CharacterMeleeObject>();
+        CharacterMeleeObject meleeObject = _ragdoll.Customizator.baseBody.leftHand.GetComponentInChildren<CharacterMeleeObject>();
         if (!meleeObject) return;
 
         meleeObject.EnableCollider(true);
-        _character.PlayFireSFX();
+        _ragdoll.PlayFireSFX();
     }
 
     private void AnimationEvents_OnRightMeleeAttack(object sender, System.EventArgs args)
     {
-        CharacterMeleeObject meleeObject = _character.baseBody.rightHand.GetComponentInChildren<CharacterMeleeObject>();
+        CharacterMeleeObject meleeObject = _ragdoll.Customizator.baseBody.rightHand.GetComponentInChildren<CharacterMeleeObject>();
         if (!meleeObject) return;
         
         meleeObject.EnableCollider(true);
-        _character.PlayFireSFX();
+        _ragdoll.PlayFireSFX();
     }
 }

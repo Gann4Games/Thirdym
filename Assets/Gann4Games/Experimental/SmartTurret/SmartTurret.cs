@@ -34,7 +34,7 @@ public class SmartTurret : ObjectScanner {
     public override void Scan()
     {
         character = GetCollidersInRange()
-            .Where(o => o.GetComponent<CharacterCustomization>())
+            .Where(o => o.GetComponent<RagdollController>())
             .OrderBy(o => Vector3.Distance(transform.position, o.transform.position))
             .FirstOrDefault();
     }

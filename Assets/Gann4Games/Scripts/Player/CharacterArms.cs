@@ -9,7 +9,7 @@ public class CharacterArms : MonoBehaviour {
     public HingeJoint[] LeftShoulder, RightShoulder;
     public HingeJoint LeftBicep, RightBicep, LeftElbow, RightElbow;
     public HingeJoint[] Neck;
-    CharacterCustomization _character;
+    RagdollController _ragdoll;
     EquipmentSystem equipment;
     CharacterHealthSystem healthOp;
 
@@ -43,8 +43,8 @@ public class CharacterArms : MonoBehaviour {
     }
     private void Start()
     {
-        _character = GetComponent<CharacterCustomization>();
-        _anim = _character.Animator;
+        _ragdoll = GetComponent<RagdollController>();
+        _anim = _ragdoll.Animator;
         equipment = GetComponent<EquipmentSystem>();
         healthOp = GetComponent<CharacterHealthSystem>();
     }
@@ -76,10 +76,10 @@ public class CharacterArms : MonoBehaviour {
                 }
 
                 // High precision aiming
-                if (_character.isPlayer)
+                if (_ragdoll.Customizator.isPlayer)
                 {
-                    bool isCharacterFiring = _character.InputHandler.firing;
-                    bool isCharacterAiming = _character.InputHandler.aiming;
+                    bool isCharacterFiring = _ragdoll.InputHandler.firing;
+                    bool isCharacterAiming = _ragdoll.InputHandler.aiming;
                     bool isCharacterDisarmed = equipment.IsDisarmed;
                     bool aimGun = isCharacterAiming && !isCharacterDisarmed;
 
@@ -89,9 +89,9 @@ public class CharacterArms : MonoBehaviour {
                 } 
                 else // TODO: NEEDS PROPER DEVELOPMENT
                 {
-                    AimWeapon(_character.EquipmentController.IsDisarmed);
-                    _anim.SetBool("WeaponAiming", _character.EquipmentController.IsDisarmed);
-                    _anim.SetBool("WeaponAction", _character.EquipmentController.IsDisarmed);
+                    AimWeapon(_ragdoll.EquipmentController.IsDisarmed);
+                    _anim.SetBool("WeaponAiming", _ragdoll.EquipmentController.IsDisarmed);
+                    _anim.SetBool("WeaponAction", _ragdoll.EquipmentController.IsDisarmed);
                 }
             }
             else 
@@ -107,10 +107,10 @@ public class CharacterArms : MonoBehaviour {
 
     public void AimWeapon(bool aiming)
     {
-        if (IngameMenuHandler.instance.paused || !_character.EquipmentController.currentWeapon) return;
+        if (IngameMenuHandler.instance.paused || !_ragdoll.EquipmentController.currentWeapon) return;
 
-        bool allowWeaponAim = _character.EquipmentController.currentWeapon.useCameraAim;
-        bool supportedByLeftHand = _character.EquipmentController.currentWeapon.leftHandSupportsWeapon;
+        bool allowWeaponAim = _ragdoll.EquipmentController.currentWeapon.useCameraAim;
+        bool supportedByLeftHand = _ragdoll.EquipmentController.currentWeapon.leftHandSupportsWeapon;
         bool isReloading = _anim.GetBool("WeaponReload");
 
         if(aiming && allowWeaponAim && !isReloading)
@@ -128,10 +128,10 @@ public class CharacterArms : MonoBehaviour {
     }
     public void RightHandLookAt(Vector3 position)
     {
-        _character.baseBody.rightHand.LookAt(position);
-        _character.baseBody.rightHand.Rotate(-90, -90, 0);
+        _ragdoll.Customizator.baseBody.rightHand.LookAt(position);
+        _ragdoll.Customizator.baseBody.rightHand.Rotate(-90, -90, 0);
     }
-    void RightHandLookAtLeftHand() => RightHandLookAt(_character.baseBody.leftHand.position);
+    void RightHandLookAtLeftHand() => RightHandLookAt(_ragdoll.Customizator.baseBody.leftHand.position);
     void RightHandLookAtScreenCenter() => RightHandLookAt(PlayerCameraController.Instance.CameraCenterPoint);
-    void RightHandToDefaultPosition() => _character.baseBody.rightHand.localRotation = Quaternion.Lerp(_character.baseBody.rightHand.localRotation, Quaternion.identity, Time.deltaTime * 10);
+    void RightHandToDefaultPosition() => _ragdoll.Customizator.baseBody.rightHand.localRotation = Quaternion.Lerp(_ragdoll.Customizator.baseBody.rightHand.localRotation, Quaternion.identity, Time.deltaTime * 10);
 }

@@ -48,9 +48,9 @@ namespace Gann4Games.Thirdym.StateMachines
 
         public void OnUpdateState(StateMachine context)
         {
-            if (_context.Character.HealthController.IsInjured) _context.SetState(_context.InjuredState);
-            if(_context.Character.InputHandler.aiming) _context.SetState(AimingState);
-            if(_context.Character.InputHandler.ragdolling) _context.SetState(RagdollingState);
+            if (_context.HealthController.IsInjured) _context.SetState(_context.InjuredState);
+            if(_context.InputHandler.aiming) _context.SetState(AimingState);
+            if(_context.InputHandler.ragdolling) _context.SetState(RagdollingState);
             if(!_context.enviroment.IsGrounded) _context.SetState(_context.JumpingState);
             if(_context.enviroment.IsSwimming && !_context.enviroment.IsGrounded) _context.SetState(_context.UnderwaterState);
             

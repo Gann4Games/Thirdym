@@ -10,12 +10,12 @@ namespace Gann4Games.Thirdym.Abilities
         [SerializeField] private float speedMultiplier = 1.5f;
         public override void OnStartAbility(CharacterSkillHandler context)
         {
-            context.Character.Animator.speed = speedMultiplier;
+            context.Ragdoll.Animator.speed = speedMultiplier;
         }
 
         public override void OnEndAbility(CharacterSkillHandler context)
         {
-            context.Character.Animator.speed = 1;
+            context.Ragdoll.Animator.speed = 1;
         }
     }
 }

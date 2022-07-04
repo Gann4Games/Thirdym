@@ -8,11 +8,11 @@ public class CharacterInteractor : MonoBehaviour
 {
     [SerializeField] float overlapRadius = 1;
     SphereCollider _collider => GetComponent<SphereCollider>();
-    public CharacterCustomization Character { get; private set; }
+    public RagdollController Ragdoll { get; private set; }
 
     private void Awake()
     {
-        if (TryGetComponent(out CharacterCustomization character)) Character = character;
+        if (TryGetComponent(out RagdollController character)) Ragdoll = character;
     }
 
     private void OnValidate()
@@ -23,8 +23,8 @@ public class CharacterInteractor : MonoBehaviour
 
     private void Update()
     {
-        if (Character.isNPC) return;
-        if (Character.InputHandler.use) RaiseInteract();
+        if (Ragdoll.Customizator.isNPC) return;
+        if (Ragdoll.InputHandler.use) RaiseInteract();
     }
 
     InteractableObject ClosestInteractable() => Physics.OverlapSphere(transform.position, overlapRadius)
@@ -35,7 +35,7 @@ public class CharacterInteractor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) => RaiseTooltip();
 
-    void RaiseInteract() => ClosestInteractable()?.Interact(Character);
+    void RaiseInteract() => ClosestInteractable()?.Interact(Ragdoll);
 
     void RaiseTooltip() => ClosestInteractable()?.ShowTooltip();
 }

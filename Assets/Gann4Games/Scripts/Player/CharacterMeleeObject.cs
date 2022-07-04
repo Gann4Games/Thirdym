@@ -4,25 +4,25 @@ using Gann4Games.Thirdym.Core;
 public class CharacterMeleeObject : MonoBehaviour {
 
     [SerializeField] private GameObject impactPrefab;
-    private CharacterCustomization _character;
+    private RagdollController _ragdoll;
     private Collider _collider;
     private float _bladeDamage;
 
-    MeshRenderer LeftRenderer { get => _character.EquipmentController.LeftHandWeapon.GetComponent<MeshRenderer>(); }
-    MeshRenderer RightRenderer { get => _character.EquipmentController.RightHandWeapon.GetComponent<MeshRenderer>();}
+    MeshRenderer LeftRenderer { get => _ragdoll.EquipmentController.LeftHandWeapon.GetComponent<MeshRenderer>(); }
+    MeshRenderer RightRenderer { get => _ragdoll.EquipmentController.RightHandWeapon.GetComponent<MeshRenderer>();}
 
     private void Start()
     {
-        _character = GetComponentInParent<CharacterCustomization>();
+        _ragdoll = GetComponentInParent<RagdollController>();
         _collider = GetComponentInChildren<Collider>();
-        _bladeDamage = _character.preset.bladeDamage;
+        _bladeDamage = _ragdoll.Customizator.preset.bladeDamage;
         ApplyColors();
     }
 
     private void ApplyColors()
     {
-        LeftRenderer.material.SetColor("_MainColor", _character.preset.bladesColor);
-        RightRenderer.material.SetColor("_MainColor", _character.preset.bladesColor);
+        LeftRenderer.material.SetColor("_MainColor", _ragdoll.Customizator.preset.bladesColor);
+        RightRenderer.material.SetColor("_MainColor", _ragdoll.Customizator.preset.bladesColor);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -41,36 +41,14 @@ public class CharacterMeleeObject : MonoBehaviour {
 
         if(other.TryGetComponent(out IDamageable damageable))
         {
-            bool isDamageableMyself = (damageable as CharacterBodypart).character == _character;
-            if(!isDamageableMyself) damageable.DealDamage(_bladeDamage, DamageType.Blade, _character.transform.position);
+            bool isDamageableMyself = (damageable as CharacterBodypart).Ragdoll == _ragdoll;
+            if(!isDamageableMyself) damageable.DealDamage(_bladeDamage, DamageType.Blade, _ragdoll.transform.position);
         }
 
         // Add force to rigidbodies
-        if(other.TryGetComponent(out Rigidbody rigidbody)) rigidbody.AddForce(_character.transform.forward * 10000 * Time.deltaTime);
-
-        //bool isNotMe = otherBodypart?.character != _character;
-
-        //var damageableObject = other.GetComponent<IDamageable>();
-        //CharacterBodypart otherBodypart = other.GetComponent<CharacterBodypart>();
-        //BreakableObject otherBreakable = other.GetComponent<BreakableObject>();
-        // Bullet otherBullet = other.GetComponent<Bullet>();
-        // Rigidbody otherRigidbody = other.GetComponent<Rigidbody>();
-
-
-        // if (isNotMe || !otherBodypart)
-        //     damageableObject?.DealDamage(_bladeDamage, DamageType.Blade, _character.transform.position);
-
-        // if(otherBullet)
-        // {
-        //     Rigidbody otherBulletRigidbody = otherBullet.GetComponent<Rigidbody>();
-        //     otherBulletRigidbody.velocity = -otherBulletRigidbody.velocity;
-        // }
-
-        // if (otherRigidbody && !otherBullet)
-        //     otherRigidbody.AddForce(_character.transform.forward * 10000 * Time.deltaTime);
-
-  
+        if(other.TryGetComponent(out Rigidbody rigidbody)) rigidbody.AddForce(_ragdoll.transform.forward * 10000 * Time.deltaTime);
     }
+    
     public void EnableCollider(bool enable) => _collider.enabled = enable;
     private void SpawnParticle(GameObject particle, Vector3 pos)
     {

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using Gann4Games.Thirdym.Utility;
 
@@ -12,14 +12,14 @@ public class Defibrilator : MonoBehaviour
     List<CharacterBodypart> _otherBodyparts = new List<CharacterBodypart>();
 
     TimerTool _timer;
-    CharacterCustomization _user;
+    RagdollController _ragdoll;
     AudioSource _soundSource;
 
     bool _isDangerous;
     private void Start()
     {
         //Invoke("Electrocute", repeatTime);
-        _user = GetComponentInParent<CharacterCustomization>();
+        _ragdoll = GetComponentInParent<RagdollController>();
         _timer = new TimerTool(repeatTime);
         _soundSource = GetComponent<AudioSource>();
     }
@@ -30,7 +30,7 @@ public class Defibrilator : MonoBehaviour
     private void Update()
     {
         _timer.Count();
-        if (!_user.isNPC)
+        if (!_ragdoll.Customizator.isNPC)
         {
             if (PlayerInputHandler.instance.firing) Electrocute();
             if (PlayerInputHandler.instance.firing)
@@ -79,8 +79,8 @@ public class Defibrilator : MonoBehaviour
             {
                 for (int i = 0; i < _otherBodyparts.Count; i++)
                 {
-                    CharacterCustomization otherCharacter = _otherBodyparts[i].character;
-                    otherCharacter.HealthController.DealDamage(15, Vector3.zero, true);
+                    RagdollController otherRagdoll = _otherBodyparts[i].Ragdoll;
+                    otherRagdoll.HealthController.DealDamage(15, Vector3.zero, true);
                 }
             }
             else
@@ -88,12 +88,12 @@ public class Defibrilator : MonoBehaviour
                 _soundSource.PlayOneShot(healSFX);
                 for (int i = 0; i < _otherBodyparts.Count; i++)
                 {
-                    CharacterCustomization otherCharacter = _otherBodyparts[i].character;
-                    float currentHealth = otherCharacter.HealthController.Health;
-                    float injuryLevel = otherCharacter.HealthController.InjuryLevel;
+                    RagdollController otherRagdoll = _otherBodyparts[i].Ragdoll;
+                    float currentHealth = otherRagdoll.HealthController.Health;
+                    float injuryLevel = otherRagdoll.HealthController.InjuryLevel;
                     if(currentHealth < injuryLevel)
                     {
-                        otherCharacter.HealthController.DealDamage(-25, Vector3.zero, false);
+                        otherRagdoll.HealthController.DealDamage(-25, Vector3.zero, false);
                     }
                 }
             }

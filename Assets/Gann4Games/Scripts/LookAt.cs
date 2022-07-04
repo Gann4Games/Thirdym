@@ -11,11 +11,11 @@ public class LookAt : MonoBehaviour
     [Tooltip("Required only if 'FollowTarget' is set")]
     public Transform target;
 
-    CharacterCustomization _character;
+    RagdollController _ragdoll;
 
     void Start()
     {
-        _character = PlayerCameraController.Instance.Character;
+        _ragdoll = PlayerCameraController.Instance.Ragdoll;
     }
     private void Update()
     {
@@ -23,7 +23,7 @@ public class LookAt : MonoBehaviour
             transform.LookAt(target);
         else if (UseMode == LookAtUse.CameraCenter)
         {
-            if (!_character.HealthController.IsDead)
+            if (!_ragdoll.HealthController.IsDead)
             {
                 transform.LookAt(PlayerCameraController.Instance.CameraCenterPoint);
             }

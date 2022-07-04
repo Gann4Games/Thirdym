@@ -12,12 +12,12 @@ public class EquipmentSystem : MonoBehaviour {
         Equipped
     }
 
-    CharacterCustomization _character;
+    private RagdollController _ragdoll;
 
     public GameObject LeftHandWeapon { get; private set; }
     public GameObject RightHandWeapon { get; private set; }
 
-    bool UsePlayerPrefs => _character.usePlayerPrefs;
+    bool UsePlayerPrefs => _ragdoll.Customizator.usePlayerPrefs;
 
     public bool HasMelee => melee != null;
     public bool HasPistol => pistol != null;
@@ -59,13 +59,13 @@ public class EquipmentSystem : MonoBehaviour {
 
     private void Start()
     {
-        _character = GetComponent<CharacterCustomization>();
+        _ragdoll = GetComponent<RagdollController>();
         RefreshInventoryHUD();
     }
 
     private void Update()
     {
-        if (_character.isNPC) return;
+        if (_ragdoll.Customizator.isNPC) return;
 
         if(PlayerInputHandler.instance.dropWeapon && !IsDisarmed)
             DropEquippedWeapon();
@@ -85,7 +85,7 @@ public class EquipmentSystem : MonoBehaviour {
     }
     void RefreshInventoryHUD()
     {
-        if (_character.isNPC) return;
+        if (_ragdoll.Customizator.isNPC) return;
 
         if (HasMelee) PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Melee, EquipMode.Stored);
         else PlayerInventoryHUD.DisplayWeaponAs(WeaponType.Melee, EquipMode.None);
@@ -177,7 +177,7 @@ public class EquipmentSystem : MonoBehaviour {
     }
     public void DropEquippedWeapon()
     {
-        _character.ArmController.SetArmsSpring(true);
+        _ragdoll.ArmController.SetArmsSpring(true);
 
         DropWeapon(currentWeapon);
         ClearHands();
@@ -221,19 +221,19 @@ public class EquipmentSystem : MonoBehaviour {
 
         #region Arm parameters
 
-        _character.ArmController.LeftShoulder[0].useSpring = weapon.useLeftShoulder;
-        _character.ArmController.LeftShoulder[1].useSpring = weapon.useLeftShoulder;
-        _character.ArmController.LeftBicep.useSpring = weapon.useLeftShoulder;
-        _character.ArmController.LeftElbow.useSpring = weapon.useLeftElbow;
-        _character.ArmController.RightShoulder[0].useSpring = weapon.useRightShoulder;
-        _character.ArmController.RightShoulder[1].useSpring = weapon.useRightShoulder;
-        _character.ArmController.RightBicep.useSpring = weapon.useRightShoulder;
-        _character.ArmController.RightElbow.useSpring = weapon.useRightElbow;
+        _ragdoll.ArmController.LeftShoulder[0].useSpring = weapon.useLeftShoulder;
+        _ragdoll.ArmController.LeftShoulder[1].useSpring = weapon.useLeftShoulder;
+        _ragdoll.ArmController.LeftBicep.useSpring = weapon.useLeftShoulder;
+        _ragdoll.ArmController.LeftElbow.useSpring = weapon.useLeftElbow;
+        _ragdoll.ArmController.RightShoulder[0].useSpring = weapon.useRightShoulder;
+        _ragdoll.ArmController.RightShoulder[1].useSpring = weapon.useRightShoulder;
+        _ragdoll.ArmController.RightBicep.useSpring = weapon.useRightShoulder;
+        _ragdoll.ArmController.RightElbow.useSpring = weapon.useRightElbow;
 
         #endregion
         
-        _character.Animator.SetTrigger("WeaponSwap");
-        _character.SetAnimationOverride(weapon.characterAnimationOverride);
+        _ragdoll.Animator.SetTrigger("WeaponSwap");
+        _ragdoll.Customizator.SetAnimationOverride(weapon.characterAnimationOverride);
         StoreWeaponOnInventory(weapon);
 
         yield return new WaitForSeconds(0.5f);
@@ -277,7 +277,7 @@ public class EquipmentSystem : MonoBehaviour {
         prefab.transform.position = dropPosition.position;
         prefab.transform.rotation = dropPosition.rotation;
 
-        if (_character.isNPC)
+        if (_ragdoll.Customizator.isNPC)
             prefab.GetComponent<Rigidbody>().AddForce(transform.forward * 500);
         else
             prefab.GetComponent<Rigidbody>().AddForce(PlayerCameraController.GetCameraDirection() * 500);
@@ -302,8 +302,8 @@ public class EquipmentSystem : MonoBehaviour {
     void DisplayWeaponOnHands(SO_WeaponPreset weapon)
     {
         ClearHands();
-        LeftHandWeapon = CreateObjectAt(weapon.leftWeaponModel, _character.baseBody.leftHand, weapon.leftPositionOffset, weapon.leftRotationOffset);
-        RightHandWeapon = CreateObjectAt(weapon.rightWeaponModel, _character.baseBody.rightHand, weapon.rightPositionOffset, weapon.rightRotationOffset);
+        LeftHandWeapon = CreateObjectAt(weapon.leftWeaponModel, _ragdoll.Customizator.baseBody.leftHand, weapon.leftPositionOffset, weapon.leftRotationOffset);
+        RightHandWeapon = CreateObjectAt(weapon.rightWeaponModel, _ragdoll.Customizator.baseBody.rightHand, weapon.rightPositionOffset, weapon.rightRotationOffset);
     }
     GameObject CreateObjectAt(GameObject prefab, Transform placeTransform, Vector3 positionOffset, Vector3 rotationOffset)
     {

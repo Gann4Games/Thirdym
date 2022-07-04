@@ -35,12 +35,12 @@ public class CharacterWalljump : MonoBehaviour
         }
     }
     [SerializeField] LayerMask whatIsMap;
-    CharacterCustomization _character;
+    RagdollController _ragdoll;
 
-    Vector3 rayStartPosition => _character.RagdollController.enviroment.transform.position;
-    Vector3 rayDirection => _character.RagdollController.BodyRigidbody.velocity;
+    Vector3 rayStartPosition => _ragdoll.enviroment.transform.position;
+    Vector3 rayDirection => _ragdoll.BodyRigidbody.velocity;
     private void Awake() 
     {
-        _character = GetComponent<CharacterCustomization>();
+        _ragdoll = GetComponent<RagdollController>();
     }
 }

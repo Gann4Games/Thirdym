@@ -12,7 +12,7 @@ public class LiquidObject : MonoBehaviour
     public Vector3 buoyancyDirection = Vector3.up*4.5f;
     [SerializeField] AudioClip sfxDamage;
 
-    List<CharacterCustomization> _ragdollsInside = new List<CharacterCustomization>();
+    List<RagdollController> _ragdollsInside = new List<RagdollController>();
     TimerTool _timer;
     private void Start()
     {
@@ -28,9 +28,11 @@ public class LiquidObject : MonoBehaviour
             _timer.Reset();
         }
     }
+
     void SendDamage()
     {
-        foreach(CharacterCustomization rag in _ragdollsInside)
+        
+        foreach(RagdollController rag in _ragdollsInside)
         {
             if (!rag.HealthController.IsDead)
             {
@@ -39,6 +41,7 @@ public class LiquidObject : MonoBehaviour
             }
         }
     }
+
     void CreateSplash(Transform where)
     {
         Vector3 _creationPosition = new Vector3(where.position.x, transform.position.y, where.position.z);
@@ -54,7 +57,7 @@ public class LiquidObject : MonoBehaviour
     void OnTriggerEnter(Collider collision)
     {
         Rigidbody rb = collision.GetComponent<Rigidbody>();
-        CharacterCustomization rag = collision.GetComponent<CharacterBodypart>().character;
+        RagdollController rag = collision.GetComponent<CharacterBodypart>().Ragdoll;
         if (rag && !_ragdollsInside.Contains(rag))
         {
             _ragdollsInside.Add(rag);
@@ -64,7 +67,7 @@ public class LiquidObject : MonoBehaviour
     }
     void OnTriggerExit(Collider collision)
     {
-        CharacterCustomization rag = collision.GetComponent<CharacterBodypart>().character;
+        RagdollController rag = collision.GetComponent<CharacterBodypart>().Ragdoll;
         if (rag && _ragdollsInside.Contains(rag))
         {
             _ragdollsInside.Remove(rag);
