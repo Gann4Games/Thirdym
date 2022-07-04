@@ -8,7 +8,7 @@ public class HingeJointTarget : MonoBehaviour
     public bool x, y, z, invert;
 
     private float _startJointSpring;
-    private float _springMultiplier;
+    private float _springMultiplier = 1;
 
     public void SetJointWeight(float value)
     {
