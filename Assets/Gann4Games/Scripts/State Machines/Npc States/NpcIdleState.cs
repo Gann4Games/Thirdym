@@ -51,7 +51,7 @@ namespace Gann4Games.Thirdym.StateMachines
             _timer.Reset();
             _timer.SetMaxTime(Random.Range(5, 10));
 
-            _closestRagdoll = _context.FindClosestAliveCharacterInScene();
+            _closestRagdoll = _context.GetClosestEnemyAround();
             _lookTowards = _closestRagdoll.transform.position;
             
             // Look for weapons if it is disarmed

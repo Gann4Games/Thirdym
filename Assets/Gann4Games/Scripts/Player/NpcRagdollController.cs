@@ -145,20 +145,51 @@ namespace Gann4Games.Thirdym.NPC
         }
 
 /*CHARACTER/RAGDOLL ANALYSIS*/
-        public bool IsFriend(CharacterCustomization character) => Ragdoll.Customizator.preset.allyTags.Contains(character.preset.faction);
-        public bool IsEnemy(CharacterCustomization character) => Ragdoll.Customizator.preset.enemyTags.Contains(character.preset.faction);
+        public bool IsFriend(RagdollController character) => Ragdoll.Customizator.preset.allyTags.Contains(character.Customizator.preset.faction);
+        public bool IsEnemy(RagdollController character) => Ragdoll.Customizator.preset.enemyTags.Contains(character.Customizator.preset.faction);
 
-        public IEnumerable<RagdollController> AllCharactersInScene() => FindObjectsOfType<RagdollController>()
-            .OrderBy(character => Vector3.Distance(transform.position, character.transform.position))
-            .Where(ragdoll => ragdoll != Ragdoll);
 
-        public IEnumerable<RagdollController> AllAliveCharactersInScene() => AllCharactersInScene().Where(ragdoll => ragdoll.HealthController.IsAlive);
+        /*
+        CHARACTER ANALYSIS FUNCTIONALITY
+        All characters (Ordered by distance)
+        L All visible characters
+           L All alive characters
+                L Get closest (first) character (any)
+                L Get all enemies
+                    L Get closest (first) enemy
+                L Get all allies
+                    L Get closest (first) ally
 
-        public RagdollController FindClosestCharacterInScene() => AllCharactersInScene().FirstOrDefault();
+        DESIRED WEAPON ANALYSIS FUNCTIONALITY
+        All weapons (Ordered by disatnce)
+        L All visible weapons
+            L Get closest weaopn of type X
+            L Get closest weapon
+        */
 
-        public RagdollController FindClosestAliveCharacterInScene() => AllAliveCharactersInScene().FirstOrDefault();
+        public bool IsAnyEnemyAround => GetAllEnemiesAround().Count() > 0;
+        public bool IsAnyFriendAround => GetAllFriendsAround().Count() > 0;
+        public bool IsAnyCharacterAround => AllVisibleCharactersInScene().Count() > 0;
+
+        /// <returns>All characters in scene ordered by distance</returns>
+        public IEnumerable<RagdollController> AllCharactersInScene() => FindObjectsOfType<RagdollController>().OrderBy(character => Vector3.Distance(transform.position, character.transform.position)).Where(ragdoll => ragdoll != Ragdoll);
+        public IEnumerable<RagdollController> AllVisibleCharactersInScene() => AllCharactersInScene().Where(ragdoll => IsTargetVisible(ragdoll.BodyRigidbody.transform));
+        public IEnumerable<RagdollController> AllAliveCharactersAround() => AllVisibleCharactersInScene().Where(ragdoll => ragdoll.HealthController.IsAlive);
+
+        /// <returns>All visible enemies that are alive</returns>
+        public IEnumerable<RagdollController> GetAllEnemiesAround() => AllAliveCharactersAround().Where(ragdoll => IsEnemy(ragdoll));
+        
+        /// <returns>The closest visible enemy that's alive</returns>
+        public RagdollController GetClosestEnemyAround() => GetAllEnemiesAround().FirstOrDefault();
+        
+        /// <returns>All visible friends that are alive</returns>
+        public IEnumerable<RagdollController> GetAllFriendsAround() => AllAliveCharactersAround().Where(ragdoll => IsFriend(ragdoll));
+        
+        /// <returns>The closest visible friend that's alive</returns>
+        public RagdollController GetClosestFriendAround() => GetAllFriendsAround().FirstOrDefault();
 
         /*GLOBAL WEAPONS*/
+        /// <returns>All weapons in scene ordered by distance</returns>
         public IEnumerable<PickupableWeapon> AllWeaponsInScene() => FindObjectsOfType<PickupableWeapon>().OrderBy(weapon => Vector3.Distance(transform.position, weapon.transform.position));
         public IEnumerable<PickupableWeapon> FindWeaponsOfType(WeaponType weaponType) => AllWeaponsInScene().Where(weapon => weapon.weaponData.weaponType == weaponType);
         public PickupableWeapon FindClosestWeaponOfType(WeaponType weaponType) => FindWeaponsOfType(weaponType).FirstOrDefault();
