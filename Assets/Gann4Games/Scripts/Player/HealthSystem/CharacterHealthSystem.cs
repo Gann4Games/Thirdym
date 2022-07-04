@@ -27,7 +27,7 @@ public class CharacterHealthSystem : StateMachine
     
     public bool IsAlive => Health > InjuryLevel;
     public bool IsInjured => Health < InjuryLevel;
-    public bool IsDead => Health < 0;
+    public bool IsDead => Health <= 0;
     public bool MaxHealthReached => Health >= MaxHealth;
 
     private void Awake()

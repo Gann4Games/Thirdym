@@ -4,6 +4,7 @@ using Gann4Games.Thirdym.StateMachines;
 using Gann4Games.Thirdym.NPC;
 using DG.Tweening;
 using Gann4Games.Thirdym.Utility;
+using System.Collections;
 
 /// <summary>
 /// 
@@ -13,6 +14,10 @@ public class RagdollController : StateMachine {
     public event EventHandler OnReady;
     public CheckGround enviroment;
 	public Vector2 MovementAxis => PlayerInputHandler.instance.movementAxis;
+
+    [Header("Settings")]
+	[Tooltip("The time it takes to update all joints weight (in seconds)")]
+    [SerializeField] private float jointWeightUpdateRate = 1;
 
     [Header("Ragdoll Components")]
     [SerializeField] private Animator animator;
@@ -48,12 +53,16 @@ public class RagdollController : StateMachine {
 	public PlayerInjuredState InjuredState = new PlayerInjuredState();
 	public PlayerDeadState DeadState = new PlayerDeadState();
 
-	private float _bodyRotation;
+    private HingeJointTarget[] _ragdollJoints;
+
+    private float _bodyRotation;
 	private float _bodySpring;
 	private float _bodyDamp = 10;
 	private Transform _guide;
 
-	public float RelativeZVelocity => BodyRigidbody.transform.InverseTransformDirection(BodyRigidbody.velocity).z;
+    private Tween _limbsTweener;
+
+    public float RelativeZVelocity => BodyRigidbody.transform.InverseTransformDirection(BodyRigidbody.velocity).z;
 
 	void Awake () {
         SetLimbsWeight(1, 0);
@@ -90,14 +99,17 @@ public class RagdollController : StateMachine {
 		bodyParts = GetComponentsInChildren<Rigidbody>();
 		HeadRigidbody = Customizator.baseBody.head.GetComponent<Rigidbody>();
 		BodyRigidbody = Customizator.baseBody.body.GetComponent<Rigidbody>();
-	}
+
+        _ragdollJoints = GetComponentsInChildren<HingeJointTarget>();
+    }
 
 	private void ConfigureComponents()
 	{
 		RootJoint.autoConfigureConnectedAnchor = false;
 		_guide = new GameObject("guide").transform;
-		//_guide.rotation = body.rotation;
-	}
+
+        StartCoroutine(UpdateJointsWeightCoroutine());
+    }
 
 	private void Update ()
 	{
@@ -120,13 +132,20 @@ public class RagdollController : StateMachine {
 	/// <summary>
 	/// Sets the velocity of every rigidbody in the ragdoll.
 	/// </summary>
-	void SetCharacterVelocity(Vector3 direction) 
+	private void SetCharacterVelocity(Vector3 direction) 
 	{
 		foreach(Rigidbody part in bodyParts)
 		{
 			part.velocity = direction;
 		}
 	}
+
+	private IEnumerator UpdateJointsWeightCoroutine()
+	{
+        yield return new WaitForSeconds(jointWeightUpdateRate);
+        foreach(HingeJointTarget joint in _ragdollJoints) joint.SetJointWeight(LimbsJointWeight);
+        StartCoroutine(UpdateJointsWeightCoroutine());
+    }
 
 	/// <summary>
 	/// Sets the weight of every limb (HingeJoint) over time.
@@ -136,8 +155,10 @@ public class RagdollController : StateMachine {
 	/// <param name="time">The time it will take to make this transition (in seconds)</param>
 	public void SetLimbsWeight(float weight, float time)
 	{
-		DOTween.To(() => LimbsJointWeight, x => LimbsJointWeight = x, weight, time);
-	}
+        _limbsTweener?.Kill();
+        _limbsTweener = DOTween.To(() => LimbsJointWeight, x => LimbsJointWeight = x, weight, time);
+        _limbsTweener.Play();
+    }
     
 // Extracted functionality from spaghetti code goes below
 // Guide transform
@@ -165,21 +186,24 @@ public class RagdollController : StateMachine {
 		direction.y = 0;
 		_guide.forward = Vector3.Lerp(_guide.forward, _guide.position + direction.normalized, Time.deltaTime * 10);
 	}
-    
-/*ANIMATION*/
-	// States
-	public void SetCrouchAnimationState(bool value) => Animator.SetBool("Crouch", value);
+
+    /*ANIMATION*/
+    // States
+    public void SetWeaponAnimationActionState(bool value) => Animator.SetBool("WeaponAction", value);
+	public void SetWeaponAnimationAimState(bool value) => Animator.SetBool("WeaponAiming", value);
+    public void SetCrouchAnimationState(bool value) => Animator.SetBool("Crouch", value);
 	public void SetGroundedAnimationState(bool value) => Animator.SetBool("Grounded", value);
 	public void SetKickingAnimationState(bool value) => Animator.SetBool("Kicking", value);
-	// Values
-	public void SetHorizontalAnimationValue(float value) => Animator.SetFloat("X", value);
+    public bool GetReloadAnimationState() => Animator.GetBool("WeaponReload");
+    // Values
+    public void SetHorizontalAnimationValue(float value) => Animator.SetFloat("X", value);
 	public void SetVerticalAnimationValue(float value) => Animator.SetFloat("Y", value);
 	public float GetHorizontalAnimationValue() => Animator.GetFloat("X");
 	public float GetVerticalAnimationValue() => Animator.GetFloat("Y");
 	public bool IsMoving() => MovementAxis != Vector2.zero;
 
 /*ROOT JOINT*/
-	public void UpdateRootJointStatus()
+	private void UpdateRootJointStatus()
 	{
 		JointSpring hingeSpring = RootJoint.spring;
 		hingeSpring.spring = _bodySpring;

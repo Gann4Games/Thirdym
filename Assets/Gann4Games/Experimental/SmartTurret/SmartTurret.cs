@@ -1,40 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
 using System.Linq;
 using Gann4Games;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class SmartTurret : ObjectScanner {
-    private enum TurretStatus
-    {
-        Searching,
-        Identifying,
-        Attacking,
-    }
-    
-    
+public class SmartTurret : MonoBehaviour {
+
     [Space]
     [Header("Turret settings")]
-    [SerializeField] private TurretStatus status;
-    
     [SerializeField] private Transform joint;
+    [SerializeField] private Collider nearestCharacter;
+    [SerializeField] private ObjectScanner.ScannerData scannerData;
+    private ObjectScanner scanner { get => new ObjectScanner(transform.position, scannerData); }
 
-    [SerializeField] private Collider character;
+    private void Awake()
+    {
+        InvokeRepeating(nameof(Scan), 0, scannerData.scanCooldown);
+    }
 
     private void Update()
     {
-        if (!character) return;
-        Quaternion rotation = Quaternion.LookRotation(character.transform.position - transform.position, transform.up);
+        if (!nearestCharacter) return;
+        Quaternion rotation = Quaternion.LookRotation(nearestCharacter.transform.position - transform.position, transform.up);
         joint.rotation = Quaternion.Lerp(joint.rotation, rotation, Time.deltaTime);
     }
 
-    public override void Scan()
+    public void Scan()
     {
-        character = GetCollidersInRange()
-            .Where(o => o.GetComponent<RagdollController>())
+        nearestCharacter = scanner.GetCollidersInRange()
+            .Where(o => o.GetComponent<CharacterCustomization>())
             .OrderBy(o => Vector3.Distance(transform.position, o.transform.position))
             .FirstOrDefault();
     }

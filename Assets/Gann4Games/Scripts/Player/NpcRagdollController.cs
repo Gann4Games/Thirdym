@@ -17,6 +17,8 @@ namespace Gann4Games.Thirdym.NPC
         // New code (npc update/rework)
         public RagdollController Ragdoll { get; private set; }
 
+        public ObjectScanner scanner;
+
         // States
         public NpcIdleState IdleState = new NpcIdleState();
         public NpcJumpState JumpState = new NpcJumpState();
@@ -152,7 +154,7 @@ namespace Gann4Games.Thirdym.NPC
 
         public RagdollController FindClosestCharacterInScene() => AllCharactersInScene().FirstOrDefault();
 
-        /*GLOBAL WEAPONS*/
+/*GLOBAL WEAPONS*/
         public IEnumerable<PickupableWeapon> AllWeaponsInScene() => FindObjectsOfType<PickupableWeapon>().OrderBy(weapon => Vector3.Distance(transform.position, weapon.transform.position));
         public IEnumerable<PickupableWeapon> FindWeaponsOfType(WeaponType weaponType) => AllWeaponsInScene().Where(weapon => weapon.weaponData.weaponType == weaponType);
         public PickupableWeapon FindClosestWeaponOfType(WeaponType weaponType) => FindWeaponsOfType(weaponType).FirstOrDefault();

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Gann4Games.Thirdym.Utility;
+using UnityEngine;
 public class HingeJointTarget : MonoBehaviour
 {
     public HingeJoint hj;
@@ -6,57 +7,61 @@ public class HingeJointTarget : MonoBehaviour
     [Tooltip("Only use one of these values at a time. Toggle invert if the rotation is backwards.")]
     public bool x, y, z, invert;
 
-    void Start()
+    private float _startJointSpring;
+    private float _springMultiplier;
+
+    public void SetJointWeight(float value)
+    {
+        _springMultiplier = value;
+        hj.spring = PhysicsTools.SetHingeJointSpring(hj.spring, _startJointSpring * _springMultiplier);
+    }
+
+    private void Awake()
     {
         hj = GetComponent<HingeJoint>();
+        _startJointSpring = hj.spring.spring;
     }
-    void Update()
+
+    private void Update()
     {
         if (hj != null)
         {
+            JointSpring jointSpring = hj.spring;
             if (x)
             {
-                JointSpring js;
-                js = hj.spring;
 
-                js.targetPosition = target.transform.localEulerAngles.x;
-                if (js.targetPosition > 180)
-                    js.targetPosition -= 360;
+                jointSpring.targetPosition = target.transform.localEulerAngles.x;
+                if (jointSpring.targetPosition > 180)
+                    jointSpring.targetPosition -= 360;
                 if (invert)
-                    js.targetPosition *= -1;
+                    jointSpring.targetPosition *= -1;
 
-                js.targetPosition = Mathf.Clamp(js.targetPosition, hj.limits.min + 5, hj.limits.max - 5);
-
-                hj.spring = js;
+                jointSpring.targetPosition = Mathf.Clamp(jointSpring.targetPosition, hj.limits.min + 5, hj.limits.max - 5);
             }
             else if (y)
             {
-                JointSpring js;
-                js = hj.spring;
-                js.targetPosition = target.transform.localEulerAngles.y;
-                if (js.targetPosition > 180)
-                    js.targetPosition -= 360;
+                jointSpring.targetPosition = target.transform.localEulerAngles.y;
+                if (jointSpring.targetPosition > 180)
+                    jointSpring.targetPosition -= 360;
                 if (invert)
-                    js.targetPosition *= -1;
+                    jointSpring.targetPosition *= -1;
 
-                js.targetPosition = Mathf.Clamp(js.targetPosition, hj.limits.min + 5, hj.limits.max - 5);
-
-                hj.spring = js;
+                jointSpring.targetPosition = Mathf.Clamp(jointSpring.targetPosition, hj.limits.min + 5, hj.limits.max - 5);
             }
             else if (z)
             {
-                JointSpring js;
-                js = hj.spring;
-                js.targetPosition = target.transform.localEulerAngles.z;
-                if (js.targetPosition > 180)
-                    js.targetPosition -= 360;
+                jointSpring.targetPosition = target.transform.localEulerAngles.z;
+                if (jointSpring.targetPosition > 180)
+                    jointSpring.targetPosition -= 360;
                 if (invert)
-                    js.targetPosition *= -1;
+                    jointSpring.targetPosition *= -1;
 
-                js.targetPosition = Mathf.Clamp(js.targetPosition, hj.limits.min + 5, hj.limits.max - 5);
+                jointSpring.targetPosition = Mathf.Clamp(jointSpring.targetPosition, hj.limits.min + 5, hj.limits.max - 5);
 
-                hj.spring = js;
             }
+
+            jointSpring.spring = _startJointSpring * _springMultiplier;
+            hj.spring = jointSpring;
         }
     }
 }

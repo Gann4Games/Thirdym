@@ -8,7 +8,7 @@ namespace Gann4Games.Thirdym.StateMachines
 			_context = context as RagdollController;
 			_context.EquipmentController.DropAllWeapons();
 			_context.PlayDeathSFX();
-			_context.SetLimbsWeight(0, 10);
+			_context.SetLimbsWeight(0, 0);
 
             if (_context.Customizator.isNPC) return;
 			IngameMenuHandler.PauseAndShowMessage("You have died!");

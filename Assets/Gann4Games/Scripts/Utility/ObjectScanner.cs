@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,27 +6,30 @@ namespace Gann4Games
     /// <summary>
     /// Scans for elements around the scene object (gameObject)
     /// </summary>
-    public class ObjectScanner : MonoBehaviour
+    public class ObjectScanner
     {
-        [Header("Scan settings")]
-        [Tooltip("The maximum distance the object will scan around.")]
-        [SerializeField] private float scanRange = 10;
-        [Tooltip("The time it takes to scan for objects in the scene repeatedly.")]
-        [SerializeField] private float scanCooldownTime = 1;
-
-        [Header("Gizmos")]
-        [SerializeField] private Color areaColor = new Color(1, 1, 1, 0.1f);
-
-        private void OnDrawGizmosSelected()
+        [System.Serializable]
+        public class ScannerData 
         {
-            Gizmos.color = areaColor;
-            Gizmos.DrawSphere(transform.position, scanRange);
+            [Header("Scan settings")]
+            [Tooltip("The maximum distance the object will scan around. (In units)")]
+            public float scanRange = 10;
+            
+            [Tooltip("The time it takes to scan for objects in the scene repeatedly. (In seconds)")]
+            public float scanCooldown = 10;
         }
 
-        private void Start() => InvokeRepeating(nameof(Scan), 0, scanCooldownTime);
+        public ScannerData data;
+        private Vector3 _origin;
 
-        public virtual void Scan() { }
+        public ObjectScanner(Vector3 origin, ScannerData data)
+        {
+            Debug.Log("Scanning...");
 
-        public Collider[] GetCollidersInRange() => Physics.OverlapSphere(transform.position, scanRange);
+            this.data = data;
+            _origin = origin;
+        }
+
+        public Collider[] GetCollidersInRange() => Physics.OverlapSphere(_origin, data.scanRange);
     }
 }

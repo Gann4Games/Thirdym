@@ -40,6 +40,10 @@ namespace Gann4Games.Thirdym.StateMachines
             if (!_closestRagdoll) return;
             _context.LookAt(_closestRagdoll.transform.position);
             _context.SetRotationTowards(_lookTowards);
+            // Weapon aiming
+            _context.Ragdoll.SetWeaponAnimationAimState(!_context.Ragdoll.EquipmentController.IsDisarmed);
+            _context.Ragdoll.ArmController.RightHandLookAt(_closestRagdoll.transform.position);
+            _context.Ragdoll.ShootSystem.ShootAsNPC();
         }
 
         public void OnExitState(StateMachine context)

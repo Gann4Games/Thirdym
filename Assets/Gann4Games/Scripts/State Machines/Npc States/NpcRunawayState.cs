@@ -1,3 +1,4 @@
+using UnityEngine;
 using Gann4Games.Thirdym.NPC;
 
 namespace Gann4Games.Thirdym.StateMachines
@@ -22,7 +23,7 @@ namespace Gann4Games.Thirdym.StateMachines
             if(_closestWeapon == null) {
                 _context.SetState(_context.IdleState);
                 return;
-            } 
+            }
 
             if(_context.DistanceBetween(_closestWeapon.transform.position) < 1) 
             {

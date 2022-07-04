@@ -84,14 +84,16 @@ public class CharacterArms : MonoBehaviour {
                     bool aimGun = isCharacterAiming && !isCharacterDisarmed;
 
                     AimWeapon(aimGun);
-                    _anim.SetBool("WeaponAiming", isCharacterAiming);
-                    _anim.SetBool("WeaponAction", isCharacterFiring);
+                    _ragdoll.SetWeaponAnimationActionState(isCharacterFiring);
+                    _ragdoll.SetWeaponAnimationAimState(isCharacterAiming);
+                    // _anim.SetBool("WeaponAiming", isCharacterAiming);
+                    // _anim.SetBool("WeaponAction", isCharacterFiring);
                 } 
                 else // TODO: NEEDS PROPER DEVELOPMENT
                 {
                     AimWeapon(_ragdoll.EquipmentController.IsDisarmed);
-                    _anim.SetBool("WeaponAiming", _ragdoll.EquipmentController.IsDisarmed);
-                    _anim.SetBool("WeaponAction", _ragdoll.EquipmentController.IsDisarmed);
+                    _ragdoll.SetWeaponAnimationActionState(_ragdoll.EquipmentController.IsDisarmed);
+                    _ragdoll.SetWeaponAnimationAimState(_ragdoll.EquipmentController.IsDisarmed);
                 }
             }
             else 
@@ -111,7 +113,7 @@ public class CharacterArms : MonoBehaviour {
 
         bool allowWeaponAim = _ragdoll.EquipmentController.currentWeapon.useCameraAim;
         bool supportedByLeftHand = _ragdoll.EquipmentController.currentWeapon.leftHandSupportsWeapon;
-        bool isReloading = _anim.GetBool("WeaponReload");
+        bool isReloading = _ragdoll.GetReloadAnimationState();
 
         if(aiming && allowWeaponAim && !isReloading)
         {

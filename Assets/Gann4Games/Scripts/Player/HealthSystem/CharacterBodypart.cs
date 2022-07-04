@@ -4,6 +4,10 @@ using Gann4Games.Thirdym.Core;
 using Gann4Games.Thirdym.Events;
 using Gann4Games.Thirdym.Utility;
 
+/// <summary>
+/// Also known as a Character Limb.
+/// A character bodypart is a physical element in a ragdoll, that can be damaged and interact with the environment.
+/// </summary>
 [RequireComponent(typeof(CollisionEvents))]
 public class CharacterBodypart : MonoBehaviour, IDamageable
 {
@@ -18,9 +22,6 @@ public class CharacterBodypart : MonoBehaviour, IDamageable
 	AudioClip _sfxCollideHard, _sfxCollideMedium, _sfxCollideSoft;
 	CharacterHealthSystem _healthController;
 	CollisionEvents _colliderEvents;
-
-	private HingeJoint _joint;
-	private float _startJointSpring;
     
 	public void DealDamage(float damage, DamageType damageType, Vector3 where)
 	{
@@ -74,12 +75,7 @@ public class CharacterBodypart : MonoBehaviour, IDamageable
     private void Initialize(object sender, EventArgs e)
     {
 		Ragdoll.OnReady -= Initialize;
-
-        if (TryGetComponent(out HingeJoint joint))
-		{
-			_joint = joint;
-			_startJointSpring = _joint.spring.spring;
-		}
+		
 		_healthController = Ragdoll.HealthController;
 
 		// If optional SFX parameters are set, don't use the ones stored in the character preset.
@@ -93,15 +89,7 @@ public class CharacterBodypart : MonoBehaviour, IDamageable
 		if (sfxCollideHard) _sfxCollideHard = sfxCollideHard;
 		else _sfxCollideHard = Ragdoll.Customizator.preset.sfxCollideHard;
 		#endregion
-        
-		InvokeRepeating(nameof(UpdateJointWeight), 0, 0.5f);
     }
-
-	private void UpdateJointWeight()
-	{
-		if (_joint && _joint.spring.spring != Ragdoll.LimbsJointWeight)
-			_joint.spring = PhysicsTools.SetHingeJointSpring(_joint.spring, Ragdoll.LimbsJointWeight * _startJointSpring);
-	}
 
 	void CollideHard(object sender, CollisionEvents.CollisionArgs args)
 	{

@@ -11,7 +11,10 @@ namespace Gann4Games.Thirdym.StateMachines
         {
             _context = context as NpcRagdollController;
             _context.Ragdoll.SetLimbsWeight(0, 5);
+            _context.Ragdoll.SetCrouchAnimationState(true);
+            _context.Ragdoll.SetVerticalAnimationValue(1);
             _context.Ragdoll.SetRootJointSpring(0);
+            _context.Ragdoll.EquipmentController.DropEquippedWeapon();
         }
 
         public void OnUpdateState(StateMachine context)
@@ -22,7 +25,7 @@ namespace Gann4Games.Thirdym.StateMachines
 
         public void OnExitState(StateMachine context)
         {
-            
+            _context.Ragdoll.SetCrouchAnimationState(false);
         }
 
     }
