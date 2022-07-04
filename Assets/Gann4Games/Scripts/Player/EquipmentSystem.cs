@@ -60,6 +60,7 @@ public class EquipmentSystem : MonoBehaviour {
     private void Start()
     {
         _ragdoll = GetComponent<RagdollController>();
+        if(currentWeapon) StartCoroutine(Equip(currentWeapon));
         RefreshInventoryHUD();
     }
 

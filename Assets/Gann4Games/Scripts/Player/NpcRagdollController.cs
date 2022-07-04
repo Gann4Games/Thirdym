@@ -152,9 +152,13 @@ namespace Gann4Games.Thirdym.NPC
             .OrderBy(character => Vector3.Distance(transform.position, character.transform.position))
             .Where(ragdoll => ragdoll != Ragdoll);
 
+        public IEnumerable<RagdollController> AllAliveCharactersInScene() => AllCharactersInScene().Where(ragdoll => ragdoll.HealthController.IsAlive);
+
         public RagdollController FindClosestCharacterInScene() => AllCharactersInScene().FirstOrDefault();
 
-/*GLOBAL WEAPONS*/
+        public RagdollController FindClosestAliveCharacterInScene() => AllAliveCharactersInScene().FirstOrDefault();
+
+        /*GLOBAL WEAPONS*/
         public IEnumerable<PickupableWeapon> AllWeaponsInScene() => FindObjectsOfType<PickupableWeapon>().OrderBy(weapon => Vector3.Distance(transform.position, weapon.transform.position));
         public IEnumerable<PickupableWeapon> FindWeaponsOfType(WeaponType weaponType) => AllWeaponsInScene().Where(weapon => weapon.weaponData.weaponType == weaponType);
         public PickupableWeapon FindClosestWeaponOfType(WeaponType weaponType) => FindWeaponsOfType(weaponType).FirstOrDefault();
