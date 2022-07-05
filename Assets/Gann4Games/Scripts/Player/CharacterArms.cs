@@ -133,6 +133,7 @@ public class CharacterArms : MonoBehaviour {
         _ragdoll.Customizator.baseBody.rightHand.LookAt(position);
         _ragdoll.Customizator.baseBody.rightHand.Rotate(-90, -90, 0);
     }
+
     void RightHandLookAtLeftHand() => RightHandLookAt(_ragdoll.Customizator.baseBody.leftHand.position);
     void RightHandLookAtScreenCenter() => RightHandLookAt(PlayerCameraController.Instance.CameraCenterPoint);
     void RightHandToDefaultPosition() => _ragdoll.Customizator.baseBody.rightHand.localRotation = Quaternion.Lerp(_ragdoll.Customizator.baseBody.rightHand.localRotation, Quaternion.identity, Time.deltaTime * 10);

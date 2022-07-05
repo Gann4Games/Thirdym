@@ -6,15 +6,15 @@ namespace Gann4Games.Thirdym.StateMachines
 {
     public class NpcIdleState : IState
     {
-        private TimerTool _timer = new TimerTool(5);
+        private TimerTool _timer = new TimerTool(2);
         private NpcRagdollController _context;
         private RagdollController _closestRagdoll;
-        private Vector3 _lookTowards;
 
         public void OnEnterState(StateMachine context)
         {
             _context = context as NpcRagdollController;
             _context.Ragdoll.SetRootJointSpring(500);
+            _context.Ragdoll.SetWeaponAnimationAimState(false);
         }
 
         public void OnUpdateState(StateMachine context)
@@ -25,13 +25,15 @@ namespace Gann4Games.Thirdym.StateMachines
             if(!_context.Ragdoll.enviroment.IsGrounded) _context.SetState(_context.JumpState);
             #endregion
 
-            if(_timer.HasFinished()) CheckEnvironment();
             _timer.Count();
+            if(_timer.HasFinished()) OnTimerFinish();
 
+            if(!_closestRagdoll) _context.SetRotationLikeNavmeshAgent();
+            if(_closestRagdoll) _context.LookAt(_closestRagdoll.HeadRigidbody.transform.position);
+            _context.Ragdoll.ArmController.AimWeapon(false);
             _context.WalkTowardsNavmeshAgent();
             _context.Ragdoll.MakeRootFollowGuide();
-
-            if (!_closestRagdoll) return;
+            _context.ClampNavmeshAgent();
         }
 
         public void OnExitState(StateMachine context)
@@ -39,19 +41,17 @@ namespace Gann4Games.Thirdym.StateMachines
             
         }
 
-        private void CheckEnvironment()
+        private void OnTimerFinish()
         {
             _timer.Reset();
-            _timer.SetMaxTime(Random.Range(5, 10));
-
-            if(_context.IsAnyEnemyAround) _context.SetState(_context.AlertState);
-
             _closestRagdoll = _context.GetClosestCharacterAround();
-            _lookTowards = _closestRagdoll.transform.position;
-            
-            // Look for weapons if it is disarmed
-            if(!_context.Ragdoll.EquipmentController.HasAnyWeapon && _context.IsAnyWeaponAround) _context.SetState(_context.RunawayState);
-            
+            if(_closestRagdoll) _context.SetRotationTowards(_closestRagdoll.transform.position);
+
+            LookForWeaopns();
+            LookForEnemies();
         }
+
+        private void LookForEnemies() { if (_context.IsAnyEnemyAround && !_context.Ragdoll.EquipmentController.IsDisarmed) _context.SetState(_context.AlertState); }
+        private void LookForWeaopns() { if(!_context.Ragdoll.EquipmentController.HasAnyWeapon && _context.IsAnyWeaponAround) _context.SetState(_context.RunawayState); }
     }
 }

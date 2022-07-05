@@ -9,14 +9,14 @@ namespace Gann4Games.Thirdym.StateMachines
 
         private NpcRagdollController _context;
         private RagdollController _closestEnemy;
-        private TimerTool _timer = new TimerTool(5);
 
-        private Vector3 desiredPosition => _context.RandomPointAround(_closestEnemy.transform.position, 5);
+        private int _dodgeDistance;
 
         public void OnEnterState(StateMachine context)
         {
             _context = context as NpcRagdollController;
-            ScanEnvironment();
+            _closestEnemy = _context.GetClosestEnemyAround();
+            _dodgeDistance = Random.Range(-5, 5);
         }
 
         public void OnUpdateState(StateMachine context)
@@ -29,9 +29,6 @@ namespace Gann4Games.Thirdym.StateMachines
                 _context.SetState(_context.AlertState);
             #endregion
 
-            if(_timer.HasFinished()) ScanEnvironment();
-            _timer.Count();
-
             if(!_closestEnemy) return;
 
             _context.Ragdoll.SetWeaponAnimationAimState(!_context.Ragdoll.EquipmentController.IsDisarmed);
@@ -39,16 +36,10 @@ namespace Gann4Games.Thirdym.StateMachines
             _context.Attack();
 
             // Navigation
+            if(_closestEnemy) _context.GoTo(_closestEnemy.transform.right * _dodgeDistance);
             _context.WalkTowardsNavmeshAgent();
             _context.SetRotationTowards(_closestEnemy.transform.position);
             _context.Ragdoll.MakeRootFollowGuide();
-        }
-
-        private void ScanEnvironment()
-        {
-            _timer.Reset();
-            _closestEnemy = _context.GetClosestEnemyAround();
-            if(_closestEnemy) _context.GoTo(desiredPosition);
         }
 
         public void OnExitState(StateMachine context){}

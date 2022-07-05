@@ -4290,7 +4290,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727890713172640}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 300d451e2b5392f4ea9181dd3e4eabbb, type: 3}
   m_Name: 
@@ -4312,6 +4312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   facerTransform: {fileID: 4681177875611186}
   navmeshAgent: {fileID: 195661160007103772}
+  targetDetectionDistance: 50
 --- !u!114 &114878597408337190
 MonoBehaviour:
   m_ObjectHideFlags: 0

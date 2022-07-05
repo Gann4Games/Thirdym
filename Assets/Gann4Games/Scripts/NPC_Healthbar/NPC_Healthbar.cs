@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Gann4Games.Thirdym.NPC;
+using UnityEngine;
 
 public class NPC_Healthbar : MonoBehaviour
 {
@@ -7,21 +8,22 @@ public class NPC_Healthbar : MonoBehaviour
 
     private TMPro.TextMeshPro _textField;
     private Animator _animator;
-    private RagdollController _ragdoll;
+    private NpcRagdollController _npc;
 
     private Vector3 followPosition => transform.position + Vector3.up * height;
 
-    private void Start()
+    private void Awake()
     {
-        _ragdoll = GetComponent<RagdollController>();
-        healthbarPrefab = Instantiate(healthbarPrefab, transform.position + Vector3.up * height, transform.rotation);
+        _npc = GetComponent<NpcRagdollController>();
+        healthbarPrefab = Instantiate(healthbarPrefab, followPosition, transform.rotation);
 
         _textField = healthbarPrefab.GetComponentInChildren<TMPro.TextMeshPro>();
         _animator = healthbarPrefab.GetComponent<Animator>();
     }
     private void Update()
     {
-        if(_animator) _animator.SetFloat("fill", _ragdoll.HealthController.HealthPercentage);
-        _textField.text = string.Format("{0}", _ragdoll.Customizator.preset.character_name);
+        if(_animator) _animator.SetFloat("fill", _npc.Ragdoll.HealthController.HealthPercentage);
+        _textField.text = string.Format("[{1}] {0}", _npc.Ragdoll.Customizator.preset.character_name, _npc.CurrentStateName);
+        healthbarPrefab.transform.position = followPosition;
     }
 }

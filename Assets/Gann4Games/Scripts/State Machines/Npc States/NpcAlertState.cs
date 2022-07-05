@@ -9,14 +9,14 @@ namespace Gann4Games.Thirdym.StateMachines
 
         private NpcRagdollController _context;
         private RagdollController _closestEnemy;
-        private TimerTool _timer = new TimerTool(2);
+        private TimerTool _timer;
         private Vector3 desiredPosition => _closestEnemy.transform.position + _closestEnemy.transform.TransformDirection(Vector3.right * _choosenDirection);
         private int[] _walkDirection = new int[] { -5, 5 };
         private int _choosenDirection;
 
-        // TODO: Alert state
         public void OnEnterState(StateMachine context)
         {
+            _timer = new TimerTool(2);
             _context = context as NpcRagdollController;
             _closestEnemy = _context.GetClosestEnemyAround();
             _choosenDirection = _walkDirection[Random.Range(0, _walkDirection.Length)];
@@ -31,7 +31,6 @@ namespace Gann4Games.Thirdym.StateMachines
 
             if(!_closestEnemy) return;
             _context.Ragdoll.SetWeaponAnimationAimState(!_context.Ragdoll.EquipmentController.IsDisarmed);
-            _context.Ragdoll.ArmController.RightHandLookAt(_closestEnemy.transform.position);
 
             //Navigation
             _context.GoTo(desiredPosition, 0);

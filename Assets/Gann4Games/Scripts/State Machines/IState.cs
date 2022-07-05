@@ -1,6 +1,3 @@
-using System.Collections;
-using UnityEngine;
-
 namespace Gann4Games.Thirdym.StateMachines
 {
     public interface IState

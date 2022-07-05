@@ -9,52 +9,45 @@ namespace Gann4Games.Thirdym.NPC
 {
     public class NpcRagdollController : StateMachine
     {
-        [Tooltip("A transform that is used by the head to follow its rotation")]
-        public Transform facerTransform;
-
-        public NavMeshAgent navmeshAgent;
-
-        // New code (npc update/rework)
         public RagdollController Ragdoll { get; private set; }
+        
+        [Tooltip("A transform that is used by the head to follow its rotation")]
+        [SerializeField] private Transform facerTransform;
 
-        public ObjectScanner scanner;
+        [SerializeField] private NavMeshAgent navmeshAgent;
+        [Space]
+        [Header("Internal settings")]
+        [SerializeField] private float targetDetectionDistance = 50;
 
-        // States
+
+        #region States
         public NpcIdleState IdleState = new NpcIdleState();
         public NpcJumpState JumpState = new NpcJumpState();
         public NpcAlertState AlertState = new NpcAlertState();
         public NpcAttackState AttackState = new NpcAttackState();
         public NpcRunawayState RunawayState = new NpcRunawayState();
         public NpcDeadState DeadState = new NpcDeadState();
-
-        internal void GoTo(object desiredPosition)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public NpcInjuryState InjuryState = new NpcInjuryState();
+        #endregion
+
         private void Awake()
         {
             Ragdoll = GetComponent<RagdollController>();
         }
-
         private void OnEnable() 
         {
             Ragdoll.OnReady += Initialize;
-            Ragdoll.HealthController.OnDamageDealed += OnDamageDealed;
         } 
-
         private void OnDestroy()
         {
             Ragdoll.OnReady -= Initialize;
             Ragdoll.HealthController.OnDamageDealed -= OnDamageDealed;
         } 
-
         private void Initialize(object sender, System.EventArgs e)
         {
+            Ragdoll.HealthController.OnDamageDealed += OnDamageDealed;
             SetState(IdleState);
         }
-
         private void Update()
         {
             CurrentState?.OnUpdateState(this);
@@ -65,16 +58,13 @@ namespace Gann4Games.Thirdym.NPC
             // * Probably im going to need an "InputProvider" class.
             // * PlayerInputHandler does this, but the same features are needed for Npcs.
         }
-
         private void OnDamageDealed(object sender, CharacterHealthSystem.OnDamageDealedArgs e)
         {
             if (!Ragdoll.HealthController.IsAlive) return;
             LookAt(e.where);
         }
 
-        //---------------------------------------- New (updated) functionality ----------------------------------------
-
-/*ACTIONS*/
+    #region ACTIONS
 
         /// <summary>Makes the NPC look towards the vector specified</summary>
         public void LookAt(Vector3 point) => facerTransform.LookAt(point);
@@ -108,8 +98,8 @@ namespace Gann4Games.Thirdym.NPC
         public void WalkTowardsNavmeshAgent(float stopDistance = 1) => WalkTowards(navmeshAgent.transform.position, stopDistance);
 
         public void Attack() => Ragdoll.ShootSystem.ShootAsNPC();
-
-/*NAVMESH*/
+    #endregion
+    #region NAVMESH
         public float DistanceBetween(Vector3 position) => Vector3.Distance(transform.position, position);
         public float DistanceBetweenNavmesh() => DistanceBetween(navmeshAgent.transform.position);
         public bool HasArrived => navmeshAgent.remainingDistance <= navmeshAgent.stoppingDistance;
@@ -132,8 +122,8 @@ namespace Gann4Games.Thirdym.NPC
             navmeshAgent.stoppingDistance = stopDistance;
             navmeshAgent.SetDestination(point);
         }
-
-/*UTILITIES*/
+    #endregion
+    #region UTILITIES
         /// <returns>A random point around the specified reference point (doesn't use height)</returns>
         public Vector3 RandomPointAround(Vector3 referencePoint, float range = 1)
         {
@@ -149,8 +139,8 @@ namespace Gann4Games.Thirdym.NPC
             float product = Vector3.Dot(Ragdoll.Customizator.baseBody.head.forward, directionToPoint.normalized);
             return product > 0.25f;
         }
-
-/*CHARACTER/RAGDOLL ANALYSIS*/
+    #endregion
+    #region ANALYSIS
         public bool IsFriend(RagdollController character) => Ragdoll.Customizator.preset.allyTags.Contains(character.Customizator.preset.faction);
         public bool IsEnemy(RagdollController character) => Ragdoll.Customizator.preset.enemyTags.Contains(character.Customizator.preset.faction);
 
@@ -202,7 +192,6 @@ namespace Gann4Games.Thirdym.NPC
         public IEnumerable<PickupableWeapon> FindWeaponsOfType(WeaponType weaponType) => AllWeaponsInScene().Where(weapon => weapon.weaponData.weaponType == weaponType);
         public PickupableWeapon FindClosestWeaponOfType(WeaponType weaponType) => FindWeaponsOfType(weaponType).FirstOrDefault();
         public PickupableWeapon FindClosestWeapon() => AllWeaponsInScene().FirstOrDefault();
-
 /*VISIBLE WEAPONS*/
         public IEnumerable<PickupableWeapon> AllVisibleWeaponsInScene() => AllWeaponsInScene().Where(weapon => IsTargetVisible(weapon.transform));
         public IEnumerable<PickupableWeapon> FindVisibleWeaponsOfType(WeaponType weaponType) => AllVisibleWeaponsInScene().Where(weapon => weapon.weaponData.weaponType == weaponType);
@@ -211,13 +200,14 @@ namespace Gann4Games.Thirdym.NPC
 
         public bool IsAnyWeaponAround => AllVisibleWeaponsInScene().Count() > 0;
 
-        public bool IsTargetVisible(Transform target, float distance = 50)
+        public bool IsTargetVisible(Transform target)
         {
             Ray ray = new Ray(transform.position, target.transform.position - transform.position);
-            Physics.Raycast(ray, out RaycastHit hit, distance, ~LayerMask.NameToLayer("Default"), QueryTriggerInteraction.Ignore);
+            Physics.Raycast(ray, out RaycastHit hit, targetDetectionDistance, ~LayerMask.NameToLayer("Default"), QueryTriggerInteraction.Ignore);
             Debug.DrawLine(transform.position, hit.point, Color.cyan, 2);
             return hit.transform == target;
         }
+    #endregion
     }
 }
 
