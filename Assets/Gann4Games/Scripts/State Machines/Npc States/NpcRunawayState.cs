@@ -19,8 +19,8 @@ namespace Gann4Games.Thirdym.StateMachines
 
         public void OnUpdateState(StateMachine context)
         {
-            // If for some reason the weapon disappears, we want to let the npc decide what to do from the root state.
-            if(_closestWeapon == null) {
+            if (_closestWeapon == null || !_context.Ragdoll.HealthController.IsAlive)
+            {
                 _context.SetState(_context.IdleState);
                 return;
             }

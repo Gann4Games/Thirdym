@@ -11,6 +11,7 @@ namespace Gann4Games.Thirdym.StateMachines
         {
             _context = context as NpcRagdollController;
             _context.Ragdoll.SetLimbsWeight(0, 0);
+            _context.Ragdoll.EquipmentController.DropAllWeapons();
         }
 
         public void OnExitState(StateMachine context)
