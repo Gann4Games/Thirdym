@@ -20,7 +20,7 @@ namespace Gann4Games.Thirdym.StateMachines
         public void OnUpdateState(StateMachine context)
         {
             if(!_context.HealthController.IsAlive) _context.SetState(_context.InjuredState);
-            if(!_context.enviroment.IsSwimming || _context.enviroment.IsGrounded) _context.SetState(_context.GroundedState);
+            if(!_context.IsUnderwater() || _context.IsGrounded()) _context.SetState(_context.GroundedState);
 
             int upDirection = (_context.InputHandler.jumping ? 1 : 0) + 
                               (_context.InputHandler.crouching ? -1 : 0);

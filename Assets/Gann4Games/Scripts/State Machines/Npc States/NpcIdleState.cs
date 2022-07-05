@@ -20,13 +20,13 @@ namespace Gann4Games.Thirdym.StateMachines
         public void OnUpdateState(StateMachine context)
         {
             #region State transitions
-            if(_context.Ragdoll.enviroment.IsSwimming) _context.Ragdoll.HealthController.AddHealth(-_context.Ragdoll.HealthController.Health);
+            if(_context.Ragdoll.IsUnderwater()) _context.Ragdoll.HealthController.AddHealth(-_context.Ragdoll.HealthController.Health);
             if (!_context.Ragdoll.HealthController.IsAlive)
             {
                 _context.SetState(_context.InjuryState);
                 return;
             }
-            if (!_context.Ragdoll.enviroment.IsGrounded)
+            if (!_context.Ragdoll.IsGrounded())
             {
                 _context.SetState(_context.JumpState);
                 return;

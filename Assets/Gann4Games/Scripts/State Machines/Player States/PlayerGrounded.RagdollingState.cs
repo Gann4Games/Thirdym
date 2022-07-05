@@ -13,7 +13,7 @@ namespace Gann4Games.Thirdym.StateMachines
 
 		public void OnUpdateState(StateMachine context)
 		{
-			if(!_context.InputHandler.ragdolling && (_context.enviroment.IsGrounded || _context.enviroment.IsSwimming)) _context.SetState(_context.GroundedState);
+			if(!_context.InputHandler.ragdolling && (_context.IsGrounded() || _context.IsUnderwater())) _context.SetState(_context.GroundedState);
 			if(!_context.HealthController.IsAlive) _context.SetState(_context.InjuredState);
 		}
 

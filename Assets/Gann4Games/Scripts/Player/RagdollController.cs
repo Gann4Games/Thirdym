@@ -12,11 +12,32 @@ using System.Collections;
 public class RagdollController : StateMachine {
 
     public event EventHandler OnReady;
-    public CheckGround enviroment;
-	public Vector2 MovementAxis => PlayerInputHandler.instance.movementAxis;
+    //public CheckGround enviroment;
+	public bool IsGrounded() 
+	{
+        Ray ray = new Ray(transform.position, Vector3.down);
+		bool value =  Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, mapLayer, QueryTriggerInteraction.Ignore);
+        
+		// Debugging
+		if(value) Debug.DrawRay(ray.origin, ray.direction, Color.green);
+		else Debug.DrawRay(ray.origin, ray.direction * groundCheckDistance, Color.red);
 
-    [Header("Settings")]
-	[Tooltip("The time it takes to update all joints weight (in seconds)")]
+        return value;
+    }
+
+    public bool IsUnderwater() => Physics.CheckSphere(transform.position, underwaterCheckRadius, waterLayer, QueryTriggerInteraction.Collide);
+    public Vector2 MovementAxis => PlayerInputHandler.instance.movementAxis;
+
+    [Header("ENVIRONMENT")]
+    [SerializeField] private LayerMask mapLayer;
+    [SerializeField] private LayerMask waterLayer;
+    [SerializeField] private LayerMask ragdollLayer;
+    [SerializeField] private float groundCheckDistance = 1;
+    [SerializeField] private float underwaterCheckRadius = 0.3f;
+    [Header("JUMPING")]
+	[SerializeField] private float jumpForce = 5;
+    [SerializeField] private float walljumpCheckDistance = 0.3f;
+    [Tooltip("The time it takes to update all joints weight (in seconds)")]
     [SerializeField] private float jointWeightUpdateRate = 1;
 
     [Header("Ragdoll Components")]
@@ -60,11 +81,14 @@ public class RagdollController : StateMachine {
 	private float _bodyDamp = 10;
 	private Transform _guide;
 
+    private Rigidbody _rigidbody;
+
     private Tween _limbsTweener;
 
     public float RelativeZVelocity => BodyRigidbody.transform.InverseTransformDirection(BodyRigidbody.velocity).z;
+    public Vector3 relativeVelocity => _rigidbody.velocity;
 
-	void Awake () {
+    void Awake () {
         SetLimbsWeight(1, 0);
 
         GetCoreComponents();
@@ -80,7 +104,9 @@ public class RagdollController : StateMachine {
 	{
 		RootJoint = GetComponent<HingeJoint>();
 
-		AudioPlayer = GetComponent<AudioSource>();
+        _rigidbody = GetComponent<Rigidbody>();
+
+        AudioPlayer = GetComponent<AudioSource>();
 		HealthController = GetComponent<CharacterHealthSystem>();
 		ShootSystem = GetComponent<ShootSystem>();
 		EquipmentController = GetComponent<EquipmentSystem>();
@@ -126,8 +152,6 @@ public class RagdollController : StateMachine {
 	{
         direction.Normalize();
         direction.y = 1;
-		
-        float jumpForce = 5;
 		SetCharacterVelocity(direction * jumpForce);
 	}
 	

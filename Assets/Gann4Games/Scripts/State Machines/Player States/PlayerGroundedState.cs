@@ -51,8 +51,8 @@ namespace Gann4Games.Thirdym.StateMachines
             if (_context.HealthController.IsInjured) _context.SetState(_context.InjuredState);
             if(_context.InputHandler.aiming) _context.SetState(AimingState);
             if(_context.InputHandler.ragdolling) _context.SetState(RagdollingState);
-            if(!_context.enviroment.IsGrounded) _context.SetState(_context.JumpingState);
-            if(_context.enviroment.IsSwimming && !_context.enviroment.IsGrounded) _context.SetState(_context.UnderwaterState);
+            if(!_context.IsGrounded()) _context.SetState(_context.JumpingState);
+            if(_context.IsUnderwater() && !_context.IsGrounded()) _context.SetState(_context.UnderwaterState);
             
             if (PlayerInputHandler.instance.gameplayControls.Player.Jump.triggered) // Basic jump
                 _context.JumpAsPlayer();

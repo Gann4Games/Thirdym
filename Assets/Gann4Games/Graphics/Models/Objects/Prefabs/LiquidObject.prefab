@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6224851046520718405}
   - component: {fileID: 7005770492333507022}
   - component: {fileID: 5456552881743371651}
-  m_Layer: 3
+  m_Layer: 4
   m_Name: Bounds
   m_TagString: Water
   m_Icon: {fileID: 0}
@@ -94,9 +94,9 @@ GameObject:
   - component: {fileID: 8436754403217896405}
   - component: {fileID: 4517583521602215521}
   - component: {fileID: 5184729661824569944}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: LiquidObject
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 83

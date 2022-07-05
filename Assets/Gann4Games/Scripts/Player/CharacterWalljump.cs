@@ -37,7 +37,7 @@ public class CharacterWalljump : MonoBehaviour
     [SerializeField] LayerMask whatIsMap;
     RagdollController _ragdoll;
 
-    Vector3 rayStartPosition => _ragdoll.enviroment.transform.position;
+    Vector3 rayStartPosition => _ragdoll.transform.position;
     Vector3 rayDirection => _ragdoll.BodyRigidbody.velocity;
     private void Awake() 
     {
