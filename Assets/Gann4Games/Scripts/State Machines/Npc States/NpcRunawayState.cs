@@ -15,6 +15,7 @@ namespace Gann4Games.Thirdym.StateMachines
         {
             _context = context as NpcRagdollController;
             _closestWeapon = _context.FindClosestVisibleWeapon();
+            _context.Ragdoll.PlayAlertSFX();
         }
 
         public void OnUpdateState(StateMachine context)
