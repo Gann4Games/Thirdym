@@ -19,9 +19,11 @@ namespace Gann4Games.Thirdym.StateMachines
 
         public void OnUpdateState(StateMachine context)
         {
+            #region State transitions
             if(!_context.Ragdoll.HealthController.IsAlive) _context.SetState(_context.InjuryState);
             if(_context.Ragdoll.enviroment.IsSwimming) _context.Ragdoll.HealthController.AddHealth(-_context.Ragdoll.HealthController.Health);
             if(!_context.Ragdoll.enviroment.IsGrounded) _context.SetState(_context.JumpState);
+            #endregion
 
             if(_timer.HasFinished()) CheckEnvironment();
             _timer.Count();
@@ -30,15 +32,6 @@ namespace Gann4Games.Thirdym.StateMachines
             _context.Ragdoll.MakeRootFollowGuide();
 
             if (!_closestRagdoll) return;
-            _context.LookAt(_closestRagdoll.transform.position);
-            _context.SetRotationTowards(_lookTowards);
-
-            // TODO: Alert state
-            // TODO: Attack state
-            if(!_context.IsTargetVisible(_closestRagdoll.BodyRigidbody.transform) || !_closestRagdoll.HealthController.IsAlive) return;
-            _context.Ragdoll.SetWeaponAnimationAimState(!_context.Ragdoll.EquipmentController.IsDisarmed);
-            _context.Ragdoll.ArmController.RightHandLookAt(_closestRagdoll.transform.position);
-            _context.Ragdoll.ShootSystem.ShootAsNPC();
         }
 
         public void OnExitState(StateMachine context)
@@ -51,7 +44,9 @@ namespace Gann4Games.Thirdym.StateMachines
             _timer.Reset();
             _timer.SetMaxTime(Random.Range(5, 10));
 
-            _closestRagdoll = _context.GetClosestEnemyAround();
+            if(_context.IsAnyEnemyAround) _context.SetState(_context.AlertState);
+
+            _closestRagdoll = _context.GetClosestCharacterAround();
             _lookTowards = _closestRagdoll.transform.position;
             
             // Look for weapons if it is disarmed

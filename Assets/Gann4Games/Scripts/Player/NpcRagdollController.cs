@@ -26,6 +26,12 @@ namespace Gann4Games.Thirdym.NPC
         public NpcAttackState AttackState = new NpcAttackState();
         public NpcRunawayState RunawayState = new NpcRunawayState();
         public NpcDeadState DeadState = new NpcDeadState();
+
+        internal void GoTo(object desiredPosition)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public NpcInjuryState InjuryState = new NpcInjuryState();
         private void Awake()
         {
@@ -176,6 +182,8 @@ namespace Gann4Games.Thirdym.NPC
         public IEnumerable<RagdollController> AllVisibleCharactersInScene() => AllCharactersInScene().Where(ragdoll => IsTargetVisible(ragdoll.BodyRigidbody.transform));
         public IEnumerable<RagdollController> AllAliveCharactersAround() => AllVisibleCharactersInScene().Where(ragdoll => ragdoll.HealthController.IsAlive);
 
+        public RagdollController GetClosestCharacterAround() => AllAliveCharactersAround().FirstOrDefault();
+
         /// <returns>All visible enemies that are alive</returns>
         public IEnumerable<RagdollController> GetAllEnemiesAround() => AllAliveCharactersAround().Where(ragdoll => IsEnemy(ragdoll));
         
@@ -203,10 +211,10 @@ namespace Gann4Games.Thirdym.NPC
 
         public bool IsAnyWeaponAround => AllVisibleWeaponsInScene().Count() > 0;
 
-        public bool IsTargetVisible(Transform target)
+        public bool IsTargetVisible(Transform target, float distance = 50)
         {
             Ray ray = new Ray(transform.position, target.transform.position - transform.position);
-            Physics.Raycast(ray, out RaycastHit hit, 10, ~LayerMask.NameToLayer("Default"), QueryTriggerInteraction.Ignore);
+            Physics.Raycast(ray, out RaycastHit hit, distance, ~LayerMask.NameToLayer("Default"), QueryTriggerInteraction.Ignore);
             Debug.DrawLine(transform.position, hit.point, Color.cyan, 2);
             return hit.transform == target;
         }
