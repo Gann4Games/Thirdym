@@ -20,6 +20,16 @@ namespace Gann4Games.Thirdym.StateMachines
             _context = context as NpcRagdollController;
             _closestEnemy = _context.GetClosestEnemyAround();
             _choosenDirection = _walkDirection[Random.Range(0, _walkDirection.Length)];
+            RandomChanceToJump();
+        }
+
+        private void RandomChanceToJump()
+        {
+            int chance = Random.Range(0, 3);
+            if(chance == 0)
+            {
+                _context.Ragdoll.JumpTowards(_context.Ragdoll.BodyRigidbody.velocity);
+            }
         }
 
         public void OnUpdateState(StateMachine context)
@@ -31,6 +41,7 @@ namespace Gann4Games.Thirdym.StateMachines
 
             if(!_closestEnemy) return;
             _context.Ragdoll.SetWeaponAnimationAimState(!_context.Ragdoll.EquipmentController.IsDisarmed);
+            _context.Ragdoll.ArmController.RightHandLookAt(_closestEnemy.transform.position);
 
             //Navigation
             _context.GoTo(desiredPosition, 0);

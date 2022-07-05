@@ -36,7 +36,7 @@ namespace Gann4Games.Thirdym.StateMachines
             _context.Attack();
 
             // Navigation
-            if(_closestEnemy) _context.GoTo(_closestEnemy.transform.right * _dodgeDistance);
+            if(_closestEnemy) _context.GoTo((_closestEnemy.transform.right * _dodgeDistance) + _closestEnemy.transform.forward);
             _context.WalkTowardsNavmeshAgent();
             _context.SetRotationTowards(_closestEnemy.transform.position);
             _context.Ragdoll.MakeRootFollowGuide();

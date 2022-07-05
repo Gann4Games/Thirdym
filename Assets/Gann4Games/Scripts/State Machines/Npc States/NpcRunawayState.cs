@@ -20,7 +20,7 @@ namespace Gann4Games.Thirdym.StateMachines
 
         public void OnUpdateState(StateMachine context)
         {
-            if (_closestWeapon == null || !_context.Ragdoll.HealthController.IsAlive)
+            if (_closestWeapon == null || !_context.Ragdoll.HealthController.IsAlive || _context.Ragdoll.enviroment.IsSwimming)
             {
                 _context.SetState(_context.IdleState);
                 return;

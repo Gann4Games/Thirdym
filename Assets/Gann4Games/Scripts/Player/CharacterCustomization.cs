@@ -45,12 +45,11 @@ public class CharacterCustomization : MonoBehaviour
 
     public RagdollController Ragdoll { get; private set; }
 
-    private void Awake() 
+    private void OnEnable()
     {
         Ragdoll = GetComponent<RagdollController>();
+        Ragdoll.OnReady += Initialize;
     }
-
-    private void OnEnable() => Ragdoll.OnReady += Initialize;
     private void OnDisable() => Ragdoll.OnReady -= Initialize;
 
     private void Initialize(object sender, System.EventArgs args)

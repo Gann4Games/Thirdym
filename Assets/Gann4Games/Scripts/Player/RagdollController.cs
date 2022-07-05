@@ -124,7 +124,9 @@ public class RagdollController : StateMachine {
 
 	public void JumpTowards(Vector3 direction)
 	{
-        direction += Vector3.up;
+        direction.Normalize();
+        direction.y = 1;
+		
         float jumpForce = 5;
 		SetCharacterVelocity(direction * jumpForce);
 	}

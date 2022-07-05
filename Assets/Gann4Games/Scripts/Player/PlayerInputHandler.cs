@@ -42,10 +42,10 @@ public class PlayerInputHandler : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        gameplayControls = new GameplayInput();
     }
     private void OnEnable()
     {
+        gameplayControls = new GameplayInput();
         gameplayControls.Enable();
         OnReady?.Invoke(this, EventArgs.Empty);
     }
