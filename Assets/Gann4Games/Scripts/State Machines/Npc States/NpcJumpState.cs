@@ -16,7 +16,9 @@ namespace Gann4Games.Thirdym.StateMachines
 
         public void OnUpdateState(StateMachine context)
         {
-            if(!_context.Ragdoll.HealthController.IsAlive || _context.Ragdoll.enviroment.IsGrounded || _context.Ragdoll.enviroment.IsSwimming) _context.SetState(_context.IdleState);
+            if(!_context.Ragdoll.HealthController.IsAlive) _context.SetState(_context.InjuryState);
+            if(_context.Ragdoll.enviroment.IsGrounded || _context.Ragdoll.enviroment.IsSwimming) _context.SetState(_context.IdleState);
+            
             _context.Ragdoll.SetVerticalAnimationValue(_context.Ragdoll.RelativeZVelocity);
         }
 

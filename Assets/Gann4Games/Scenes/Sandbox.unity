@@ -5959,7 +5959,7 @@ PrefabInstance:
     - target: {fileID: 4809290376378750992, guid: d337b9e1dd8092b4abfc092a89127f09,
         type: 3}
       propertyPath: usePlayerPrefs
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4839555847596248065, guid: d337b9e1dd8092b4abfc092a89127f09,
         type: 3}
