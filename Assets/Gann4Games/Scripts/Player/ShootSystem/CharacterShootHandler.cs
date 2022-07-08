@@ -3,6 +3,8 @@ using UnityEngine;
 using Gann4Games.Thirdym.Utility;
 using Gann4Games.Thirdym.ScriptableObjects;
 
+// TODO: Weapon base class for making different shoot behaviours that can be swapped 
+
 public class CharacterShootHandler : MonoBehaviour {
 
     
