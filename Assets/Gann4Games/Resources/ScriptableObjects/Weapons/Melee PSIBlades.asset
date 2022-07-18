@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88265089f50dd344ba8e3e5052944bfc, type: 3}
   m_Name: Melee PSIBlades
   m_EditorClassIdentifier: 
+  behaviour: {fileID: 11400000, guid: f6c86394a8d35db4bb0d4e49d5a9c383, type: 2}
   weaponIcon: {fileID: 0}
   weaponName: unnamed_weapon
   weaponDamage: 0

@@ -4,6 +4,7 @@ using UnityEngine.AI;
 using Gann4Games.Thirdym.Enums;
 using Gann4Games.Thirdym.StateMachines;
 using System.Collections.Generic;
+using System;
 
 namespace Gann4Games.Thirdym.NPC
 {
@@ -97,9 +98,10 @@ namespace Gann4Games.Thirdym.NPC
         }
         public void WalkTowardsNavmeshAgent(float stopDistance = 1) => WalkTowards(navmeshAgent.transform.position, stopDistance);
 
-        public void Attack() => Ragdoll.ShootSystem.ShootAsNPC();
-    #endregion
-    #region NAVMESH
+        [Obsolete]
+        public void Attack() => Debug.Log("Obsolete method");//Ragdoll.ShootSystem.ShootAsNPC();
+        #endregion
+        #region NAVMESH
         public float DistanceBetween(Vector3 position) => Vector3.Distance(transform.position, position);
         public float DistanceBetweenNavmesh() => DistanceBetween(navmeshAgent.transform.position);
         public bool HasArrived => navmeshAgent.remainingDistance <= navmeshAgent.stoppingDistance;
@@ -127,8 +129,8 @@ namespace Gann4Games.Thirdym.NPC
         /// <returns>A random point around the specified reference point (doesn't use height)</returns>
         public Vector3 RandomPointAround(Vector3 referencePoint, float range = 1)
         {
-            float x = Random.Range(-range, range);
-            float y = Random.Range(-range, range);
+            float x = UnityEngine.Random.Range(-range, range);
+            float y = UnityEngine.Random.Range(-range, range);
             return referencePoint + new Vector3(x, 0, y);
         }
 

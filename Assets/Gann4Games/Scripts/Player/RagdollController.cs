@@ -36,7 +36,8 @@ public class RagdollController : StateMachine {
     [SerializeField] private float underwaterCheckRadius = 0.3f;
     [Header("JUMPING")]
 	[SerializeField] private float jumpForce = 5;
-    [SerializeField] private float walljumpCheckDistance = 0.3f;
+    [SerializeField] private float walljumpCheckDistance = 0.5f;
+	public float WalljumpCheckDistance => walljumpCheckDistance;
     [Tooltip("The time it takes to update all joints weight (in seconds)")]
     [SerializeField] private float jointWeightUpdateRate = 1;
 
@@ -61,7 +62,6 @@ public class RagdollController : StateMachine {
     public CharacterArms ArmController { get; private set; }
     public PlayerCameraController CameraController { get; private set; }
     public NpcRagdollController Npc { get; private set; }
-    public CharacterWalljump WalljumpController { get; private set; }
     public PlayerInputHandler InputHandler { get; private set; }
     public CharacterMeleeHandler MeleeHandler { get; private set; }
     public CharacterInteractor Interactor { get; private set; }
@@ -113,7 +113,6 @@ public class RagdollController : StateMachine {
 		ArmController = GetComponent<CharacterArms>();
 		CameraController = GetComponent<PlayerCameraController>();
 		Npc = GetComponent<NpcRagdollController>();
-		WalljumpController = GetComponent<CharacterWalljump>();
 		InputHandler = GetComponent<PlayerInputHandler>();
 		MeleeHandler = GetComponent<CharacterMeleeHandler>();
 		Interactor = GetComponent<CharacterInteractor>();

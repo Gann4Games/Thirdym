@@ -13,6 +13,7 @@ namespace Gann4Games.Thirdym.StateMachines
         public void OnEnterState(StateMachine context)
         {
             _context = context as NpcRagdollController;
+            _context.Ragdoll.SetLimbsWeight(1, 1);
             _context.Ragdoll.SetRootJointSpring(500);
             _context.Ragdoll.SetWeaponAnimationAimState(false);
         }

@@ -1,5 +1,43 @@
-﻿using UnityEngine;
+﻿using System;
+using Gann4Games.Thirdym.ShootSystem;
+using UnityEngine;
+
+/// <summary>
+/// Loads and executes a ShooterBehaviour class
+/// </summary>
 public class ShootSystem : MonoBehaviour {
+    public ShootBehaviourLoader shooter;
+    private RagdollController _ragdoll;
+    private void Awake()
+    {
+        _ragdoll = GetComponent<RagdollController>();
+        _ragdoll.OnReady += Initialize;
+    }
+
+    private void Initialize(object sender, EventArgs e)
+    {
+        shooter = GetComponentInChildren<ShootBehaviourLoader>();
+        shooter.OnFire += OnFire;
+        _ragdoll.OnReady -= Initialize;
+    }
+
+    private void OnFire(object sender, EventArgs e) => _ragdoll.PlayFireSFX();
+
+    private void OnDisable()
+    {
+        shooter.OnFire -= OnFire;
+    }
+
+    private void Update()
+    {
+        bool isCharacterFiring = PlayerInputHandler.instance.firing;
+        bool isCharacterAiming = PlayerInputHandler.instance.aiming;
+        shooter.behaviour = _ragdoll.EquipmentController.currentWeapon.behaviour;
+        shooter.weaponData = _ragdoll.EquipmentController.currentWeapon;
+        shooter.SetFireStatus(isCharacterFiring && isCharacterAiming);
+    }
+
+    /*
     RagdollController _ragdoll;
     Transform _user;
 
@@ -38,4 +76,5 @@ public class ShootSystem : MonoBehaviour {
         if (!_ragdoll.Customizator.isNPC && IngameMenuHandler.instance.paused) return;
         _shootScript.StartShooting();
     }
+    */
 }

@@ -4,8 +4,6 @@ using Gann4Games.Thirdym.Core;
 using System.Collections;
 
 public class Bullet : MonoBehaviour {
-    [HideInInspector] public Transform user; //Automatically set by actionShoot.cs
-
     public SO_WeaponPreset weapon;
 
     [SerializeField] private GameObject energyImpact;
@@ -33,7 +31,7 @@ public class Bullet : MonoBehaviour {
     {
         // Deal damage if it is damageable
         if (other.gameObject.TryGetComponent(out IDamageable damageable))
-            damageable.DealDamage(weapon.weaponDamage, DamageType.Bullet, user.position);
+            damageable.DealDamage(weapon.weaponDamage, DamageType.Bullet, transform.position);
 
         // Apply force if it has dynamics (a rigidbody)
         if(other.gameObject.TryGetComponent(out Rigidbody otherRigidbody))

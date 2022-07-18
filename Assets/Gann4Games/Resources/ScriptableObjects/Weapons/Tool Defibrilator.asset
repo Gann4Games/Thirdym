@@ -10,43 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88265089f50dd344ba8e3e5052944bfc, type: 3}
-  m_Name: Pistol Debug
+  m_Name: Tool Defibrilator
   m_EditorClassIdentifier: 
-  behaviour: {fileID: 11400000, guid: 1f2e001221f3aad4d8a97b88bbaeab5f, type: 2}
+  behaviour: {fileID: 11400000, guid: 26a76124db7773746ae53a2ac3248a01, type: 2}
   weaponIcon: {fileID: 0}
-  weaponName: DEBUG_WEAPON
-  weaponDamage: -10
-  weaponType: 1
-  weaponBullet: {fileID: 11400000, guid: 321461957f572b44ab4ee64901c13000, type: 2}
+  weaponName: unnamed_weapon
+  weaponDamage: 50
+  weaponType: 5
+  weaponBullet: {fileID: 0}
   fireSoundEffects:
-  - {fileID: 8300000, guid: 1aa6aa46b3547fc43b71338bc44c15d6, type: 3}
-  - {fileID: 8300000, guid: a5749ff8a8d41ba468d132f201416ddd, type: 3}
-  - {fileID: 8300000, guid: 5983916a1fff4bf42851d1301747bbcc, type: 3}
+  - {fileID: 8300000, guid: f35c51c71ac3ec849b159f41c4ddb2ee, type: 3}
   reloadSoundEffects: []
-  objectToDrop: {fileID: 499736502844477934, guid: 0f36298ced599464fa2c28eca5a9ba35,
+  objectToDrop: {fileID: 6429385900936208539, guid: e635f205e60d84049840f8e50d115902,
     type: 3}
   characterAnimationOverride: {fileID: 22100000, guid: 54081442e71a29c4bb6f105250dddbed,
     type: 2}
-  leftHandSupportsWeapon: 0
-  rightWeaponModel: {fileID: 919132149155446097, guid: 9cd7f74351927b943b53f73021a78e41,
+  leftHandSupportsWeapon: 1
+  rightWeaponModel: {fileID: 919132149155446097, guid: 819e10ea1b2c3124f99fbb4a6e493753,
     type: 3}
   rightPositionOffset: {x: 0, y: 0, z: 0}
-  rightRotationOffset: {x: -90, y: 0, z: 0}
+  rightRotationOffset: {x: -90, y: 90, z: 90}
   useRightShoulder: 1
   useRightElbow: 1
   leftWeaponModel: {fileID: 0}
   leftPositionOffset: {x: 0, y: 0, z: 0}
   leftRotationOffset: {x: 0, y: 0, z: 0}
-  useLeftShoulder: 0
-  useLeftElbow: 0
-  bulletFireSource: {x: 0.22, y: 0, z: 0}
-  bulletFireTime: 0.2
-  bulletSpawnCount: 1
+  useLeftShoulder: 1
+  useLeftElbow: 1
+  bulletFireSource: {x: 0, y: 0, z: 0}
+  bulletFireTime: 1
+  bulletSpawnCount: 0
   bulletSpreadAngle: 0
   bulletDespawnTime: 3
   useCameraAim: 1
   useFireRecoil: 1
-  useRicochet: 1
+  useRicochet: 0
   ricochetMinAngle: 0.75
   useReload: 0
   reloadStartDelay: 0

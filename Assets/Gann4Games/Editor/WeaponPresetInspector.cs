@@ -13,7 +13,7 @@ namespace Gann4Games.EditorTools
             Texture2D weaponIcon = null;
 
             if (weaponPreset.weaponIcon) weaponIcon = AssetPreview.GetAssetPreview(weaponPreset.weaponIcon);
-            else EditorGUILayout.HelpBox("Weapon icon needs to be assigned.", MessageType.Info);
+            else EditorGUILayout.HelpBox("No icon has been assigned.", MessageType.Info);
 
             if (weaponPreset.fireSoundEffects.Length < 1)
                 EditorGUILayout.HelpBox("Don't forget to add sounds to the weapon.", MessageType.Info);
@@ -25,7 +25,7 @@ namespace Gann4Games.EditorTools
                 EditorGUILayout.HelpBox("You need to assign a model at least to the right hand! (Right Weapon Model)", MessageType.Warning);
 
             EditorGUILayout.BeginHorizontal();
-            GUILayout.Label(weaponIcon);
+            if(weaponIcon) GUILayout.Label(weaponIcon);
             GUILayout.Label(weaponPreset.weaponName);
             EditorGUILayout.EndHorizontal();
             GUILayout.Label($"Damage: {weaponPreset.weaponDamage*weaponPreset.bulletSpawnCount}");

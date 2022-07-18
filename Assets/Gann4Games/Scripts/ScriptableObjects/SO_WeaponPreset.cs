@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Gann4Games.Thirdym.Enums;
 using Gann4Games.Thirdym.Utility;
+using Gann4Games.Thirdym.ShootSystem;
 
 namespace Gann4Games.Thirdym.ScriptableObjects
 {
@@ -9,6 +10,7 @@ namespace Gann4Games.Thirdym.ScriptableObjects
     public class SO_WeaponPreset : ScriptableObject
     {
         [Header("Main Parameters")]
+        public ShootBehaviour behaviour;
         public Sprite weaponIcon;
         public string weaponName = "unnamed_weapon";
         [FormerlySerializedAs("damage")] public int weaponDamage;

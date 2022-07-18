@@ -4302,6 +4302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05e63060d8a33a24ea9695be86c6842f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shooter: {fileID: 0}
 --- !u!114 &114266830533150404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5240,6 +5241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4179463568221042}
   - component: {fileID: 3000523603698652612}
+  - component: {fileID: 4293479398255383337}
   m_Layer: 7
   m_Name: Right_Hand
   m_TagString: Untagged
@@ -5273,6 +5275,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a3fceab60e998448971369904cf4230, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4293479398255383337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1944358073285496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbfa9b1b4965c9f4b866644faed696ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponData: {fileID: 0}
+  behaviour: {fileID: 0}
 --- !u!1 &1966782665458936
 GameObject:
   m_ObjectHideFlags: 0

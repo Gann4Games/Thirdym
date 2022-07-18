@@ -6313,7 +6313,7 @@ GameObject:
   - component: {fileID: 1364554334}
   - component: {fileID: 1364554333}
   - component: {fileID: 1364554332}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: platform
   m_TagString: Map
   m_Icon: {fileID: 0}
@@ -7585,6 +7585,10 @@ PrefabInstance:
     - target: {fileID: 1708529186602288, guid: 982af66ff5cbb2f439ecc8dbdf444e30, type: 3}
       propertyPath: m_Name
       value: Switch_MovePlatform
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708529186602288, guid: 982af66ff5cbb2f439ecc8dbdf444e30, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1708529186602288, guid: 982af66ff5cbb2f439ecc8dbdf444e30, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -22926,7 +22930,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh37052
+  m_Name: pb_Mesh36786
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -23832,12 +23836,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 1364554331}
     m_Modifications:
     - target: {fileID: 1159776308026460, guid: 4821cc75378b0fe4fb00a2ee77c1fc67, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1159776308026460, guid: 4821cc75378b0fe4fb00a2ee77c1fc67, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1772599424555068, guid: 4821cc75378b0fe4fb00a2ee77c1fc67, type: 3}
       propertyPath: m_Name
       value: PanelSwitch
+      objectReference: {fileID: 0}
+    - target: {fileID: 1772599424555068, guid: 4821cc75378b0fe4fb00a2ee77c1fc67, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1772599424555068, guid: 4821cc75378b0fe4fb00a2ee77c1fc67, type: 3}
       propertyPath: m_StaticEditorFlags

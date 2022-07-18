@@ -17,21 +17,7 @@ public class CharacterShootHandler : MonoBehaviour {
     private SO_WeaponPreset _weapon => _ragdoll.EquipmentController.currentWeapon;
 
     float _repeatTime => _weapon.bulletFireTime;
-    public Vector3 HitPosition
-    {
-        get
-        {
-            if (Physics.Raycast(transform.position, transform.right, out RaycastHit hit))
-            {
-                Debug.DrawLine(transform.position, hit.point, Color.green);
-                return hit.point;
-            }
-            else
-            {
-                return transform.position;
-            }
-        }
-    }
+    
     private void Awake()
     {
         _ragdoll = GetComponentInParent<RagdollController>();
@@ -88,7 +74,6 @@ public class CharacterShootHandler : MonoBehaviour {
             _bulletPrefab.transform.Rotate(Random.Range(-_weapon.bulletSpreadAngle, _weapon.bulletSpreadAngle), Random.Range(-_weapon.bulletSpreadAngle, _weapon.bulletSpreadAngle), 0);
 
             Bullet _bulletComponent = _bulletPrefab.GetComponent<Bullet>();
-            _bulletComponent.user = _ragdoll.transform;
             _bulletComponent.weapon = _weapon;
         }
     }

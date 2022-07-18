@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Gann4Games.Thirdym.StateMachines
@@ -10,12 +9,14 @@ namespace Gann4Games.Thirdym.StateMachines
     {
         private RagdollController _context;
         private Vector3 _startVelocity;
+        private Vector3 _startNormal;
         public void OnEnterState(StateMachine context)
         {
             _context = (RagdollController)context;
             _context.SetRootJointDamping(10);
             _context.SetGroundedAnimationState(false);
             _startVelocity = _context.relativeVelocity;
+            _startNormal = Vector3.zero;
         }
 
         public void OnUpdateState(StateMachine context)
@@ -42,11 +43,16 @@ namespace Gann4Games.Thirdym.StateMachines
             Vector3 walljumpDirection = _startVelocity;
             
             Ray ray = new Ray(_context.transform.position, walljumpDirection);
-            if(Physics.Raycast(ray, out RaycastHit hit, 0.5f, ~LayerMask.GetMask("Ragdoll"), QueryTriggerInteraction.Ignore))
+            if(Physics.Raycast(ray, out RaycastHit hit, _context.WalljumpCheckDistance, ~LayerMask.GetMask("Ragdoll"), QueryTriggerInteraction.Ignore))
             {
                 walljumpDirection = Vector3.Reflect(ray.direction, hit.normal);
                 _context.JumpTowards(walljumpDirection);
+
                 _startVelocity = walljumpDirection;
+                if(_startNormal == Vector3.zero) _startNormal = hit.normal;
+
+                _context.MakeGuideSetRotation(Quaternion.LookRotation(-_startNormal), 1);
+
                 Debug.DrawRay(ray.origin, walljumpDirection, Color.green, 1);
             }
         }

@@ -241,7 +241,7 @@ public class EquipmentSystem : MonoBehaviour {
 
         DisplayWeaponOnHands(weapon);
         currentWeapon = weapon;
-
+        
         RefreshInventoryHUD();
     }
     void DropWeapon(SO_WeaponPreset weapon)
